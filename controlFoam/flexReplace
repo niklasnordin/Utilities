@@ -1,0 +1,12 @@
+private function replace(str:String, find:String, repl:String):String {
+var result:String = "";
+				var arr:Array = str.split(find);
+				for (var i:uint = 0;i < arr.length; i++) {
+					if (result != "") {
+						result += repl;
+					}
+					result += arr[i];
+				}
+				return result;
+			}
+
