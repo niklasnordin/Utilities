@@ -97,8 +97,8 @@ int main(int argc, char *argv[])
         const labelListList& stlEdgeFaces = stlSurface.edgeFaces();
         const vectorField& stlSf = stlSurface.faceNormals();
         const vectorField& stlPoints = stlSurface.localPoints();
-	addToList(globalStlPoints[is], stlPoints);
-	nEdgePoints[is].setSize(stlPoints.size());
+        addToList(globalStlPoints[is], stlPoints);
+        nEdgePoints[is].setSize(stlPoints.size());
 
         Info << "Finding features for stl : " << stlFileName << endl;
         forAll(stlEdgeFaces, i)
@@ -106,39 +106,39 @@ int main(int argc, char *argv[])
             if(!stlSurface.isInternalEdge(i))
             {
                 addToList(stlFeatures[is], stlEdges[i]);
-		nEdgePoints[is][stlEdges[i][0]]++;
-		nEdgePoints[is][stlEdges[i][1]]++;
+                nEdgePoints[is][stlEdges[i][0]]++;
+                nEdgePoints[is][stlEdges[i][1]]++;
             }
             else
             {
-	        label fi0 = stlEdgeFaces[i][0];
-		label fi1 = stlEdgeFaces[i][1];
+                label fi0 = stlEdgeFaces[i][0];
+                label fi1 = stlEdgeFaces[i][1];
 		
-		scalar magF0 = mag(stlSf[fi0]);
-		scalar magF1 = mag(stlSf[fi1]);
-		if ( (magF0 < 1.0e-5) || (magF1 < 1.0e-5))
-		{
-		    Info << "Warning:: face normals are zero!?!" << endl;
-		}
-		vector f0 = stlSf[fi0]/magF0;
-		vector f1 = stlSf[fi1]/magF1;
-		
-		scalar cosa = mag(f0 & f1);
-		if (cosa < cosFeature)
-		{
-		    addToList(stlFeatures[is], stlEdges[i]);
-		    nEdgePoints[is][stlEdges[i][0]]++;
-		    nEdgePoints[is][stlEdges[i][1]]++;
-		}
+                scalar magF0 = mag(stlSf[fi0]);
+                scalar magF1 = mag(stlSf[fi1]);
+                if ( (magF0 < 1.0e-5) || (magF1 < 1.0e-5))
+                {
+                    Info << "Warning:: face normals are zero!?!" << endl;
+                }
+                vector f0 = stlSf[fi0]/magF0;
+                vector f1 = stlSf[fi1]/magF1;
+
+                scalar cosa = f0 & f1; // mag(f0 & f1);
+                if (cosa < cosFeature)
+                {
+                    addToList(stlFeatures[is], stlEdges[i]);
+                    nEdgePoints[is][stlEdges[i][0]]++;
+                    nEdgePoints[is][stlEdges[i][1]]++;
+                }
             }
         }
 
         if (stlFeatures[is].size() == 0)
-	{
-	    Info << "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *" << endl;
-	    Info << "WARNING!!! Your stl does not contain any feature lines." << endl;
-	    Info << "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *" << endl;
-	}
+	    {
+            Info << "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *" << endl;
+            Info << "WARNING!!! Your stl does not contain any feature lines." << endl;
+            Info << "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *" << endl;
+        }
 
     }
 
@@ -147,13 +147,13 @@ int main(int argc, char *argv[])
     forAll(stlFileNames, is)
     {
         forAll(globalStlPoints[is], j)
-	{
-	    if (nEdgePoints[is][j] > 2)
-	    {
-	        addToList(cornerPoints[is], globalStlPoints[is][j]);
-	    }
-	}
-	Info << "nCornerPoints = " << cornerPoints[is].size() << endl;
+        {
+            if (nEdgePoints[is][j] > 2)
+            {
+                addToList(cornerPoints[is], globalStlPoints[is][j]);
+            }
+        }
+        Info << "nCornerPoints = " << cornerPoints[is].size() << endl;
     }
     */
 
@@ -166,62 +166,63 @@ int main(int argc, char *argv[])
     {
 
         label id = mesh.boundaryMesh().findPatchID(snapPatches[index]);
-	if (id == -1)
-	{
+        if (id == -1)
+        {
             Info << "Could not find patch: " << snapPatches[index] <<endl;
-	    Info << "Available patches are:" << endl;
-	    forAll(mesh.boundaryMesh(), i)
-	    {
-	      Info << mesh.boundaryMesh()[i].name() << endl;
-	    }
-	    FatalError << abort(FatalError);
-	}
-	else
-	{
-	    const labelList& addr = patches[id].meshPoints();
-	    const edgeList& edges = patches[id].edges();
-	    
-	    forAll(edges, i)
-	    {
-	        const edge& e = edges[i];
-		label i0 = addr[e[0]];
-		label i1 = addr[e[1]];
-		isEdgePoint[i0] = true;
-		isEdgePoint[i1] = true;
-		scalar scale = mag(points[i0] - points[i1]);
-		smallestEdgeLength = min(smallestEdgeLength, scale);
-	    }
-	}
+            Info << "Available patches are:" << endl;
+            forAll(mesh.boundaryMesh(), i)
+            {
+                Info << mesh.boundaryMesh()[i].name() << endl;
+            }
+            FatalError << abort(FatalError);
+        }
+        else
+        {
+            const labelList& addr = patches[id].meshPoints();
+            const edgeList& edges = patches[id].edges();
+
+            forAll(edges, i)
+            {
+                const edge& e = edges[i];
+                label i0 = addr[e[0]];
+                label i1 = addr[e[1]];
+                isEdgePoint[i0] = true;
+                isEdgePoint[i1] = true;
+   	            scalar scale = mag(points[i0] - points[i1]);
+   	            smallestEdgeLength = min(smallestEdgeLength, scale);
+            }
+        }
     }
 
     // simple copy/paste/adapt for faceZones
     forAll(snapZones, index)
     {
         label id = mesh.faceZones().findZoneID(snapZones[index]);
-	if (id == -1)
-	{
+        if (id == -1)
+        {
             Info << "Could not find zone: " << snapZones[index] <<endl;
-	    Info << "Available zones are:" << endl;
+            Info << "Available zones are:" << endl;
             Info << zones.names() << endl;
-	    FatalError << abort(FatalError);
-	}
-	else
-	{
-	    const labelList& addr = zones[id]().meshPoints();
-	    const edgeList& edges = zones[id]().edges();
-	    
-	    forAll(edges, i)
-	    {
-	        const edge& e = edges[i];
-		label i0 = addr[e[0]];
-		label i1 = addr[e[1]];
-		isEdgePoint[i0] = true;
-		isEdgePoint[i1] = true;
-		scalar scale = mag(points[i0] - points[i1]);
-		smallestEdgeLength = min(smallestEdgeLength, scale);
-	    }
-	}
+            FatalError << abort(FatalError);
+        }
+        else
+        {
+            const labelList& addr = zones[id]().meshPoints();
+            const edgeList& edges = zones[id]().edges();
+    
+            forAll(edges, i)
+            {
+                const edge& e = edges[i];
+   	            label i0 = addr[e[0]];
+   	            label i1 = addr[e[1]];
+   	            isEdgePoint[i0] = true;
+   	            isEdgePoint[i1] = true;
+   	            scalar scale = mag(points[i0] - points[i1]);
+   	            smallestEdgeLength = min(smallestEdgeLength, scale);
+            }
+        }
     }
+
     // allow for overlap, minFit=0 and maxFit=1 implies no overlap
     scalar minFit = -mag(fitFactor);
     scalar maxFit = 1.0 + mag(fitFactor);
@@ -235,38 +236,38 @@ int main(int argc, char *argv[])
         flush(Info);
 
         forAll(snapPatches, index)
-	{
+        {
 
-	    label id = mesh.boundaryMesh().findPatchID(snapPatches[index]);
+            label id = mesh.boundaryMesh().findPatchID(snapPatches[index]);
 
-	    const labelList& addr = patches[id].meshPoints();
-	    const vectorField& bSf = patches[id].faceNormals();
-	    const edgeList& edges = patches[id].edges();
-	    const labelListList& ef = patches[id].edgeFaces();
+            const labelList& addr = patches[id].meshPoints();
+            const vectorField& bSf = patches[id].faceNormals();
+            const edgeList& edges = patches[id].edges();
+            const labelListList& ef = patches[id].edgeFaces();
 
-	    edgeList meshOutline(0);
+            edgeList meshOutline(0);
 	    
-	    // construct the list of all the mesh edges to be used for matching
-	    forAll(ef, i)
-	    {
-	        if (!patches[id].isInternalEdge(i))
-		{
-		    addToList(meshOutline, edges[i]);
-		}
-		else
-		{
-		    if (includeInterior)
-		    {
-			label fi0 = ef[i][0];
-			label fi1 = ef[i][1];
+            // construct the list of all the mesh edges to be used for matching
+            forAll(ef, i)
+            {
+                if (!patches[id].isInternalEdge(i))
+                {
+   	                addToList(meshOutline, edges[i]);
+                }
+                else
+   	            {
+   	                if (includeInterior)
+                    {
+                        label fi0 = ef[i][0];
+                        label fi1 = ef[i][1];
 			
-			scalar mag0 = mag(bSf[fi0]);
-			scalar mag1 = mag(bSf[fi1]);
-			if ( (mag0<SMALL) || (mag1<SMALL) )
-			{
-			    Info << "Warning:: zero area faces in the mesh!!!" << endl;
-			}
-			vector f0 = bSf[fi0]/(mag0 + VSMALL);
+                        scalar mag0 = mag(bSf[fi0]);
+                        scalar mag1 = mag(bSf[fi1]);
+                        if ( (mag0<SMALL) || (mag1<SMALL) )
+                        {
+                            Info << "Warning:: zero area faces in the mesh!!!" << endl;
+                        }
+                        vector f0 = bSf[fi0]/(mag0 + VSMALL);
 			vector f1 = bSf[fi1]/(mag1 + VSMALL);
 			
 			// check angle between faces (use a smaller feature angle than the one used for the stl)
@@ -323,22 +324,22 @@ int main(int argc, char *argv[])
 			scalar cosa = mag(f0 & f1);
 			if (cosa < cosFeature2)
 			{
-			    addToList(meshOutline, edges[i]);
-			}
-		    }
-		}
-	    }
+                            addToList(meshOutline, edges[i]);
+                        }
+                    }
+                }
+            }
 	    
 #           include "newMethod.H"
 
-	}
+        }
 
-	Info << "Moving points...";
-	flush(Info);
+        Info << "Moving points...";
+        flush(Info);
 	
-	mesh.movePoints(newPoints);
-	//mesh.checkMesh();
-	Info << "Done!" << endl;
+        mesh.movePoints(newPoints);
+        //mesh.checkMesh();
+        Info << "Done!" << endl;
     }
     
 #   include "smoothFaces.H"
@@ -346,11 +347,14 @@ int main(int argc, char *argv[])
 
     if (nSmootherIterations>0)
     {
-	mesh.movePoints(newPoints);
+        mesh.movePoints(newPoints);
     }
-    if(!overwrite) {
+    if(!overwrite)
+    {
         runTime++;
-    } else {
+    } 
+    else 
+    {
         mesh.setInstance(oldInstance);
     }
 
