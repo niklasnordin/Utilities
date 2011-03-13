@@ -1,0 +1,9 @@
+name qethan
+property density
+function 101
+range 300 5000
+
+property cp
+function 100
+range 300 5000
+coefficients 1.2 3.4 5.6

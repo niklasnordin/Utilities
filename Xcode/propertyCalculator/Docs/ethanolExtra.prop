@@ -1,0 +1,3 @@
+name ethanol
+property viscosity
+range 300 5000
