@@ -1,7 +1,0 @@
-name qethan
-property density
-range 300 5000
-
-property cp
-range 300 5000
-coefficients 1.2 3.4 5.6
