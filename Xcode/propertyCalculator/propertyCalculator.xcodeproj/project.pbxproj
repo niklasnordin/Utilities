@@ -243,6 +243,7 @@
 				GCC_PREFIX_HEADER = propertyCalculator_Prefix.pch;
 				INFOPLIST_FILE = "propertyCalculator-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = propertyCalculator;
 			};
 			name = Debug;
@@ -257,6 +258,7 @@
 				GCC_PREFIX_HEADER = propertyCalculator_Prefix.pch;
 				INFOPLIST_FILE = "propertyCalculator-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = propertyCalculator;
 			};
 			name = Release;
