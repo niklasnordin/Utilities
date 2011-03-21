@@ -25,41 +25,29 @@ Class
     Foam::SprayParcel
 
 Description
-
-SourceFiles
-    SprayParcelI.H
-    SprayParcel.C
-    SprayParcelIO.C
+    Derived from reacingParcel, with added functionality 
+    for atomization and breakup
 
 \*---------------------------------------------------------------------------*/
 
 #ifndef SprayParcel_H
 #define SprayParcel_H
 
-#include ".H"
+#include "ReactingParcel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
 {
 
-// Forward declaration of classes
-class Istream;
-class Ostream;
-
-// Forward declaration of friend functions and operators
-class SprayParcel;
-Istream& operator>>(Istream&, SprayParcel&);
-Ostream& operator<<(Ostream&, const SprayParcel&);
-
-
 /*---------------------------------------------------------------------------*\
                           Class SprayParcel Declaration
 \*---------------------------------------------------------------------------*/
 
+template<class ThermoType>
 class SprayParcel
 :
-    public baseClassName
+    public ReactingParcel<SprayParcel<ThermoType> >
 {
     // Private data
 
@@ -78,11 +66,11 @@ class SprayParcel
 
 public:
 
-    // Static data members
+    //- The type of thermodynamics this parcel was instantiated for
+    typedef ThermoType thermoType;
 
-        //- Static data staticData
-        static const dataType staticData;
-
+    //- Run-time type information
+    TypeName("SprayParcel");
 
     // Constructors
 
