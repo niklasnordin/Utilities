@@ -6,6 +6,7 @@ build/*
 
 # old skool
 .svn
+.dep
 
 # osx noise
 .DS_Store
