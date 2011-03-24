@@ -1,9 +1,0 @@
-$(OBJECTS_DIR)/sprayParcel.o: parcels/derived/sprayParcel/sprayParcel.dep
-parcels/derived/sprayParcel/sprayParcel.dep: parcels/derived/sprayParcel/sprayParcel.C
-parcels/derived/sprayParcel/sprayParcel.dep: parcels/derived/sprayParcel/sprayParcel.H
-parcels/derived/sprayParcel/sprayParcel.dep: lnInclude/SprayParcel.H
-parcels/derived/sprayParcel/sprayParcel.dep: lnInclude/SprayParcel.C
-$(OBJECTS_DIR)/sprayParcel.o: $(EXE_DEP)
-$(OBJECTS_DIR)/sprayParcel.o:
-	@SOURCE_DIR=parcels/derived/sprayParcel
-	SOURCE=parcels/derived/sprayParcel/sprayParcel.C ; $(Ctoo)
