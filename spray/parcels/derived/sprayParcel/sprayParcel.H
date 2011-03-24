@@ -22,18 +22,21 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::SprayParcel
+    Foam::sprayParcel
 
 Description
-    Derived from reacingParcel, with added functionality 
-    for atomization and breakup
+
+SourceFiles
+    sprayParcelI.H
+    sprayParcel.C
+    sprayParcelIO.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef SprayParcel_H
-#define SprayParcel_H
+#ifndef sprayParcel_H
+#define sprayParcel_H
 
-#include "ReactingParcel.H"
+#include "SprayParcel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -41,96 +44,45 @@ namespace Foam
 {
 
 /*---------------------------------------------------------------------------*\
-                          Class SprayParcel Declaration
+                          Class sprayParcel Declaration
 \*---------------------------------------------------------------------------*/
 
-template<class ThermoType>
-class SprayParcel
+class sprayParcel
 :
-    public ReactingParcel<SprayParcel<ThermoType> >
+    public SprayParcel<sprayParcel>
 {
-    // Private data
-
-        //- Description of data_
-        dataType data_;
-
-
-    // Private Member Functions
-
-        //- Disallow default bitwise copy construct
-        SprayParcel(const SprayParcel&);
-
-        //- Disallow default bitwise assignment
-        void operator=(const SprayParcel&);
-
 
 public:
 
-    //- The type of thermodynamics this parcel was instantiated for
-    typedef ThermoType thermoType;
-
     //- Run-time type information
-    TypeName("SprayParcel");
+    TypeName("sprayParcel");
 
     // Constructors
 
         //- Construct null
-        SprayParcel();
+        sprayParcel();
 
-        //- Construct from components
-        SprayParcel(const dataType& data);
-
-        //- Construct from Istream
-        SprayParcel(Istream&);
-
-        //- Construct as copy
-        SprayParcel(const SprayParcel&);
-
-
-    // Selectors
-
-        //- Select null constructed
-        static autoPtr<SprayParcel> New();
+        //- Construct and return a clone
+        autoPtr<sprayParcel> clone() const
+        {
+            return autoPtr<sprayParcel>(new sprayParcel(*this));
+        }
 
 
     //- Destructor
-    ~SprayParcel();
+    ~sprayParcel();
 
-
-    // Member Functions
-
-        // Access
-
-        // Check
-
-        // Edit
-
-        // Write
-
-
-    // Member Operators
-
-        void operator=(const SprayParcel&);
-
-
-    // Friend Functions
-
-    // Friend Operators
-
-    // IOstream Operators
-
-        friend Istream& operator>>(Istream&, SprayParcel&);
-        friend Ostream& operator<<(Ostream&, const SprayParcel&);
 };
 
+template<>
+inline bool contiguous<sprayParcel>()
+{
+    return false;
+}
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 } // End namespace Foam
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-#include "SprayParcelI.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

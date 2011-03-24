@@ -21,28 +21,27 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
-Class
-    Foam::makeSprayModels
-
-Description
-
 \*---------------------------------------------------------------------------*/
 
-#ifndef makeSprayModels_H
-#define makeSprayModels_H
+#include "sprayParcel.H"
 
-#include "thermoPhysicsTypes.H"
-#include "ReactingMultiphaseCloud.H"
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
 {
+    defineTypeNameAndDebug(sprayParcel, 0);
+    defineParticleTypeNameAndDebug(sprayParcel, 0);
+    defineParcelTypeNameAndDebug(sprayParcel, 0);
+};
 
-}
+// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Foam::sprayParcel::sprayParcel()
+{}
 
-#endif
+// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
+
+Foam::sprayParcel::~sprayParcel()
+{}
+
 
 // ************************************************************************* //

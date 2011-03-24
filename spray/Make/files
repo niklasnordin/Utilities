@@ -1,4 +1,4 @@
-SprayParcel/defineSprayParcel.C
-SprayParcel/makeSpraySubmodels.C
+
+parcels/derived/sprayParcel/sprayParcel.C
 
 LIB = $(FOAM_LIBBIN)/libSpray

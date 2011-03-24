@@ -27,7 +27,7 @@ License
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
-const dataType Foam::SprayParcel::staticData();
+//const dataType Foam::SprayParcel::staticData();
 
 
 // * * * * * * * * * * * * * Static Member Functions * * * * * * * * * * * * //
@@ -42,33 +42,17 @@ const dataType Foam::SprayParcel::staticData();
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 Foam::SprayParcel::SprayParcel()
-:
-    baseClassName(),
-    data_()
-{}
-
-
-Foam::SprayParcel::SprayParcel(const dataType& data)
-:
-    baseClassName(),
-    data_(data)
-{}
-
-
-Foam::SprayParcel::SprayParcel(const SprayParcel&)
-:
-    baseClassName(),
-    data_()
 {}
 
 
 // * * * * * * * * * * * * * * * * Selectors * * * * * * * * * * * * * * * * //
 
+/*
 Foam::autoPtr<Foam::SprayParcel> Foam::SprayParcel::New()
 {
     return autoPtr<SprayParcel>(new SprayParcel);
 }
-
+    */
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
@@ -80,7 +64,7 @@ Foam::SprayParcel::~SprayParcel()
 
 
 // * * * * * * * * * * * * * * Member Operators  * * * * * * * * * * * * * * //
-
+/*
 void Foam::SprayParcel::operator=(const SprayParcel& rhs)
 {
     // Check for assignment to self
@@ -91,7 +75,7 @@ void Foam::SprayParcel::operator=(const SprayParcel& rhs)
             << abort(FatalError);
     }
 }
-
+    */
 // * * * * * * * * * * * * * * Friend Functions  * * * * * * * * * * * * * * //
 
 
