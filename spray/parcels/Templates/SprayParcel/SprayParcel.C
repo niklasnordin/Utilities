@@ -41,18 +41,6 @@ License
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::SprayParcel::SprayParcel()
-{}
-
-
-// * * * * * * * * * * * * * * * * Selectors * * * * * * * * * * * * * * * * //
-
-/*
-Foam::autoPtr<Foam::SprayParcel> Foam::SprayParcel::New()
-{
-    return autoPtr<SprayParcel>(new SprayParcel);
-}
-    */
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
@@ -64,22 +52,10 @@ Foam::SprayParcel::~SprayParcel()
 
 
 // * * * * * * * * * * * * * * Member Operators  * * * * * * * * * * * * * * //
-/*
-void Foam::SprayParcel::operator=(const SprayParcel& rhs)
-{
-    // Check for assignment to self
-    if (this == &rhs)
-    {
-        FatalErrorIn("Foam::SprayParcel::operator=(const Foam::SprayParcel&)")
-            << "Attempted assignment to self"
-            << abort(FatalError);
-    }
-}
-    */
-// * * * * * * * * * * * * * * Friend Functions  * * * * * * * * * * * * * * //
 
+// * * * * * * * * * * * * * * IOStream operators  * * * * * * * * * * * * * //
 
-// * * * * * * * * * * * * * * Friend Operators * * * * * * * * * * * * * * //
+#include "SprayParcelIO.C"
 
 
 // ************************************************************************* //
