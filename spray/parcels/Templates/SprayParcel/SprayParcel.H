@@ -59,8 +59,69 @@ class SprayParcel
 :
     public ReactingParcel<ParcelType>
 {
-
 public:
+
+    //- Class to hold reacting particle constant properties
+    class constantProperties
+    :
+        public ReactingParcel<ParcelType>::constantProperties
+    {
+    public:
+
+        //- Constructor
+        constantProperties(const dictionary& parentDict);
+   };
+
+
+    //- Class used to pass reacting tracking data to the trackToFace function
+    class trackData
+    :
+        public ReactingParcel<ParcelType>::trackData
+    {
+
+        // Private data
+
+            //- Reference to the cloud containing this particle
+            SprayCloud<ParcelType>& cloud_;
+
+            //- Particle constant properties
+            const constantProperties& constProps_;
+
+    public:
+
+        typedef SprayCloud<ParcelType> cloudType;
+
+
+        // Constructors
+
+            //- Construct from components
+            inline trackData
+            (
+                SprayCloud<ParcelType>& cloud,
+                const constantProperties& constProps,
+                const interpolation<scalar>& rhoInterp,
+                const interpolation<vector>& UInterp,
+                const interpolation<scalar>& muInterp,
+                const interpolation<scalar>& TInterp,
+                const interpolation<scalar>& CpInterp,
+                const interpolation<scalar>& pInterp,
+                const vector& g
+            );
+
+
+        // Member functions
+
+            //- Return access to the owner cloud
+            inline SprayCloud<ParcelType>& cloud();
+
+            //- Return const access to the constant properties
+            inline const constantProperties& constProps() const;
+
+            //- Return const access to the interpolator for continuous
+            //  phase pressure field
+            inline const interpolation<scalar>& pInterp() const;
+    };
+
 
     // Static data members
 
@@ -144,7 +205,7 @@ public:
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-//#include "SprayParcelI.H"
+#include "SprayParcelI.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -154,8 +215,6 @@ public:
     #include "SprayParcel.C"
 #endif
 
-
-//#include "SprayParcelI.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
