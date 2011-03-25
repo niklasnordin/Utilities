@@ -43,7 +43,6 @@ namespace Foam
 template<class ParcelType>
 class SprayParcel;
 
-
 template<class ParcelType>
 Ostream& operator<<
 (
