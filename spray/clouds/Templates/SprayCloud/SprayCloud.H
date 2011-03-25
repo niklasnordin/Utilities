@@ -47,7 +47,7 @@ Description
 
 namespace Foam
 {
-    typedef ReactingCloud<SprayParcel<gasThermoPhysics >
+    typedef SprayCloud<SprayParcel<gasThermoPhysics >
     thermoSprayCloud;
 
 } // End namespace Foam
@@ -77,6 +77,9 @@ private:
 
 
 protected:
+
+        //- Parcel constant properties
+        typename ParcelType::constantProperties constProps_;
 
         // Cloud evolution functions
 
