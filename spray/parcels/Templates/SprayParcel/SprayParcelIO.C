@@ -100,7 +100,7 @@ Foam::Ostream& Foam::operator<<
 {
     if (os.format() == IOstream::ASCII)
     {
-        os  << static_cast<const ReactingParcel<ParcelType>&>(p)
+        os  << static_cast<const ReactingParcel<ParcelType>&>(p);
     }
     else
     {

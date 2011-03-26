@@ -34,7 +34,7 @@ void Foam::SprayCloud<ParcelType>::preEvolve()
 
 
 template<class ParcelType>
-void Foam::ReactingCloud<ParcelType>::evolveCloud()
+void Foam::SprayCloud<ParcelType>::evolveCloud()
 {
     const volScalarField& T = this->carrierThermo().T();
     const volScalarField cp = this->carrierThermo().Cp();

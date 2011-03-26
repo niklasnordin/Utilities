@@ -31,7 +31,6 @@ Description
 #ifndef SprayCloud_H
 #define SprayCloud_H
 
-//#include "SprayParcel.H"
 #include "ReactingCloud.H"
 #include "thermoPhysicsTypes.H"
 
@@ -40,19 +39,6 @@ Description
 /*---------------------------------------------------------------------------*\
                       Class SprayCloud Declaration
 \*---------------------------------------------------------------------------*/
-
-// NN. if I am to follow Andy's structure the typedef statements
-//     should really be moved to the derived directory and
-//     put in a file called BasicSprayCloud.H
-// NN. MOVE THIS TO BasicSprayCloud.H for inclusion in main code
-/*
-namespace Foam
-{
-    typedef SprayCloud<SprayParcel<gasThermoPhysics >
-    thermoSprayCloud;
-
-} // End namespace Foam
-    */
 
 namespace Foam
 {
@@ -119,11 +105,13 @@ public:
     //- Type of parcel the cloud was instantiated for
     typedef ParcelType parcelType;
 
-
     // Member Functions
 
         // Access
 
+            //- Return the constant properties
+            inline const typename ParcelType::constantProperties&
+                constProps() const;
 
         // Check
 

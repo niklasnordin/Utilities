@@ -22,7 +22,7 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::SprayCloud
+    Foam::BasicSprayCloud
 
 Description
 
@@ -41,8 +41,11 @@ namespace Foam
 {
     typedef SprayCloud<SprayParcel<gasThermoPhysics >
     thermoSprayCloud;
-
 }
 
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
 #endif
+
+// ************************************************************************* //
 
