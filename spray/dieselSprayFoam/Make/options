@@ -25,10 +25,13 @@ EXE_LIBS = \
     -lcompressibleRASModels \
     -lcompressibleLESModels \
     -lreactionThermophysicalModels \
+    -lmeshTools \
     -llagrangian \
     -ldieselSpray \
     -lliquids \
     -lliquidMixture \
+    -lsolids \
+    -lsolidMixture \
     -lthermophysicalFunctions \
     -lspecie \
     -lbasicThermophysicalModels \
