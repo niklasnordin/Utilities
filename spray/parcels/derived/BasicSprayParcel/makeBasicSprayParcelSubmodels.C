@@ -26,38 +26,35 @@ License
 #include "BasicSprayParcel.H"
 
 // Kinematic
-//#include "makeSprayParcelDispersionModels.H"
-//#include "makeSprayParcelDragModels.H"
+#include "makeSprayParcelDispersionModels.H"
+#include "makeSprayParcelDragModels.H"
 //#include "makeSprayParcelInjectionModels.H"
 //#include "makeSprayParcelPatchInteractionModels.H"
-//#include "makeSprayParcelPostProcessingModels.H"
+#include "makeSprayParcelPostProcessingModels.H"
 
 // Thermodynamic
 #include "makeSprayParcelHeatTransferModels.H"
 
 // Reacting
-//#include "makeSprayParcelCompositionModels.H"
+#include "makeSprayParcelCompositionModels.H"
 #include "makeSprayParcelPhaseChangeModels.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
 {
-    /*
     // Kinematic sub-models
     makeSprayDispersionModels(BasicSprayParcel);
     makeSprayDragModels(BasicSprayParcel);
     makeSprayInjectionModels(BasicSprayParcel);
     makeSprayPatchInteractionModels(BasicSprayParcel);
     makeSprayPostProcessingModels(BasicSprayParcel);
-        */
 
     // Thermo sub-models
     makeSprayHeatTransferModels(BasicSprayParcel);
 
-
     // Spray sub-models
-    //makeSprayCompositionModels(BasicSprayParcel);
+    makeSprayCompositionModels(BasicSprayParcel);
     makeSprayPhaseChangeModels(BasicSprayParcel);
 
 };
