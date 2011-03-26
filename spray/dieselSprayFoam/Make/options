@@ -43,5 +43,3 @@ EXE_LIBS = \
     -llagrangianIntermediate \
     -lspray \
     -lradiation
-
-
