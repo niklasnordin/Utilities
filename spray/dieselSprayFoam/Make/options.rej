@@ -1,0 +1,16 @@
+***************
+*** 16,21 ****
+      -I$(LIB_SRC)/ODE/lnInclude
+  
+  EXE_LIBS = \
+      -lcompressibleRASModels \
+      -lcompressibleLESModels \
+      -lreactionThermophysicalModels \
+--- 16,22 ----
+      -I$(LIB_SRC)/ODE/lnInclude
+  
+  EXE_LIBS = \
++     -lcompressibleTurbulenceModel \
+      -lcompressibleRASModels \
+      -lcompressibleLESModels \
+      -lreactionThermophysicalModels \
