@@ -25,77 +25,78 @@ License
 
 #include "BasicSprayParcel.H"
 
-// * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
-
-const dataType Foam::BasicSprayParcel::staticData();
-
-
-// * * * * * * * * * * * * * Static Member Functions * * * * * * * * * * * * //
-
-
-// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
-
-
-// * * * * * * * * * * * * Protected Member Functions  * * * * * * * * * * * //
-
-
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::BasicSprayParcel::BasicSprayParcel()
+template<class ThermoType>
+Foam::BasicSprayParcel<ThermoType>::BasicSprayParcel
+(
+    SprayCloud<BasicSprayParcel<ThermoType> >& owner,
+    const vector& position,
+    const label cellI
+)
 :
-    baseClassName(),
-    data_()
+    SprayParcel<BasicSprayParcel<ThermoType> >(owner, position, cellI)
 {}
 
 
-Foam::BasicSprayParcel::BasicSprayParcel(const dataType& data)
+template<class ThermoType>
+Foam::BasicSprayParcel<ThermoType>::BasicSprayParcel
+(
+    SprayCloud<BasicSprayParcel<ThermoType> >& owner,
+    const vector& position,
+    const label cellI,
+    const label typeId,
+    const scalar nParticle0,
+    const scalar d0,
+    const vector& U0,
+    const scalarField& Y0,
+    const typename SprayParcel<BasicSprayParcel<ThermoType> >::
+        constantProperties& constProps
+)
 :
-    baseClassName(),
-    data_(data)
+    SprayParcel<BasicSprayParcel<ThermoType> >
+    (
+        owner,
+        position,
+        cellI,
+        typeId,
+        nParticle0,
+        d0,
+        U0,
+        Y0,
+        constProps
+    )
 {}
 
 
-Foam::BasicSprayParcel::BasicSprayParcel(const BasicSprayParcel&)
+template<class ThermoType>
+Foam::BasicSprayParcel<ThermoType>::BasicSprayParcel
+(
+    const Cloud<BasicSprayParcel<ThermoType> >& cloud,
+    Istream& is,
+    bool readFields
+)
 :
-    baseClassName(),
-    data_()
+    SprayParcel<BasicSprayParcel<ThermoType> >(cloud, is, readFields)
 {}
 
 
-// * * * * * * * * * * * * * * * * Selectors * * * * * * * * * * * * * * * * //
-
-Foam::autoPtr<Foam::BasicSprayParcel> Foam::BasicSprayParcel::New()
-{
-    return autoPtr<BasicSprayParcel>(new BasicSprayParcel);
-}
-
-
-// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
-
-Foam::BasicSprayParcel::~BasicSprayParcel()
+template<class ThermoType>
+Foam::BasicSprayParcel<ThermoType>::BasicSprayParcel
+(
+    const BasicSprayParcel<ThermoType>& p
+)
+:
+    SprayParcel<BasicSprayParcel>(p)
 {}
 
 
-// * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
+// * * * * * * * * * * * * * * * *  Destructors  * * * * * * * * * * * * * * //
 
+template<class ThermoType>
+Foam::BasicSprayParcel<ThermoType>::~BasicSprayParcel()
+{}
 
-// * * * * * * * * * * * * * * Member Operators  * * * * * * * * * * * * * * //
-
-void Foam::BasicSprayParcel::operator=(const BasicSprayParcel& rhs)
-{
-    // Check for assignment to self
-    if (this == &rhs)
-    {
-        FatalErrorIn("Foam::BasicSprayParcel::operator=(const Foam::BasicSprayParcel&)")
-            << "Attempted assignment to self"
-            << abort(FatalError);
-    }
-}
-
-// * * * * * * * * * * * * * * Friend Functions  * * * * * * * * * * * * * * //
-
-
-// * * * * * * * * * * * * * * Friend Operators * * * * * * * * * * * * * * //
 
 
 // ************************************************************************* //
