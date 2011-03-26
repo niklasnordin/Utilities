@@ -23,21 +23,19 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef createReactingParcelTypes_H
-#define createReactingParcelTypes_H
+#ifndef createSprayParcelTypes_H
+#define createSprayParcelTypes_H
 
 #include "thermoPhysicsTypes.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#define createReactingParcelType(ParcelType)                                  \
-                                                                              \
-    createReactingParcelThermoType(ParcelType, constGasThermoPhysics);        \
-    createReactingParcelThermoType(ParcelType, gasThermoPhysics);             \
-    createReactingParcelThermoType(ParcelType, icoPoly8ThermoPhysics);
+#define createSprayParcelType(ParcelType)                                  \
+                                                                           \
+    createSprayParcelThermoType(ParcelType, gasThermoPhysics);             \
 
 
-#define createReactingParcelThermoType(ParcelType, ThermoType)                \
+#define createSprayParcelThermoType(ParcelType, ThermoType)                   \
                                                                               \
     typedef ParcelType<ThermoType> ParcelType##ThermoType;                    \
                                                                               \
@@ -55,10 +53,13 @@ License
     defineTemplateTypeNameAndDebug(ThermoParcel<ParcelType##ThermoType>, 0);  \
     defineParcelTypeNameAndDebug(ReactingParcel<ParcelType##ThermoType>, 0);  \
     defineTemplateTypeNameAndDebug(ReactingParcel<ParcelType##ThermoType>, 0);\
+    defineParcelTypeNameAndDebug(SprayParcel<ParcelType##ThermoType>, 0);     \
+    defineTemplateTypeNameAndDebug(SprayParcel<ParcelType##ThermoType>, 0);   \
                                                                               \
     defineParcelTypeNameAndDebug(KinematicCloud<ParcelType##ThermoType>, 0);  \
     defineParcelTypeNameAndDebug(ThermoCloud<ParcelType##ThermoType>, 0);     \
-    defineParcelTypeNameAndDebug(ReactingCloud<ParcelType##ThermoType>, 0);
+    defineParcelTypeNameAndDebug(ReactingCloud<ParcelType##ThermoType>, 0);   \
+    defineParcelTypeNameAndDebug(SprayCloud<ParcelType##ThermoType>, 0);
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
