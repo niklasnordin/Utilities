@@ -117,9 +117,6 @@ public:
             //- Return const access to the constant properties
             inline const constantProperties& constProps() const;
 
-            //- Return const access to the interpolator for continuous
-            //  phase pressure field
-            inline const interpolation<scalar>& pInterp() const;
     };
 
 
