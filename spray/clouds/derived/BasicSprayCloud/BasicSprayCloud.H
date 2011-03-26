@@ -21,41 +21,28 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
+Class
+    Foam::SprayCloud
+
+Description
+
 \*---------------------------------------------------------------------------*/
 
-#include "SprayParcel.H"
+#ifndef BasicSprayCloud_H
+#define BasicSprayCloud_H
 
-// * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
+//#include "SprayParcel.H"
+#include "ReactingCloud.H"
+#include "thermoPhysicsTypes.H"
 
-//const dataType Foam::SprayParcel::staticData();
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+namespace Foam
+{
+    typedef SprayCloud<SprayParcel<gasThermoPhysics >
+    thermoSprayCloud;
 
-// * * * * * * * * * * * * * Static Member Functions * * * * * * * * * * * * //
+}
 
+#endif
 
-// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
-
-
-// * * * * * * * * * * * * Protected Member Functions  * * * * * * * * * * * //
-
-
-// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
-
-
-// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
-
-//Foam::SprayParcel::~SprayParcel()
-//{}
-
-
-// * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
-
-
-// * * * * * * * * * * * * * * Member Operators  * * * * * * * * * * * * * * //
-
-// * * * * * * * * * * * * * * IOStream operators  * * * * * * * * * * * * * //
-
-#include "SprayParcelIO.C"
-
-
-// ************************************************************************* //

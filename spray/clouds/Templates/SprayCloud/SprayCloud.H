@@ -31,7 +31,7 @@ Description
 #ifndef SprayCloud_H
 #define SprayCloud_H
 
-#include "SprayParcel.H"
+//#include "SprayParcel.H"
 #include "ReactingCloud.H"
 #include "thermoPhysicsTypes.H"
 
@@ -44,15 +44,18 @@ Description
 // NN. if I am to follow Andy's structure the typedef statements
 //     should really be moved to the derived directory and
 //     put in a file called BasicSprayCloud.H
-
+// NN. MOVE THIS TO BasicSprayCloud.H for inclusion in main code
+/*
 namespace Foam
 {
     typedef SprayCloud<SprayParcel<gasThermoPhysics >
     thermoSprayCloud;
 
 } // End namespace Foam
+    */
 
-
+namespace Foam
+{
 
 template<class ParcelType>
 class SprayCloud

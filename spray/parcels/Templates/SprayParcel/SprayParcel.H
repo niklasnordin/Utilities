@@ -34,6 +34,7 @@ Description
 #define SprayParcel_H
 
 #include "ReactingParcel.H"
+#include "SprayCloud.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

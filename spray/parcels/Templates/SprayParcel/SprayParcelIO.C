@@ -44,7 +44,7 @@ Foam::SprayParcel<ParcelType>::SprayParcel
     bool readFields
 )
 :
-    ReactingParcel<ParcelType>(cloud, is, readFields),
+    ReactingParcel<ParcelType>(cloud, is, readFields)
 {
 
     // Check state of Istream
