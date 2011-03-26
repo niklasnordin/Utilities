@@ -35,8 +35,8 @@ namespace Foam
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::sprayParcel::sprayParcel()
-{}
+//Foam::sprayParcel::sprayParcel()
+//{}
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 

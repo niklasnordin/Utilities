@@ -23,11 +23,11 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "SprayParcel.H"
+#include "BasicSprayParcel.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
-//const dataType Foam::SprayParcel::staticData();
+const dataType Foam::BasicSprayParcel::staticData();
 
 
 // * * * * * * * * * * * * * Static Member Functions * * * * * * * * * * * * //
@@ -41,23 +41,39 @@ License
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
-
-template <class ParcelType>
-Foam::SprayParcel<ParcelType>::SprayParcel
-(
-    const SprayParcel<ParcelType>& p
-)
+Foam::BasicSprayParcel::BasicSprayParcel()
 :
-    ReactingParcel<ParcelType>(p)
+    baseClassName(),
+    data_()
 {}
 
+
+Foam::BasicSprayParcel::BasicSprayParcel(const dataType& data)
+:
+    baseClassName(),
+    data_(data)
+{}
+
+
+Foam::BasicSprayParcel::BasicSprayParcel(const BasicSprayParcel&)
+:
+    baseClassName(),
+    data_()
+{}
+
+
+// * * * * * * * * * * * * * * * * Selectors * * * * * * * * * * * * * * * * //
+
+Foam::autoPtr<Foam::BasicSprayParcel> Foam::BasicSprayParcel::New()
+{
+    return autoPtr<BasicSprayParcel>(new BasicSprayParcel);
+}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-//Foam::SprayParcel::~SprayParcel()
-//{}
+Foam::BasicSprayParcel::~BasicSprayParcel()
+{}
 
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
@@ -65,9 +81,21 @@ Foam::SprayParcel<ParcelType>::SprayParcel
 
 // * * * * * * * * * * * * * * Member Operators  * * * * * * * * * * * * * * //
 
-// * * * * * * * * * * * * * * IOStream operators  * * * * * * * * * * * * * //
+void Foam::BasicSprayParcel::operator=(const BasicSprayParcel& rhs)
+{
+    // Check for assignment to self
+    if (this == &rhs)
+    {
+        FatalErrorIn("Foam::BasicSprayParcel::operator=(const Foam::BasicSprayParcel&)")
+            << "Attempted assignment to self"
+            << abort(FatalError);
+    }
+}
 
-#include "SprayParcelIO.C"
+// * * * * * * * * * * * * * * Friend Functions  * * * * * * * * * * * * * * //
+
+
+// * * * * * * * * * * * * * * Friend Operators * * * * * * * * * * * * * * //
 
 
 // ************************************************************************* //

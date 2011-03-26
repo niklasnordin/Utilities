@@ -59,9 +59,6 @@ public:
 
     // Constructors
 
-        //- Construct null
-        sprayParcel();
-
         //- Construct and return a clone
         autoPtr<sprayParcel> clone() const
         {
