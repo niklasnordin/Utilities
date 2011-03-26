@@ -71,7 +71,7 @@ public:
         //  Other properties initialised as null
         BasicSprayParcel
         (
-            ReactingCloud<BasicSprayParcel>& owner,
+            SprayCloud<BasicSprayParcel>& owner,
             const vector& position,
             const label cellI
         );
@@ -79,7 +79,7 @@ public:
         //- Construct from components
         BasicSprayParcel
         (
-            ReactingCloud<BasicSprayParcel>& owner,
+            SprayCloud<BasicSprayParcel>& owner,
             const vector& position,
             const label cellI,
             const label typeId,
@@ -87,7 +87,7 @@ public:
             const scalar d0,
             const vector& U0,
             const scalarField& Y0,
-            const typename ReactingParcel<BasicSprayParcel>::
+            const typename SprayParcel<BasicSprayParcel>::
                 constantProperties& constProps
         );
 

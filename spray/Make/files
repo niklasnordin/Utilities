@@ -1,4 +1,4 @@
-SPRAYPARCEL=parcels/derived/BasicReactingParcel
+SPRAYPARCEL=parcels/derived/BasicSprayParcel
 $(SPRAYPARCEL)/defineBasicSprayParcel.C
 $(SPRAYPARCEL)/makeBasicSprayParcelSubmodels.C
 
