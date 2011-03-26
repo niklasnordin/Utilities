@@ -23,8 +23,8 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef makeReactingParcelPostProcessingModels_H
-#define makeReactingParcelPostProcessingModels_H
+#ifndef makeSprayParcelPostProcessingModels_H
+#define makeSprayParcelPostProcessingModels_H
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -36,28 +36,28 @@ License
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#define makeReactingPostProcessingModels(ParcelType)                          \
+#define makeSprayPostProcessingModels(ParcelType)                          \
                                                                               \
-    makeReactingPostProcessingModelThermoType                                 \
+    makeSprayPostProcessingModelThermoType                                 \
     (                                                                         \
         ParcelType,                                                           \
         constGasThermoPhysics                                                 \
     );                                                                        \
                                                                               \
-    makeReactingPostProcessingModelThermoType                                 \
+    makeSprayPostProcessingModelThermoType                                 \
     (                                                                         \
         ParcelType,                                                           \
         gasThermoPhysics                                                      \
     );                                                                        \
                                                                               \
-    makeReactingPostProcessingModelThermoType                                 \
+    makeSprayPostProcessingModelThermoType                                 \
     (                                                                         \
         ParcelType,                                                           \
         icoPoly8ThermoPhysics                                                 \
     );
 
 
-#define makeReactingPostProcessingModelThermoType(ParcelType, ThermoType)     \
+#define makeSprayPostProcessingModelThermoType(ParcelType, ThermoType)     \
                                                                               \
     makePostProcessingModel(KinematicCloud<ParcelType<ThermoType> >);         \
                                                                               \

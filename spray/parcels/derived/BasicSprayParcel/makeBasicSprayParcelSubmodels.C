@@ -44,10 +44,10 @@ License
 namespace Foam
 {
     // Kinematic sub-models
-    makeSprayDispersionModels(BasicSprayParcel);
-    makeSprayDragModels(BasicSprayParcel);
-    makeSprayInjectionModels(BasicSprayParcel);
-    makeSprayPatchInteractionModels(BasicSprayParcel);
+    //makeSprayDispersionModels(BasicSprayParcel);
+    //makeSprayDragModels(BasicSprayParcel);
+    //makeSprayInjectionModels(BasicSprayParcel);
+    //makeSprayPatchInteractionModels(BasicSprayParcel);
     makeSprayPostProcessingModels(BasicSprayParcel);
 
     // Thermo sub-models

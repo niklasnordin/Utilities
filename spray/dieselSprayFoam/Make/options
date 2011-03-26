@@ -41,5 +41,7 @@ EXE_LIBS = \
     -lpdf \
     -lfiniteVolume \
     -llagrangianIntermediate \
-    -lspray
+    -lspray \
+    -lradiation
+
 
