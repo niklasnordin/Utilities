@@ -40,14 +40,16 @@ Description
 
 namespace Foam
 {
-    typedef SprayCloud<BasicSprayParcel<constGasThermoPhysics> >
-        constThermoSprayCloud;
 
     typedef SprayCloud<BasicSprayParcel<gasThermoPhysics> >
         thermoSprayCloud;
 
+    typedef SprayCloud<BasicSprayParcel<constGasThermoPhysics> >
+        constThermoSprayCloud;
+
     typedef SprayCloud<BasicSprayParcel<icoPoly8ThermoPhysics> >
         icoPoly8ThermoSprayCloud;
+
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -32,10 +32,9 @@ License
 
 #define createSprayParcelType(ParcelType)                                  \
                                                                            \
-    createSprayParcelThermoType(ParcelType, constGasThermoPhysics);        \
     createSprayParcelThermoType(ParcelType, gasThermoPhysics);             \
+    createSprayParcelThermoType(ParcelType, constGasThermoPhysics);        \
     createSprayParcelThermoType(ParcelType, icoPoly8ThermoPhysics);
-
 
 
 #define createSprayParcelThermoType(ParcelType, ThermoType)                   \

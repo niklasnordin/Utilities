@@ -33,7 +33,7 @@ License
 //#include "makeSprayParcelPostProcessingModels.H"
 
 // Thermodynamic
-//#include "makeSprayParcelHeatTransferModels.H"
+#include "makeSprayParcelHeatTransferModels.H"
 
 // Reacting
 //#include "makeSprayParcelCompositionModels.H"
