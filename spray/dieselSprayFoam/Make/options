@@ -1,5 +1,4 @@
 EXE_INC = \
-    -I../dieselEngineFoam \
     -I$(LIB_SRC)/finiteVolume/lnInclude \
     -I$(LIB_SRC)/turbulenceModels/compressible/turbulenceModel \
     -I$(LIB_SRC)/lagrangian/basic/lnInclude \
@@ -38,5 +37,6 @@ EXE_LIBS = \
     -lODE \
     -lpdf \
     -lfiniteVolume \
+    -llagrangianIntermediate \
     -lspray
 
