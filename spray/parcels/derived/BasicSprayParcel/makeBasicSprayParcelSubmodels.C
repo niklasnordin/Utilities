@@ -37,7 +37,7 @@ License
 
 // Reacting
 //#include "makeSprayParcelCompositionModels.H"
-//#include "makeSprayParcelPhaseChangeModels.H"
+#include "makeSprayParcelPhaseChangeModels.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -50,14 +50,16 @@ namespace Foam
     makeSprayInjectionModels(BasicSprayParcel);
     makeSprayPatchInteractionModels(BasicSprayParcel);
     makeSprayPostProcessingModels(BasicSprayParcel);
+        */
 
     // Thermo sub-models
     makeSprayHeatTransferModels(BasicSprayParcel);
 
+
     // Spray sub-models
-    makeSprayCompositionModels(BasicSprayParcel);
+    //makeSprayCompositionModels(BasicSprayParcel);
     makeSprayPhaseChangeModels(BasicSprayParcel);
-        */
+
 };
 
 
