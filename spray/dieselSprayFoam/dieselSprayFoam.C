@@ -41,6 +41,8 @@ Description
 #include "OFstream.H"
 #include "Switch.H"
 
+#include "BasicSprayCloud.H"
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 int main(int argc, char *argv[])

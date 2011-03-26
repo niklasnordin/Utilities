@@ -31,8 +31,7 @@ Description
 #ifndef BasicSprayCloud_H
 #define BasicSprayCloud_H
 
-//#include "SprayParcel.H"
-#include "ReactingCloud.H"
+#include "SprayCloud.H"
 #include "thermoPhysicsTypes.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

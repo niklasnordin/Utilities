@@ -35,3 +35,12 @@ if (dieselSpray.twoD())
 
 gasMass0 -=
     dieselSpray.injectedMass(runTime.value()) - dieselSpray.liquidMass();
+
+thermoSprayCloud sprayParcels
+(
+    "sprayCloud",
+    rho,
+    U,
+    g,
+    thermo
+);

@@ -2,4 +2,4 @@ SPRAYPARCEL=parcels/derived/BasicSprayParcel
 $(SPRAYPARCEL)/defineBasicSprayParcel.C
 $(SPRAYPARCEL)/makeBasicSprayParcelSubmodels.C
 
-LIB = $(FOAM_LIBBIN)/libSpray
+LIB = $(FOAM_LIBBIN)/libspray
