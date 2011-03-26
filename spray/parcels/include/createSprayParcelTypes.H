@@ -32,7 +32,10 @@ License
 
 #define createSprayParcelType(ParcelType)                                  \
                                                                            \
+    createSprayParcelThermoType(ParcelType, constGasThermoPhysics);        \
     createSprayParcelThermoType(ParcelType, gasThermoPhysics);             \
+    createSprayParcelThermoType(ParcelType, icoPoly8ThermoPhysics);
+
 
 
 #define createSprayParcelThermoType(ParcelType, ThermoType)                   \
@@ -45,9 +48,8 @@ License
                                                                               \
     defineParcelTypeNameAndDebug(SprayParcel<ParcelType##ThermoType>, 0);     \
     defineTemplateTypeNameAndDebug(SprayParcel<ParcelType##ThermoType>, 0);   \
-    defineParcelTypeNameAndDebug(SprayCloud<ParcelType##ThermoType>, 0); 
-
-/*
+    defineParcelTypeNameAndDebug(SprayCloud<ParcelType##ThermoType>, 0);      \
+                                                                              \
     defineParcelTypeNameAndDebug(KinematicParcel<ParcelType##ThermoType>, 0); \
     defineTemplateTypeNameAndDebug                                            \
     (                                                                         \
@@ -58,12 +60,11 @@ License
     defineTemplateTypeNameAndDebug(ThermoParcel<ParcelType##ThermoType>, 0);  \
     defineParcelTypeNameAndDebug(ReactingParcel<ParcelType##ThermoType>, 0);  \
     defineTemplateTypeNameAndDebug(ReactingParcel<ParcelType##ThermoType>, 0);\
-                                                                         \
+                                                                              \
     defineParcelTypeNameAndDebug(KinematicCloud<ParcelType##ThermoType>, 0);  \
     defineParcelTypeNameAndDebug(ThermoCloud<ParcelType##ThermoType>, 0);     \
     defineParcelTypeNameAndDebug(ReactingCloud<ParcelType##ThermoType>, 0);
 
-    */
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 #endif

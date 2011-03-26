@@ -31,15 +31,23 @@ Description
 #ifndef BasicSprayCloud_H
 #define BasicSprayCloud_H
 
+#include "BasicSprayParcel.H"
 #include "SprayCloud.H"
+#include "SprayParcel.H"
 #include "thermoPhysicsTypes.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
 {
-    typedef SprayCloud<SprayParcel<gasThermoPhysics >
-    thermoSprayCloud;
+    typedef SprayCloud<BasicSprayParcel<constGasThermoPhysics> >
+        constThermoSprayCloud;
+
+    typedef SprayCloud<BasicSprayParcel<gasThermoPhysics> >
+        thermoSprayCloud;
+
+    typedef SprayCloud<BasicSprayParcel<icoPoly8ThermoPhysics> >
+        icoPoly8ThermoSprayCloud;
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
