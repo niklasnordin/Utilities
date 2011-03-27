@@ -28,8 +28,8 @@ License
 // Kinematic
 #include "makeSprayParcelDispersionModels.H"
 #include "makeSprayParcelDragModels.H"
-//#include "makeSprayParcelInjectionModels.H"
-//#include "makeSprayParcelPatchInteractionModels.H"
+#include "makeSprayParcelInjectionModels.H"
+#include "makeSprayParcelPatchInteractionModels.H"
 #include "makeSprayParcelPostProcessingModels.H"
 
 // Thermodynamic
@@ -44,10 +44,10 @@ License
 namespace Foam
 {
     // Kinematic sub-models
-    //makeSprayDispersionModels(BasicSprayParcel);
-    //makeSprayDragModels(BasicSprayParcel);
-    //makeSprayInjectionModels(BasicSprayParcel);
-    //makeSprayPatchInteractionModels(BasicSprayParcel);
+    makeSprayDispersionModels(BasicSprayParcel);
+    makeSprayDragModels(BasicSprayParcel);
+    makeSprayInjectionModels(BasicSprayParcel);
+    makeSprayPatchInteractionModels(BasicSprayParcel);
     makeSprayPostProcessingModels(BasicSprayParcel);
 
     // Thermo sub-models

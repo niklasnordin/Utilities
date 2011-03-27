@@ -45,10 +45,6 @@ License
     defineTemplateTypeNameAndDebug(Particle<ParcelType##ThermoType>, 0);      \
     defineTemplateTypeNameAndDebug(Cloud<ParcelType##ThermoType>, 0);         \
                                                                               \
-    defineParcelTypeNameAndDebug(SprayParcel<ParcelType##ThermoType>, 0);     \
-    defineTemplateTypeNameAndDebug(SprayParcel<ParcelType##ThermoType>, 0);   \
-    defineParcelTypeNameAndDebug(SprayCloud<ParcelType##ThermoType>, 0);      \
-                                                                              \
     defineParcelTypeNameAndDebug(KinematicParcel<ParcelType##ThermoType>, 0); \
     defineTemplateTypeNameAndDebug                                            \
     (                                                                         \
@@ -59,10 +55,14 @@ License
     defineTemplateTypeNameAndDebug(ThermoParcel<ParcelType##ThermoType>, 0);  \
     defineParcelTypeNameAndDebug(ReactingParcel<ParcelType##ThermoType>, 0);  \
     defineTemplateTypeNameAndDebug(ReactingParcel<ParcelType##ThermoType>, 0);\
+    defineParcelTypeNameAndDebug(SprayParcel<ParcelType##ThermoType>, 0);     \
+    defineTemplateTypeNameAndDebug(SprayParcel<ParcelType##ThermoType>, 0);   \
                                                                               \
     defineParcelTypeNameAndDebug(KinematicCloud<ParcelType##ThermoType>, 0);  \
     defineParcelTypeNameAndDebug(ThermoCloud<ParcelType##ThermoType>, 0);     \
-    defineParcelTypeNameAndDebug(ReactingCloud<ParcelType##ThermoType>, 0);
+    defineParcelTypeNameAndDebug(ReactingCloud<ParcelType##ThermoType>, 0);   \
+    defineParcelTypeNameAndDebug(SprayCloud<ParcelType##ThermoType>, 0);
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

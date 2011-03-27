@@ -36,26 +36,26 @@ License
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#define makeSprayDragModels(ParcelType)                                    \
+#define makeSprayDragModels(ParcelType)                                       \
                                                                               \
-    makeSprayDragModelThermoType                                           \
+    makeSprayDragModelThermoType                                              \
     (                                                                         \
         ParcelType,                                                           \
         constGasThermoPhysics                                                 \
     );                                                                        \
-    makeSprayDragModelThermoType                                           \
+    makeSprayDragModelThermoType                                              \
     (                                                                         \
         ParcelType,                                                           \
         gasThermoPhysics                                                      \
     );                                                                        \
-    makeSprayDragModelThermoType                                           \
+    makeSprayDragModelThermoType                                              \
     (                                                                         \
         ParcelType,                                                           \
         icoPoly8ThermoPhysics                                                 \
     );
 
 
-#define makeSpraDragModelThermoType(ParcelType, ThermoType)               \
+#define makeSprayDragModelThermoType(ParcelType, ThermoType)                   \
                                                                               \
     makeDragModel(KinematicCloud<ParcelType<ThermoType> >);                   \
                                                                               \
