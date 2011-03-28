@@ -5,7 +5,7 @@
       + turbulence->divDevRhoReff(U)
      ==
         rho*g
-      + dieselSpray.momentumSource()
+        //+ dieselSpray.momentumSource()
     );
 
     if (momentumPredictor)

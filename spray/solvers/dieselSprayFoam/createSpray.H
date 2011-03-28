@@ -1,5 +1,5 @@
 Info << "Constructing Spray" << endl;
-
+/*
 PtrList<gasThermoPhysics> gasProperties(Y.size());
 forAll(gasProperties, i)
 {
@@ -35,6 +35,7 @@ if (dieselSpray.twoD())
 
 gasMass0 -=
     dieselSpray.injectedMass(runTime.value()) - dieselSpray.liquidMass();
+*/
 
 thermoSprayCloud sprayParcels
 (

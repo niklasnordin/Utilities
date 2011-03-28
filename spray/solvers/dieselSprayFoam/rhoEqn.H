@@ -43,6 +43,7 @@ volScalarField Sevap
     dimensionedScalar("zero", dimensionSet(1, -3, -1, 0, 0), 0.0)
 );
 
+/*
 for (label i=0; i<Y.size(); i++)
 {
     if (dieselSpray.isLiquidFuel()[i])
@@ -50,7 +51,7 @@ for (label i=0; i<Y.size(); i++)
         Sevap += dieselSpray.evaporationSource(i);
     }
 }
-
+    */
 {
     solve
     (

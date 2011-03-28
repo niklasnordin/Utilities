@@ -6,7 +6,7 @@
       - fvm::laplacian(turbulence->alphaEff(), hs)
      ==
        DpDt
-     + dieselSpray.heatTransferSource()().dimensionedInternalField()
+        //+ dieselSpray.heatTransferSource()().dimensionedInternalField()
      + chemistrySh
     );
 

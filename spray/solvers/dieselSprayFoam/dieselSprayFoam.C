@@ -32,7 +32,7 @@ Description
 #include "fvCFD.H"
 #include "hCombustionThermo.H"
 #include "turbulenceModel.H"
-#include "spray.H"
+//#include "spray.H"
 #include "psiChemistryModel.H"
 #include "chemistrySolver.H"
 
@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
 
         Info<< "Evolving Spray" << endl;
 
-        dieselSpray.evolve();
+        //dieselSpray.evolve();
 
         Info<< "Solving chemistry" << endl;
 
@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
 
         turbulence->correct();
 
-        #include "spraySummary.H"
+        //#include "spraySummary.H"
 
         rho = thermo.rho();
 
