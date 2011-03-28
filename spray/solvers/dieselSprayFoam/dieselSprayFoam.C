@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
 
         Info<< "Evolving Spray" << endl;
 
-        //dieselSpray.evolve();
+        sprayParcels.evolve();
 
         Info<< "Solving chemistry" << endl;
 

@@ -60,7 +60,9 @@ inline Foam::SprayParcel<ParcelType>::trackData::trackData
         CpInterp,
         pInterp,
         g
-    )
+    ),
+    cloud_(cloud),
+    constProps_(constProps)
 {}
 
 
