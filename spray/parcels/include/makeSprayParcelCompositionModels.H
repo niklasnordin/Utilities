@@ -35,33 +35,33 @@ License
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#define makeSprayCompositionModels(ParcelType)                             \
+#define makeSprayCompositionModels(ParcelType)                                \
                                                                               \
-    makeSprayCompositionModelThermoType                                    \
+    makeSprayCompositionModelThermoType                                       \
     (                                                                         \
         ParcelType,                                                           \
         constGasThermoPhysics                                                 \
     );                                                                        \
-    makeSprayCompositionModelThermoType                                    \
+    makeSprayCompositionModelThermoType                                       \
     (                                                                         \
         ParcelType,                                                           \
         gasThermoPhysics                                                      \
     );                                                                        \
-    makeSprayCompositionModelThermoType                                    \
+    makeSprayCompositionModelThermoType                                       \
     (                                                                         \
         ParcelType,                                                           \
         icoPoly8ThermoPhysics                                                 \
     );
 
 
-#define makeSprayCompositionModelThermoType(ParcelType, ThermoType)        \
+#define makeSprayCompositionModelThermoType(ParcelType, ThermoType)           \
                                                                               \
-    makeCompositionModel(SprayCloud<ParcelType<ThermoType> >);             \
+    makeCompositionModel(ReactingCloud<ParcelType<ThermoType> >);             \
                                                                               \
     makeCompositionModelThermoType                                            \
     (                                                                         \
         SinglePhaseMixture,                                                   \
-        SprayCloud,                                                        \
+        ReactingCloud,                                                        \
         ParcelType,                                                           \
         ThermoType                                                            \
     );

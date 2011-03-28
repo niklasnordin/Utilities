@@ -57,21 +57,21 @@ License
     );
 
 
-#define makeSprayPhaseChangeModelThermoType(ParcelType, ThermoType)        \
+#define makeSprayPhaseChangeModelThermoType(ParcelType, ThermoType)           \
                                                                               \
-    makePhaseChangeModel(SprayCloud<ParcelType<ThermoType> >);             \
+    makePhaseChangeModel(ReactingCloud<ParcelType<ThermoType> >);             \
                                                                               \
     makePhaseChangeModelThermoType                                            \
     (                                                                         \
         NoPhaseChange,                                                        \
-        SprayCloud,                                                        \
+        ReactingCloud,                                                        \
         ParcelType,                                                           \
         ThermoType                                                            \
     );                                                                        \
     makePhaseChangeModelThermoType                                            \
     (                                                                         \
         LiquidEvaporation,                                                    \
-        SprayCloud,                                                        \
+        ReactingCloud,                                                        \
         ParcelType,                                                           \
         ThermoType                                                            \
     );
