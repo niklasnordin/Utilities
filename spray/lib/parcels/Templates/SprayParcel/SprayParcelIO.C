@@ -31,7 +31,15 @@ License
 template <class ParcelType>
 Foam::string Foam::SprayParcel<ParcelType>::propHeader =
     ReactingParcel<ParcelType>::propHeader
-+ " niklas";
+        + " d0"
+        + " liquidCore"
+        + " KHindex"
+        + " y"
+        + " yDot"
+        + " ms"
+        + " injector"
+        + " tMom"
+        + " user";
 
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
@@ -44,8 +52,49 @@ Foam::SprayParcel<ParcelType>::SprayParcel
     bool readFields
 )
 :
-    ReactingParcel<ParcelType>(cloud, is, readFields)
+    ReactingParcel<ParcelType>(cloud, is, readFields),
+    d0_(0.0),
+    liquidCore_(0.0),
+    KHindex_(0.0),
+    y_(0.0),
+    yDot_(0.0),
+    ms_(0.0),
+    injector_(0.0),
+    tMom_(0.0),
+    user_(0.0)
 {
+    if (readFields)
+    {
+
+        if (is.format() == IOstream::ASCII)
+        {
+            d0_ = readScalar(is);
+	    liquidCore_ = readScalar(is);
+	    KHindex_ = readScalar(is);
+	    y_ = readScalar(is);
+	    yDot = readScalar(is);
+	    ms_ = readScalar(is);
+	    injector_ = readScalar(is);
+	    tMom_ = readScalar(is);
+	    user_ = readScalar(is);
+        }
+        else
+        {
+            is.read
+            (
+                reinterpret_cast<char*>(&d0_),
+                sizeof(d0_)
+	      + sizeof(liquidCore_)
+	      + sizeof(KHindex_)
+	      + sizeof(y_)
+	      + sizeof(yDot_)
+	      + sizeof(ms_)
+	      + sizeof(injector_)
+	      + sizeof(tMom_)
+	      + sizeof(user_)
+            );
+        }
+    }
 
     // Check state of Istream
     is.check
