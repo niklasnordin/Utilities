@@ -1,0 +1,2 @@
+wmake libso lib
+wmake solvers/dieselSprayFoam
