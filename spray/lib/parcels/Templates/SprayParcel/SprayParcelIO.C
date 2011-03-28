@@ -72,7 +72,7 @@ Foam::SprayParcel<ParcelType>::SprayParcel
 	    liquidCore_ = readScalar(is);
 	    KHindex_ = readScalar(is);
 	    y_ = readScalar(is);
-	    yDot = readScalar(is);
+	    yDot_ = readScalar(is);
 	    ms_ = readScalar(is);
 	    injector_ = readScalar(is);
 	    tMom_ = readScalar(is);
