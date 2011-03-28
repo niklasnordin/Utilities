@@ -60,6 +60,39 @@ class SprayParcel
 :
     public ReactingParcel<ParcelType>
 {
+protected:
+
+    // protected properties
+
+        // spray parcel properties
+
+            //- initial droplet diameter
+            scalar d0_;
+
+            //- part of liquid core ( > 0.5-liquid, < 0.5-droplet )
+            scalar liquidCore_;
+
+            //- index for KH Breakup
+            scalar KHindex_;
+
+            //- spherical deviation
+            scalar y_;
+
+            //- rate of change of spherical deviation
+            scalar yDot_;
+
+            //- stripped parcel mass due to breakup
+            scalar ms_;
+
+            //- injected from injector (needed for ex. for calculating distance from injector)
+            scalar injector_;
+  
+            //- momentum relaxation time (needed for calculating parcel acc.)
+            scalar tMom_;
+
+            //- passive scalar (extra variable to be defined by user)
+            scalar user_;
+
 public:
 
     //- Class to hold reacting particle constant properties
@@ -174,6 +207,21 @@ public:
         {
             return autoPtr<SprayParcel>(new SprayParcel(*this));
         }
+
+    // Member Functions
+
+        // Access
+
+            //- Return const access to initial droplet diameter
+            inline const scalar& d0() const;
+
+            //- Return const access to liquid core
+            inline const scalar& liquidCore() const;
+
+            //- Return const access to Kelvin-Helmholtz breakup index
+            inline const scalar& KHindex() const;
+
+        // Edit
 
     //- Destructor
     //~SprayParcel();
