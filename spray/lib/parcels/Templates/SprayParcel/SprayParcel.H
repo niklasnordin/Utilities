@@ -221,10 +221,52 @@ public:
             //- Return const access to Kelvin-Helmholtz breakup index
             inline const scalar& KHindex() const;
 
+            //- Return const access to spherical deviation
+            inline const scalar& y() const;
+
+            //- Return const access to rate of change of spherical deviation
+            inline const scalar& yDot() const;
+
+            //- Return const access to stripped parcel mass
+            inline const scalar& ms() const;
+
+            //- Return const access to injector id
+            inline const scalar& injector() const;
+
+            //- Return const access to momentum relaxation time
+            inline const scalar& tMom() const;
+
+            //- Return const access to passive user scalar
+            inline const scalar& user() const;
+
         // Edit
 
-    //- Destructor
-    //~SprayParcel();
+            //- Return access to initial droplet diameter
+            inline scalar& d0();
+
+            //- Return access to liquid core
+            inline scalar& liquidCore();
+
+            //- Return access to Kelvin-Helmholtz breakup index
+            inline scalar& KHindex();
+
+            //- Return access to spherical deviation
+            inline scalar& y();
+
+            //- Return access to rate of change of spherical deviation
+            inline scalar& yDot();
+
+            //- Return access to stripped parcel mass
+            inline scalar& ms();
+
+            //- Return access to injector id
+            inline scalar& injector();
+
+            //- Return access to momentum relaxation time
+            inline scalar& tMom();
+
+            //- Return access to passive user scalar
+            inline scalar& user();
 
         // I-O
 

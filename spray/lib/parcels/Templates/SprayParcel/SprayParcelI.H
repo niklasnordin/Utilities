@@ -120,3 +120,119 @@ Foam::SprayParcel<ParcelType>::trackData::constProps() const
 {
     return constProps_;
 }
+
+
+
+// * * * * * * * * * * SprayParcel Member Functions * * * * * * * * * * * * //
+
+template<class ParcelType>
+inline const Foam::scalar& Foam::SprayParcel<ParcelType>::d0() const
+{
+    return d0_;
+}
+
+template<class ParcelType>
+inline const Foam::scalar& Foam::SprayParcel<ParcelType>::liquidCore() const
+{
+    return liquidCore_;
+}
+
+template<class ParcelType>
+inline const Foam::scalar& Foam::SprayParcel<ParcelType>::KHindex() const
+{
+    return KHindex_;
+}
+
+template<class ParcelType>
+inline const Foam::scalar& Foam::SprayParcel<ParcelType>::y() const
+{
+    return y_;
+}
+
+template<class ParcelType>
+inline const Foam::scalar& Foam::SprayParcel<ParcelType>::yDot() const
+{
+    return yDot_;
+}
+
+template<class ParcelType>
+inline const Foam::scalar& Foam::SprayParcel<ParcelType>::ms() const
+{
+    return ms_;
+}
+
+
+template<class ParcelType>
+inline const Foam::scalar& Foam::SprayParcel<ParcelType>::injector() const
+{
+    return injector_;
+}
+
+template<class ParcelType>
+inline const Foam::scalar& Foam::SprayParcel<ParcelType>::tMom() const
+{
+    return tMom_;
+}
+
+
+template<class ParcelType>
+inline const Foam::scalar& Foam::SprayParcel<ParcelType>::user() const
+{
+    return user_;
+}
+
+template<class ParcelType>
+inline Foam::scalar& Foam::SprayParcel<ParcelType>::d0()
+{
+    return d0_;
+}
+
+template<class ParcelType>
+inline Foam::scalar& Foam::SprayParcel<ParcelType>::liquidCore()
+{
+    return liquidCore_;
+}
+
+template<class ParcelType>
+inline Foam::scalar& Foam::SprayParcel<ParcelType>::KHindex()
+{
+    return KHindex_;
+}
+
+template<class ParcelType>
+inline Foam::scalar& Foam::SprayParcel<ParcelType>::y()
+{
+    return y_;
+}
+
+template<class ParcelType>
+inline Foam::scalar& Foam::SprayParcel<ParcelType>::yDot()
+{
+    return yDot_;
+}
+
+template<class ParcelType>
+inline Foam::scalar& Foam::SprayParcel<ParcelType>::ms()
+{
+    return ms_;
+}
+
+
+template<class ParcelType>
+inline Foam::scalar& Foam::SprayParcel<ParcelType>::injector()
+{
+    return injector_;
+}
+
+template<class ParcelType>
+inline Foam::scalar& Foam::SprayParcel<ParcelType>::tMom()
+{
+    return tMom_;
+}
+
+
+template<class ParcelType>
+inline Foam::scalar& Foam::SprayParcel<ParcelType>::user()
+{
+    return user_;
+}
