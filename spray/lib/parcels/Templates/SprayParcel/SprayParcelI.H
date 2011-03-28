@@ -87,6 +87,15 @@ inline Foam::SprayParcel<ParcelType>::SprayParcel
     const scalar d0,
     const vector& U0,
     const scalarField& Y0,
+    const scalar& dInit,
+    const scalar& liquidCore,
+    const scalar& KHindex,
+    const scalar& y,
+    const scalar& yDot,
+    const scalar& ms,
+    const scalar& injector,
+    const scalar& tMom,
+    const scalar& user,
     const constantProperties& constProps
 )
 :
@@ -101,7 +110,16 @@ inline Foam::SprayParcel<ParcelType>::SprayParcel
         U0,
         Y0,
         constProps
-    )
+    ),
+    d0_(dInit),
+    liquidCore_(liquidCore),
+    KHindex_(KHindex),
+    y_(y),
+    yDot_(yDot),
+    ms_(ms),
+    injector_(injector),
+    tMom_(tMom),
+    user_(user)
 {}
 
 // * * * * * * * * * * * trackData Member Functions  * * * * * * * * * * * * //

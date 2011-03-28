@@ -34,15 +34,17 @@ Foam::SprayParcel<ParcelType>::SprayParcel
     const SprayParcel<ParcelType>& p
 )
 :
-    ReactingParcel<ParcelType>(p)
+    ReactingParcel<ParcelType>(p),
+    d0_(p.d0_),
+    liquidCore_(p.liquidCore_),
+    KHindex_(p.KHindex_),
+    y_(p.y_),
+    yDot_(p.yDot_),
+    ms_(p.ms_),
+    injector_(p.injector_),
+    tMom_(p.tMom_),
+    user_(p.user_)
 {}
-
-
-
-// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
-
-//Foam::SprayParcel::~SprayParcel()
-//{}
 
 
 // * * * * * * * * * * * * * * IOStream operators  * * * * * * * * * * * * * //
