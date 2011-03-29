@@ -62,6 +62,7 @@ DispersionModel     none;
 
 DragModel           SphereDrag;
 
+//InjectionModel      ConeInjection;
 InjectionModel      none;
 
 PatchInteractionModel StandardWallInteraction;
@@ -112,6 +113,35 @@ LiquidEvaporationCoeffs
     (
         C7H16
     );
+}
+
+ConeInjectionCoeffs
+{
+    SOI               1.0;
+    massTotal         massTotal [1 0 0 0 0 0 0] 6.0e-3;
+    parcelBasisType   mass;
+    duration          1.25e-3;
+    position          ( 0 0995 0 );
+    direction         ( 0 -1 0 );
+    parcelsPerSecond  10;
+    volumeFlowRate    constant 1.0;
+    Umag              constant 300.0;
+
+    thetaInner        constant 0.0;
+    thetaOuter        constant 20.0;
+
+    parcelPDF
+    {
+        pdfType       uniform;
+
+        uniformPDF
+        {
+            minValue  1.0e-4;
+            maxValue  1.1e-4;
+        }
+
+    }
+
 }
 
 
