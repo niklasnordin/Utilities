@@ -59,8 +59,8 @@ Foam::SprayParcel<ParcelType>::SprayParcel
     y_(0.0),
     yDot_(0.0),
     ms_(0.0),
-    injector_(0.0),
-    tMom_(0.0),
+    injector_(1.0),
+    tMom_(GREAT),
     user_(0.0)
 {
     if (readFields)
@@ -122,6 +122,55 @@ void Foam::SprayParcel<ParcelType>::readFields(Cloud<ParcelType>& cIn)
 
     ReactingParcel<ParcelType>::readFields(c);
 
+    IOField<scalar> d0(c.fieldIOobject("d0", IOobject::MUST_READ));
+    c.checkFieldIOobject(c, d0);
+
+
+    IOField<scalar> liquidCore(c.fieldIOobject("liquidCore", IOobject::MUST_READ));
+    c.checkFieldIOobject(c, liquidCore);
+
+
+    IOField<scalar> KHindex(c.fieldIOobject("KHindex", IOobject::MUST_READ));
+    c.checkFieldIOobject(c, KHindex);
+
+
+    IOField<scalar> y(c.fieldIOobject("y", IOobject::MUST_READ));
+    c.checkFieldIOobject(c, y);
+
+
+    IOField<scalar> yDot(c.fieldIOobject("yDot", IOobject::MUST_READ));
+    c.checkFieldIOobject(c, yDot);
+
+
+    IOField<scalar> ms(c.fieldIOobject("ms", IOobject::MUST_READ));
+    c.checkFieldIOobject(c, ms);
+
+
+    IOField<scalar> injector(c.fieldIOobject("injector", IOobject::MUST_READ));
+    c.checkFieldIOobject(c, injector);
+
+
+    IOField<scalar> tMom(c.fieldIOobject("tMom", IOobject::MUST_READ));
+    c.checkFieldIOobject(c, tMom);
+
+    IOField<scalar> user(c.fieldIOobject("user", IOobject::MUST_READ));
+    c.checkFieldIOobject(c, user);
+
+    label i = 0;
+    forAllIter(typename Cloud<ParcelType>, c, iter)
+    {
+        SprayParcel<ParcelType>& p = iter();
+	p.d0_ = d0[i];
+	p.liquidCore_ = liquidCore[i];
+	p.KHindex_ = KHindex[i];
+	p.y_ = y[i];
+	p.yDot_ = yDot[i];
+	p.ms_ = ms[i];
+	p.injector_ = injector[i];
+	p.tMom_ = tMom[i];
+	p.user_ = user[i];
+	i++;
+    }
 }
 
 
@@ -135,6 +184,44 @@ void Foam::SprayParcel<ParcelType>::writeFields
         dynamic_cast<const SprayCloud<ParcelType>&>(cIn);
 
     ReactingParcel<ParcelType>::writeFields(c);
+
+    label np = c.size();
+
+    IOField<scalar> d0(c.fieldIOobject("d0", IOobject::NO_READ), np);
+    IOField<scalar> liquidCore(c.fieldIOobject("liquidCore", IOobject::NO_READ), np);
+    IOField<scalar> KHindex(c.fieldIOobject("KHindex", IOobject::NO_READ), np);
+    IOField<scalar> y(c.fieldIOobject("y", IOobject::NO_READ), np);
+    IOField<scalar> yDot(c.fieldIOobject("yDot", IOobject::NO_READ), np);
+    IOField<scalar> ms(c.fieldIOobject("ms", IOobject::NO_READ), np);
+    IOField<scalar> injector(c.fieldIOobject("injector", IOobject::NO_READ), np);
+    IOField<scalar> tMom(c.fieldIOobject("tMom", IOobject::NO_READ), np);
+    IOField<scalar> user(c.fieldIOobject("user", IOobject::NO_READ), np);
+
+    label i = 0;
+    forAllConstIter(typename Cloud<ParcelType>, c, iter)
+    {
+        const SprayParcel<ParcelType>& p = iter();
+	d0[i] = p.d0_;
+	liquidCore[i] = p.liquidCore_;
+	KHindex[i] = p.KHindex_;
+	y[i] = p.y_;
+	yDot[i] = p.yDot_;
+	ms[i] = p.ms_;
+	injector[i] = p.injector_;
+	tMom[i] = p.tMom_;
+	user[i] = p.user_;
+	i++;
+    }
+
+    d0.write();
+    liquidCore.write();
+    KHindex.write();
+    y.write();
+    yDot.write();
+    ms.write();
+    injector.write();
+    tMom.write();
+    user.write();
 }
 
 
@@ -149,11 +236,27 @@ Foam::Ostream& Foam::operator<<
 {
     if (os.format() == IOstream::ASCII)
     {
-        os  << static_cast<const ReactingParcel<ParcelType>&>(p);
+        os  << static_cast<const ReactingParcel<ParcelType>&>(p)
+	    << token::SPACE << p.d0()
+	    << token::SPACE << p.liquidCore()
+	    << token::SPACE << p.KHindex()
+	    << token::SPACE << p.y()
+	    << token::SPACE << p.yDot()
+	    << token::SPACE << p.ms()
+	    << token::SPACE << p.injector()
+	    << token::SPACE << p.tMom()
+	    << token::SPACE << p.user();
     }
     else
     {
         os  << static_cast<const ReactingParcel<ParcelType>&>(p);
+	os.write
+	(
+            reinterpret_cast<const char*>(&p.d0_),
+	    sizeof(p.d0()) + sizeof(p.liquidCore()) + sizeof(p.KHindex())
+          + sizeof(p.y()) + sizeof(p.yDot()) + sizeof(p.ms())
+          + sizeof(p.injector()) + sizeof(p.tMom()) + sizeof(p.user())
+        );
     }
 
     // Check state of Ostream
