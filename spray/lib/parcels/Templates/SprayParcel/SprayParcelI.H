@@ -74,8 +74,20 @@ inline Foam::SprayParcel<ParcelType>::SprayParcel
     const label cellI
 )
 :
-    ReactingParcel<ParcelType>(owner, position, cellI)
-{}
+    ReactingParcel<ParcelType>(owner, position, cellI),
+    d0_(this->d()),
+    liquidCore_(0.0),
+    KHindex_(0.0),
+    y_(0.0),
+    yDot_(0.0),
+    ms_(0.0),
+    injector_(1.0),
+    tMom_(GREAT),
+    user_(0.0)
+{
+    liquidCore_ = 0.1; // should be set by atomization model
+    Info<< "in Foam::SprayParcel<ParcelType>::SprayParcel constructor";
+}
 
 
 template<class ParcelType>

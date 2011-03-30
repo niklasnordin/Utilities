@@ -118,7 +118,7 @@ LiquidEvaporationCoeffs
 ConeInjectionCoeffs
 {
     SOI               0.0;
-    massTotal         massTotal [1 0 0 0 0 0 0] 6.0e-3;
+    massTotal         massTotal [1 0 0 0 0 0 0] 6.0e-6;
     parcelBasisType   mass;
     duration          1.25e-3;
     position          ( 0 0.0995 0 );
