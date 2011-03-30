@@ -32,6 +32,7 @@ Description
 #define SprayCloud_H
 
 #include "ReactingCloud.H"
+#include "sprayCloud.H"
 #include "thermoPhysicsTypes.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -46,7 +47,8 @@ namespace Foam
 template<class ParcelType>
 class SprayCloud
 :
-    public ReactingCloud<ParcelType>
+    public ReactingCloud<ParcelType>,
+    public sprayCloud
 {
 public:
 

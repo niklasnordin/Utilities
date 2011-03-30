@@ -121,6 +121,7 @@ Foam::SprayCloud<ParcelType>::SprayCloud
 )
 :
     ReactingCloud<ParcelType>(cloudName, rho, U, g, thermo, false),
+    sprayCloud(),
     constProps_(this->particleProperties())
 {
     if (readFields)
