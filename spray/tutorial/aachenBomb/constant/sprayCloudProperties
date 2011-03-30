@@ -62,8 +62,8 @@ DispersionModel     none;
 
 DragModel           SphereDrag;
 
-//InjectionModel      ConeInjection;
-InjectionModel      none;
+InjectionModel      ConeInjection;
+//InjectionModel      none;
 
 PatchInteractionModel StandardWallInteraction;
 
@@ -117,13 +117,13 @@ LiquidEvaporationCoeffs
 
 ConeInjectionCoeffs
 {
-    SOI               1.0;
+    SOI               0.0;
     massTotal         massTotal [1 0 0 0 0 0 0] 6.0e-3;
     parcelBasisType   mass;
     duration          1.25e-3;
-    position          ( 0 0995 0 );
+    position          ( 0 0.0995 0 );
     direction         ( 0 -1 0 );
-    parcelsPerSecond  10;
+    parcelsPerSecond  1000000;
     volumeFlowRate    constant 1.0;
     Umag              constant 300.0;
 

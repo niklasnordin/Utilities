@@ -41,28 +41,28 @@ License
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#define makeSprayInjectionModels(ParcelType)                               \
+#define makeSprayInjectionModels(ParcelType)                                  \
                                                                               \
-    makeSprayInjectionModelThermoType                                      \
+    makeSprayInjectionModelThermoType                                         \
     (                                                                         \
         ParcelType,                                                           \
         constGasThermoPhysics                                                 \
     );                                                                        \
                                                                               \
-    makeSprayInjectionModelThermoType                                      \
+    makeSprayInjectionModelThermoType                                         \
     (                                                                         \
         ParcelType,                                                           \
         gasThermoPhysics                                                      \
     );                                                                        \
                                                                               \
-    makeSprayInjectionModelThermoType                                      \
+    makeSprayInjectionModelThermoType                                         \
     (                                                                         \
         ParcelType,                                                           \
         icoPoly8ThermoPhysics                                                 \
     );
 
 
-#define makeSprayInjectionModelThermoType(ParcelType, ThermoType)          \
+#define makeSprayInjectionModelThermoType(ParcelType, ThermoType)             \
                                                                               \
     makeInjectionModel(KinematicCloud<ParcelType<ThermoType> >);              \
                                                                               \
@@ -100,9 +100,8 @@ License
         KinematicCloud,                                                       \
         ParcelType,                                                           \
         ThermoType                                                            \
-    );
-
-/*                                                                      \
+    );                                                                        \
+                                                                              \
     makeInjectionModelThermoType                                              \
     (                                                                         \
         PatchInjection,                                                       \
@@ -110,14 +109,15 @@ License
         ParcelType,                                                           \
         ThermoType                                                            \
     );
+/*
     makeInjectionModelThermoType                                              \
     (                                                                         \
-        SprayLookupTableInjection,                                         \
+        SprayLookupTableInjection,                                            \
         KinematicCloud,                                                       \
         ParcelType,                                                           \
         ThermoType                                                            \
     );
-    */
+*/  
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -76,7 +76,6 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
         p
     );
 
-    Info << "SprayCloud<ParcelTyp>::evolveCloud() before td" << endl;
     typename ParcelType::trackData td
     (
         *this,
@@ -90,7 +89,6 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
         this->g().value()
     );
 
-    Info << "SprayCloud<ParcelTyp>::evolveCloud() before inject(td)" << endl;
     this->injection().inject(td);
 
     if (this->coupled())
@@ -162,29 +160,24 @@ void Foam::SprayCloud<ParcelType>::checkParcelProperties
 template<class ParcelType>
 void Foam::SprayCloud<ParcelType>::resetSourceTerms()
 {
-    SprayCloud<ParcelType>::resetSourceTerms();
+    ReactingCloud<ParcelType>::resetSourceTerms();
 }
 
 
 template<class ParcelType>
 void Foam::SprayCloud<ParcelType>::evolve()
 {
-    Info << "enter SprayCloud<ParcelType>::evolve()" << endl;
     if (this->active())
     {
-        Info << "SprayCloud<ParcelType>::evolve() before preEvolve" << endl;
         preEvolve();
 
-        Info << "SprayCloud<ParcelType>::evolve() before evolveCloud" << endl;
         evolveCloud();
 
-        Info << "SprayCloud<ParcelType>::evolve() before postEvolve" << endl;
         postEvolve();
 
         info();
         Info<< endl;
     }
-    Info << "exit SprayCloud<ParcelType>::evolve()" << endl;
 }
 
 
