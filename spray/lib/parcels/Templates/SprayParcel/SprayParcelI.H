@@ -85,6 +85,7 @@ inline Foam::SprayParcel<ParcelType>::SprayParcel
     tMom_(GREAT),
     user_(0.0)
 {
+    // ReactingParcel properties should be set by the fuels props and not constProps
     liquidCore_ = 0.1; // should be set by atomization model
     Info<< "in Foam::SprayParcel<ParcelType>::SprayParcel constructor";
 }
