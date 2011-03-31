@@ -36,36 +36,34 @@ SourceFiles
 #ifndef AtomizationModel_H
 #define AtomizationModel_H
 
-#include ".H"
+#include "IOdictionary.H"
+#include "autoPtr.H"
+#include "runTimeSelectionTables.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
 {
 
-// Forward declaration of classes
-class Istream;
-class Ostream;
-
-// Forward declaration of friend functions and operators
-class AtomizationModel;
-Istream& operator>>(Istream&, AtomizationModel&);
-Ostream& operator<<(Ostream&, const AtomizationModel&);
-
-
 /*---------------------------------------------------------------------------*\
                           Class AtomizationModel Declaration
 \*---------------------------------------------------------------------------*/
 
+template<class CloudType>
 class AtomizationModel
-:
-    public baseClassName
 {
-    // Private data
 
-        //- Description of data_
-        dataType data_;
+protected:
+    // Protected data
 
+        //- The cloud dictionary
+        const dictionary& dict_;
+
+        //- Reference to the owner cloud class
+        CloudType& owner_;
+
+        //- The coefficients dictionary
+        const dictionary coeffDict_;
 
     // Private Member Functions
 
@@ -78,61 +76,68 @@ class AtomizationModel
 
 public:
 
-    // Static data members
+    //- Runtime type information
+    TypeName("AtomizationModel");
 
-        //- Static data staticData
-        static const dataType staticData;
-
+    //- Declare runtime constructor selection table
+    declareRunTimeSelectionTable
+    (
+        autoPtr,
+        AtomizationModel,
+        dictionary,
+        (
+            const dictionary& dict,
+            CloudType& owner
+        ),
+        (dict, owner)
+    );
 
     // Constructors
 
-        //- Construct null
-        AtomizationModel();
+        //- Construct null from owner
+        AtomizationModel(CloudType& owner);
 
-        //- Construct from components
-        AtomizationModel(const dataType& data);
+        //- Construct from dictionary
+        AtomizationModel
+        (
+            const dictionary& dict,
+            CloudType& owner,
+            const word& type
+        );
 
-        //- Construct from Istream
-        AtomizationModel(Istream&);
-
-        //- Construct as copy
-        AtomizationModel(const AtomizationModel&);
-
-
-    // Selectors
-
-        //- Select null constructed
-        static autoPtr<AtomizationModel> New();
-
+    //- Selector
+        static autoPtr<AtomizationModel<CloudType> > New
+        (
+            const dictionary& dict,
+            CloudType& owner
+        );
 
     //- Destructor
-    ~AtomizationModel();
+        virtual ~AtomizationModel();
 
 
+
+    // Access
+
+        //- Return the owner cloud dictionary
+        inline const dictionary& dict() const;
+
+        //- Return const access the owner cloud object
+        inline const CloudType& owner() const;
+
+        //- Return non-const access the owner cloud object for manipulation
+        inline CloudType& owner();
+
+        //- Return the coefficients dictionary
+        inline const dictionary& coeffDict() const;
+
+        
     // Member Functions
+        
 
-        // Access
+    //- Update the liquidCore parcel properties
+        virtual atomize(CloudType& owner);
 
-        // Check
-
-        // Edit
-
-        // Write
-
-
-    // Member Operators
-
-        void operator=(const AtomizationModel&);
-
-
-    // Friend Functions
-
-    // Friend Operators
-
-    // IOstream Operators
-
-        friend Istream& operator>>(Istream&, AtomizationModel&);
-        friend Ostream& operator<<(Ostream&, const AtomizationModel&);
 };
 
 
