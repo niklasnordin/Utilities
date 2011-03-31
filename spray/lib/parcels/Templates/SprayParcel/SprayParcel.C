@@ -47,6 +47,76 @@ Foam::SprayParcel<ParcelType>::SprayParcel
 {}
 
 
+// * * * * * * * * * * *  Protected Member Functions * * * * * * * * * * * * //
+
+// NN. Dont think all these functions are needed, but I'm adding them in case 
+//     one might have to add anything later
+
+template<class ParcelType>
+template<class TrackData>
+void Foam::SprayParcel<ParcelType>::setCellValues
+(
+    TrackData& td,
+    const scalar dt,
+    const label cellI
+)
+{
+    ReactingParcel<ParcelType>::setCellValues(td, dt, cellI);
+}
+
+
+template<class ParcelType>
+template<class TrackData>
+void Foam::SprayParcel<ParcelType>::cellValueSourceCorrection
+(
+    TrackData& td,
+    const scalar dt,
+    const label cellI
+)
+{
+    ReactingParcel<ParcelType>::cellValueSourceCorrection(td, dt, cellI);
+}
+
+
+template<class ParcelType>
+template<class TrackData>
+void Foam::SprayParcel<ParcelType>::correctSurfaceValues
+(
+    TrackData& td,
+    const label cellI,
+    const scalar T,
+    const scalarField& Cs,
+    scalar& rhos,
+    scalar& mus,
+    scalar& Pr,
+    scalar& kappa
+)
+{
+    ReactingParcel<ParcelType>::correctSurfaceValues
+    (
+        td,
+        cellI,
+        T,
+        Cs,
+        rhos,
+        mus,
+        Pr,
+        kappa
+    );
+}
+
+template<class ParcelType>
+template<class TrackData>
+void Foam::SprayParcel<ParcelType>::calc
+(
+    TrackData& td,
+    const scalar dt,
+    const label cellI
+)
+{
+    ReactingParcel<ParcelType>::calc(td, dt, cellI);
+}
+
 // * * * * * * * * * * * * * * IOStream operators  * * * * * * * * * * * * * //
 
 #include "SprayParcelIO.C"

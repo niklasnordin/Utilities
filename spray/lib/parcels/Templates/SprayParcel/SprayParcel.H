@@ -277,6 +277,52 @@ public:
             //- Return access to passive user scalar
             inline scalar& user();
 
+
+        // Main calculation loop
+
+            //- Set cell values
+            template<class TrackData>
+            void setCellValues
+            (
+                TrackData& td,
+                const scalar dt,
+                const label cellI
+            );
+
+
+            //- Correct cell values using latest transfer information
+            template<class TrackData>
+            void cellValueSourceCorrection
+            (
+                TrackData& td,
+                const scalar dt,
+                const label cellI
+            );
+
+            //- Correct surface values due to emitted species
+            template<class TrackData>
+            void correctSurfaceValues
+            (
+                TrackData& td,
+                const label cellI,
+                const scalar T,
+                const scalarField& Cs,
+                scalar& rhos,
+                scalar& mus,
+                scalar& Pr,
+                scalar& kappa
+            );
+
+            //- Update parcel properties over the time interval
+            template<class TrackData>
+            void calc
+            (
+                TrackData& td,
+                const scalar dt,
+                const label cellI
+            );
+
+
         // I-O
 
             //- Read
