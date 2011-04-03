@@ -27,46 +27,51 @@ License
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
-const dataType Foam::AtomizationModel::staticData();
-
-
-// * * * * * * * * * * * * * Static Member Functions * * * * * * * * * * * * //
-
-
-// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
-
-
-// * * * * * * * * * * * * Protected Member Functions  * * * * * * * * * * * //
-
-
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::AtomizationModel::AtomizationModel()
+template<class CloudType>
+Foam::AtomizationModel<CloudType>::AtomizationModel(CloudType& owner)
 :
-    baseClassName(),
-    data_()
+    dict_(dictionary::null),
+    owner_(owner),
+    coeffDict_(dictionary::null)
 {}
 
 
-Foam::AtomizationModel::AtomizationModel(const dataType& data)
+template<class CloudType>
+Foam::AtomizationModel<CloudType>::AtomizationModel
+(
+    const dictionary& dict,
+    CloudType& owner,
+    const word& type
+)
 :
-    baseClassName(),
-    data_(data)
+    dict_(dict),
+    owner_(owner),
+    coeffDict_(dict.subDict(type + "Coeffs"))
 {}
 
 
-Foam::AtomizationModel::AtomizationModel(const AtomizationModel&)
-:
-    baseClassName(),
-    data_()
-{}
+// * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
-
-// * * * * * * * * * * * * * * * * Selectors * * * * * * * * * * * * * * * * //
-
-Foam::autoPtr<Foam::AtomizationModel> Foam::AtomizationModel::New()
+template<class CloudType>
+const CloudType& Foam::AtomizationModel<CloudType>::owner() const
 {
-    return autoPtr<AtomizationModel>(new AtomizationModel);
+    return owner_;
+}
+
+
+template<class CloudType>
+const Foam::dictionary& Foam::AtomizationModel<CloudType>::dict() const
+{
+    return dict_;
+}
+
+
+template<class CloudType>
+const Foam::dictionary& Foam::AtomizationModel<CloudType>::coeffDict() const
+{
+    return coeffDict_;
 }
 
 
@@ -75,27 +80,10 @@ Foam::autoPtr<Foam::AtomizationModel> Foam::AtomizationModel::New()
 Foam::AtomizationModel::~AtomizationModel()
 {}
 
-
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-// * * * * * * * * * * * * * * Member Operators  * * * * * * * * * * * * * * //
-
-void Foam::AtomizationModel::operator=(const AtomizationModel& rhs)
-{
-    // Check for assignment to self
-    if (this == &rhs)
-    {
-        FatalErrorIn("Foam::AtomizationModel::operator=(const Foam::AtomizationModel&)")
-            << "Attempted assignment to self"
-            << abort(FatalError);
-    }
-}
-
-// * * * * * * * * * * * * * * Friend Functions  * * * * * * * * * * * * * * //
-
-
-// * * * * * * * * * * * * * * Friend Operators * * * * * * * * * * * * * * //
-
+#include "NewAtomizationModel.C"
 
 // ************************************************************************* //

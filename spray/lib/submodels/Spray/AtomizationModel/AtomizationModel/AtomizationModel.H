@@ -147,7 +147,45 @@ public:
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#include "AtomizationModelI.H"
+#define makeAtomizationModel(CloudType)                                       \
+                                                                              \
+    defineNamedTemplateTypeNameAndDebug(AtomizationModel<CloudType>, 0);      \
+                                                                              \
+    defineTemplateRunTimeSelectionTable                                       \
+    (                                                                         \
+        AtomizationModel<CloudType>,                                          \
+        dictionary                                                            \
+    );
+
+
+#define makeAtomizationModelType(SS, CloudType, ParcelType)                   \
+                                                                              \
+    defineNamedTemplateTypeNameAndDebug(SS<CloudType<ParcelType> >, 0);       \
+                                                                              \
+    AtomizationModel<CloudType<ParcelType> >::                                \
+        adddictionaryConstructorToTable<SS<CloudType<ParcelType> > >          \
+            add##SS##CloudType##ParcelType##ConstructorToTable_;
+
+
+#define makeAtomizationModelThermoType(SS, CloudType, ParcelType, ThermoType) \
+                                                                              \
+    defineNamedTemplateTypeNameAndDebug                                       \
+    (                                                                         \
+        SS<CloudType<ParcelType<ThermoType> > >,                              \
+        0                                                                     \
+    );                                                                        \
+                                                                              \
+    AtomizationModel<CloudType<ParcelType<ThermoType> > >::                   \
+        adddictionaryConstructorToTable                                       \
+            <SS<CloudType<ParcelType<ThermoType> > > >                        \
+            add##SS##CloudType##ParcelType##ThermoType##ConstructorToTable_;
+
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#ifdef NoRepository
+#   include "AtomizationModel.C"
+#endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
