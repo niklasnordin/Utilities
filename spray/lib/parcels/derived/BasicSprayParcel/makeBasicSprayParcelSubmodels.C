@@ -39,6 +39,9 @@ License
 #include "makeSprayParcelCompositionModels.H"
 #include "makeSprayParcelPhaseChangeModels.H"
 
+// Spray
+#include "makeSprayParcelAtomizationModels.H"
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
@@ -53,9 +56,12 @@ namespace Foam
     // Thermo sub-models
     makeSprayHeatTransferModels(BasicSprayParcel);
 
-    // Spray sub-models
+    // Reacting sub-models
     makeSprayCompositionModels(BasicSprayParcel);
     makeSprayPhaseChangeModels(BasicSprayParcel);
+
+    // Spray sub-models
+    makeSprayAtomizationModels(BasicSprayParcel);
 
 };
 

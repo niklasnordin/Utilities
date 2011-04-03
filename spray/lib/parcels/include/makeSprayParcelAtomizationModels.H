@@ -23,58 +23,48 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef makeSprayParcelPhaseChangeModels_H
-#define makeSprayParcelPhaseChangeModels_H
+#ifndef makeSprayParcelAtomizationModels_H
+#define makeSprayParcelAtomizationModels_H
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 #include "thermoPhysicsTypes.H"
 #include "SprayCloud.H"
 
-#include "NoPhaseChange.H"
-#include "LiquidEvaporation.H"
-
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#define makeSprayPhaseChangeModels(ParcelType)                                \
+#define makeSprayAtomizationModels(ParcelType)                                \
                                                                               \
-    makeSprayPhaseChangeModelThermoType                                       \
+    makeSprayAtomizationModelThermoType                                       \
     (                                                                         \
         ParcelType,                                                           \
         constGasThermoPhysics                                                 \
     );                                                                        \
                                                                               \
-    makeSprayPhaseChangeModelThermoType                                       \
+    makeSprayAtomizationThermoType                                            \
     (                                                                         \
         ParcelType,                                                           \
         gasThermoPhysics                                                      \
     );                                                                        \
                                                                               \
-    makeSprayPhaseChangeModelThermoType                                       \
+    makeSprayAtomizationModelThermoType                                       \
     (                                                                         \
         ParcelType,                                                           \
         icoPoly8ThermoPhysics                                                 \
     );
 
 
-#define makeSprayPhaseChangeModelThermoType(ParcelType, ThermoType)           \
+#define makeSprayAtomizationModelThermoType(ParcelType, ThermoType)           \
                                                                               \
-    makePhaseChangeModel(ReactingCloud<ParcelType<ThermoType> >);             \
+    makeAtomizationModel(SprayCloud<ParcelType<ThermoType> >);                \
                                                                               \
-    makePhaseChangeModelThermoType                                            \
+    makeAtomizationModelThermoType                                            \
     (                                                                         \
-        NoPhaseChange,                                                        \
-        ReactingCloud,                                                        \
+        NoAtomization,                                                        \
+        SprayCloud,                                                           \
         ParcelType,                                                           \
         ThermoType                                                            \
-    );                                                                        \
-    makePhaseChangeModelThermoType                                            \
-    (                                                                         \
-        LiquidEvaporation,                                                    \
-        ReactingCloud,                                                        \
-        ParcelType,                                                           \
-        ThermoType                                                            \
-    );
+    );                                                                        
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
