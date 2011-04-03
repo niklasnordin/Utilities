@@ -55,16 +55,21 @@ Foam::AtomizationModel<CloudType>::AtomizationModel
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class CloudType>
+const Foam::dictionary& Foam::AtomizationModel<CloudType>::dict() const
+{
+    return dict_;
+}
+
+template<class CloudType>
 const CloudType& Foam::AtomizationModel<CloudType>::owner() const
 {
     return owner_;
 }
 
-
 template<class CloudType>
-const Foam::dictionary& Foam::AtomizationModel<CloudType>::dict() const
+CloudType& Foam::AtomizationModel<CloudType>::owner()
 {
-    return dict_;
+    return owner_;
 }
 
 

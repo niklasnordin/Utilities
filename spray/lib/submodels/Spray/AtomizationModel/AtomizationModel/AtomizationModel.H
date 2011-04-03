@@ -105,12 +105,13 @@ public:
             const word& type
         );
 
+
     //- Selector
-        static autoPtr<AtomizationModel<CloudType> > New
-        (
-            const dictionary& dict,
-            CloudType& owner
-        );
+    static autoPtr<AtomizationModel<CloudType> > New
+    (
+        const dictionary& dict,
+        CloudType& owner
+    );
 
     //- Destructor
         virtual ~AtomizationModel();
@@ -120,16 +121,16 @@ public:
     // Access
 
         //- Return the owner cloud dictionary
-        inline const dictionary& dict() const;
+        const dictionary& dict() const;
 
         //- Return const access the owner cloud object
-        inline const CloudType& owner() const;
+        const CloudType& owner() const;
 
         //- Return non-const access the owner cloud object for manipulation
-        inline CloudType& owner();
+        CloudType& owner();
 
         //- Return the coefficients dictionary
-        inline const dictionary& coeffDict() const;
+        const dictionary& coeffDict() const;
 
         
     // Member Functions
