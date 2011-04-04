@@ -31,6 +31,8 @@ License
 #include "thermoPhysicsTypes.H"
 #include "SprayCloud.H"
 
+#include "NoAtomization.H"
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 #define makeSprayAtomizationModels(ParcelType)                                \
@@ -53,11 +55,10 @@ License
         icoPoly8ThermoPhysics                                                 \
     );
 
-
 #define makeSprayAtomizationModelThermoType(ParcelType, ThermoType)           \
                                                                               \
     makeAtomizationModel(SprayCloud<ParcelType<ThermoType> >);                \
-                                                                              \
+         								      \
     makeAtomizationModelThermoType                                            \
     (                                                                         \
         NoAtomization,                                                        \

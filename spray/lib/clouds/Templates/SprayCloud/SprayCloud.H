@@ -37,12 +37,18 @@ Description
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+namespace Foam
+{
+
+// Forward declaration of classes
+
+template<class CloudType>
+class AtomizationModel;
+
 /*---------------------------------------------------------------------------*\
                       Class SprayCloud Declaration
 \*---------------------------------------------------------------------------*/
 
-namespace Foam
-{
 
 template<class ParcelType>
 class SprayCloud
