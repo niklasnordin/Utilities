@@ -43,7 +43,7 @@ License
         constGasThermoPhysics                                                 \
     );                                                                        \
                                                                               \
-    makeSprayAtomizationThermoType                                            \
+    makeSprayAtomizationModelThermoType                                       \
     (                                                                         \
         ParcelType,                                                           \
         gasThermoPhysics                                                      \
