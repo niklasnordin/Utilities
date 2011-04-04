@@ -25,77 +25,65 @@ License
 
 #include "BreakupModel.H"
 
-// * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
-
-const dataType Foam::BreakupModel::staticData();
-
-
-// * * * * * * * * * * * * * Static Member Functions * * * * * * * * * * * * //
-
-
-// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
-
-
-// * * * * * * * * * * * * Protected Member Functions  * * * * * * * * * * * //
-
-
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::BreakupModel::BreakupModel()
+template<class CloudType>
+Foam::BreakupModel<CloudType>::BreakupModel
+(
+    CloudType& owner
+)
 :
-    baseClassName(),
-    data_()
+    dict_(dictionary::null),
+    owner_(owner),
+    coeffDict_(dictionary::null)
 {}
 
 
-Foam::BreakupModel::BreakupModel(const dataType& data)
+template<class CloudType>
+Foam::BreakupModel<CloudType>::BreakupModel
+(
+    const dictionary& dict,
+    CloudType& owner,
+    const word& type
+)
 :
-    baseClassName(),
-    data_(data)
+    dict_(dict),
+    owner_(owner),
+    coeffDict_(dict.subDict(type + "Coeffs"))
 {}
-
-
-Foam::BreakupModel::BreakupModel(const BreakupModel&)
-:
-    baseClassName(),
-    data_()
-{}
-
-
-// * * * * * * * * * * * * * * * * Selectors * * * * * * * * * * * * * * * * //
-
-Foam::autoPtr<Foam::BreakupModel> Foam::BreakupModel::New()
-{
-    return autoPtr<BreakupModel>(new BreakupModel);
-}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-Foam::BreakupModel::~BreakupModel()
+template<class CloudType>
+Foam::BreakupModel<CloudType>::~BreakupModel()
 {}
 
 
-// * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
-
-
-// * * * * * * * * * * * * * * Member Operators  * * * * * * * * * * * * * * //
-
-void Foam::BreakupModel::operator=(const BreakupModel& rhs)
+// * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
+template<class CloudType>
+const CloudType& Foam::BreakupModel<CloudType>::owner() const
 {
-    // Check for assignment to self
-    if (this == &rhs)
-    {
-        FatalErrorIn("Foam::BreakupModel::operator=(const Foam::BreakupModel&)")
-            << "Attempted assignment to self"
-            << abort(FatalError);
-    }
+    return owner_;
 }
 
-// * * * * * * * * * * * * * * Friend Functions  * * * * * * * * * * * * * * //
+
+template<class CloudType>
+const Foam::dictionary& Foam::BreakupModel<CloudType>::dict() const
+{
+    return dict_;
+}
 
 
-// * * * * * * * * * * * * * * Friend Operators * * * * * * * * * * * * * * //
+template<class CloudType>
+const Foam::dictionary& Foam::BreakupModel<CloudType>::coeffDict() const
+{
+    return coeffDict_;
+}
 
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#include "NewBreakupModel.C"
 
 // ************************************************************************* //
+

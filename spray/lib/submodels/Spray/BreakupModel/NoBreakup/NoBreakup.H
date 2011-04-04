@@ -21,45 +21,68 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
+Class
+    Foam::NoBreakup
+
+Description
+    Dummy breakup model for 'none'
+
 \*---------------------------------------------------------------------------*/
+
+#ifndef NoBreakup_H
+#define NoBreakup_H
 
 #include "BreakupModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-template<class CloudType>
-Foam::autoPtr<Foam::BreakupModel<CloudType> >
-Foam::BreakupModel<CloudType>::New
-(
-    const dictionary& dict,
-    CloudType& owner
-)
+namespace Foam
 {
-    word BreakupModelType(dict.lookup("BreakupModel"));
+/*---------------------------------------------------------------------------*\
+                       Class NoBreakup Declaration
+\*---------------------------------------------------------------------------*/
 
-    Info<< "Selecting BreakupModel " << BreakupModelType << endl;
+template<class CloudType>
+class NoBreakup
+:
+    public BreakupModel<CloudType>
+{
+public:
 
-    typename dictionaryConstructorTable::iterator cstrIter =
-        dictionaryConstructorTablePtr_->find(BreakupModelType);
+    //- Runtime type information
+    TypeName("none");
 
-    if (cstrIter == dictionaryConstructorTablePtr_->end())
-    {
-        FatalErrorIn
-        (
-            "BreakupModel<CloudType>::New"
-            "("
-                "const dictionary&, "
-                "CloudType&"
-            ")"
-        )   << "Unknown BreakupModelType type "
-            << BreakupModelType
-            << ", constructor not in hash table" << nl << nl
-            << "    Valid BreakupModel types are:" << nl
-            << dictionaryConstructorTablePtr_->sortedToc() << exit(FatalError);
-    }
 
-    return autoPtr<BreakupModel<CloudType> >(cstrIter()(dict, owner));
-}
+    // Constructors
 
+        //- Construct from dictionary
+        NoBreakup(const dictionary&, CloudType&);
+
+
+    //- Destructor
+    virtual ~NoBreakup();
+
+
+    // Member Functions
+
+        //- Flag to indicate whether model activates phase change model
+        virtual void breakup() const;
+
+};
+
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+} // End namespace Foam
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#ifdef NoRepository
+#   include "NoBreakup.C"
+#endif
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#endif
 
 // ************************************************************************* //

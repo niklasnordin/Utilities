@@ -45,6 +45,10 @@ namespace Foam
 template<class CloudType>
 class AtomizationModel;
 
+
+template<class CloudType>
+class BreakupModel;
+
 /*---------------------------------------------------------------------------*\
                       Class SprayCloud Declaration
 \*---------------------------------------------------------------------------*/
@@ -80,6 +84,8 @@ protected:
 
         // Reference to the cloud sub-models
             autoPtr<AtomizationModel<SprayCloud<ParcelType> > > atomizationModel_;
+
+            autoPtr<BreakupModel<SprayCloud<ParcelType> > > breakupModel_;
 
         // Cloud evolution functions
 

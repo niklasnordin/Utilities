@@ -25,114 +25,110 @@ Class
     Foam::BreakupModel
 
 Description
+    Templated phase change model class
 
 SourceFiles
-    BreakupModelI.H
     BreakupModel.C
-    BreakupModelIO.C
+    NewBreakupModel.C
 
 \*---------------------------------------------------------------------------*/
 
 #ifndef BreakupModel_H
 #define BreakupModel_H
 
-#include ".H"
+#include "IOdictionary.H"
+#include "autoPtr.H"
+#include "runTimeSelectionTables.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
 {
 
-// Forward declaration of classes
-class Istream;
-class Ostream;
-
-// Forward declaration of friend functions and operators
-class BreakupModel;
-Istream& operator>>(Istream&, BreakupModel&);
-Ostream& operator<<(Ostream&, const BreakupModel&);
-
-
 /*---------------------------------------------------------------------------*\
-                          Class BreakupModel Declaration
+                      Class BreakupModel Declaration
 \*---------------------------------------------------------------------------*/
 
+template<class CloudType>
 class BreakupModel
-:
-    public baseClassName
 {
-    // Private data
 
-        //- Description of data_
-        dataType data_;
+protected:
 
+    // Protected data
 
-    // Private Member Functions
+        //- The cloud dictionary
+        const dictionary& dict_;
 
-        //- Disallow default bitwise copy construct
-        BreakupModel(const BreakupModel&);
+        //- Reference to the owner cloud class
+        CloudType& owner_;
 
-        //- Disallow default bitwise assignment
-        void operator=(const BreakupModel&);
+        //- The coefficient dictionary
+        const dictionary coeffDict_;
 
 
 public:
 
-    // Static data members
+    //- Runtime type information
+    TypeName("BreakupModel");
 
-        //- Static data staticData
-        static const dataType staticData;
+    //- Declare runtime constructor selection table
+    declareRunTimeSelectionTable
+    (
+        autoPtr,
+        BreakupModel,
+        dictionary,
+        (
+            const dictionary& dict,
+            CloudType& owner
+        ),
+        (dict, owner)
+    );
 
 
     // Constructors
 
-        //- Construct null
-        BreakupModel();
+        //- Construct null from owner
+        BreakupModel(CloudType& owner);
 
-        //- Construct from components
-        BreakupModel(const dataType& data);
-
-        //- Construct from Istream
-        BreakupModel(Istream&);
-
-        //- Construct as copy
-        BreakupModel(const BreakupModel&);
-
-
-    // Selectors
-
-        //- Select null constructed
-        static autoPtr<BreakupModel> New();
+        //- Construct from dictionary
+        BreakupModel
+        (
+            const dictionary& dict,
+            CloudType& owner,
+            const word& type
+        );
 
 
     //- Destructor
-    ~BreakupModel();
+    virtual ~BreakupModel();
+
+
+    //- Selector
+    static autoPtr<BreakupModel<CloudType> > New
+    (
+        const dictionary& dict,
+        CloudType& owner
+    );
+
+
+    // Access
+
+        //- Return the owner cloud object
+        const CloudType& owner() const;
+
+        //- Return the cloud dictionary
+        const dictionary& dict() const;
+
+        //- Return the coefficient dictionary
+        const dictionary& coeffDict() const;
 
 
     // Member Functions
 
-        // Access
+        //- Flag to indicate whether model activates phase change model
+        virtual void breakup() const = 0;
 
-        // Check
-
-        // Edit
-
-        // Write
-
-
-    // Member Operators
-
-        void operator=(const BreakupModel&);
-
-
-    // Friend Functions
-
-    // Friend Operators
-
-    // IOstream Operators
-
-        friend Istream& operator>>(Istream&, BreakupModel&);
-        friend Ostream& operator<<(Ostream&, const BreakupModel&);
 };
 
 
@@ -142,7 +138,36 @@ public:
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#include "BreakupModelI.H"
+#define makeBreakupModel(CloudType)                                       \
+                                                                              \
+    defineNamedTemplateTypeNameAndDebug(BreakupModel<CloudType>, 0);      \
+                                                                              \
+    defineTemplateRunTimeSelectionTable                                       \
+    (                                                                         \
+        BreakupModel<CloudType>,                                          \
+        dictionary                                                            \
+    );
+
+
+#define makeBreakupModelThermoType(SS, CloudType, ParcelType, ThermoType) \
+                                                                              \
+    defineNamedTemplateTypeNameAndDebug                                       \
+    (                                                                         \
+        SS<CloudType<ParcelType<ThermoType> > >,                              \
+        0                                                                     \
+    );                                                                        \
+                                                                              \
+    BreakupModel<CloudType<ParcelType<ThermoType> > >::                   \
+        adddictionaryConstructorToTable                                       \
+            <SS<CloudType<ParcelType<ThermoType> > > >                        \
+            add##SS##CloudType##ParcelType##ThermoType##ConstructorToTable_;
+
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#ifdef NoRepository
+#   include "BreakupModel.C"
+#endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

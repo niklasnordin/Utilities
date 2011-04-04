@@ -23,42 +23,34 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "BreakupModel.H"
+#include "NoBreakup.H"
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-template<class CloudType>
-Foam::autoPtr<Foam::BreakupModel<CloudType> >
-Foam::BreakupModel<CloudType>::New
+template <class CloudType>
+Foam::NoBreakup<CloudType>::NoBreakup
 (
-    const dictionary& dict,
+    const dictionary&,
     CloudType& owner
 )
+:
+    BreakupModel<CloudType>(owner)
+{}
+
+
+// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
+
+template <class CloudType>
+Foam::NoBreakup<CloudType>::~NoBreakup()
+{}
+
+
+// * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
+
+template<class CloudType>
+void Foam::NoBreakup<CloudType>::breakup() const
 {
-    word BreakupModelType(dict.lookup("BreakupModel"));
-
-    Info<< "Selecting BreakupModel " << BreakupModelType << endl;
-
-    typename dictionaryConstructorTable::iterator cstrIter =
-        dictionaryConstructorTablePtr_->find(BreakupModelType);
-
-    if (cstrIter == dictionaryConstructorTablePtr_->end())
-    {
-        FatalErrorIn
-        (
-            "BreakupModel<CloudType>::New"
-            "("
-                "const dictionary&, "
-                "CloudType&"
-            ")"
-        )   << "Unknown BreakupModelType type "
-            << BreakupModelType
-            << ", constructor not in hash table" << nl << nl
-            << "    Valid BreakupModel types are:" << nl
-            << dictionaryConstructorTablePtr_->sortedToc() << exit(FatalError);
-    }
-
-    return autoPtr<BreakupModel<CloudType> >(cstrIter()(dict, owner));
+  // Do nothing
 }
 
 

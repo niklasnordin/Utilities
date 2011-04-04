@@ -25,6 +25,7 @@ License
 
 #include "SprayCloud.H"
 #include "AtomizationModel.H"
+#include "BreakupModel.H"
 
 template<class ParcelType>
 void Foam::SprayCloud<ParcelType>::preEvolve()
@@ -126,6 +127,14 @@ Foam::SprayCloud<ParcelType>::SprayCloud
     atomizationModel_
     (
         AtomizationModel<SprayCloud<ParcelType> >::New
+        (
+	     this->particleProperties(),
+	     *this
+        )
+    ),
+    breakupModel_
+    (
+        BreakupModel<SprayCloud<ParcelType> >::New
         (
 	     this->particleProperties(),
 	     *this
