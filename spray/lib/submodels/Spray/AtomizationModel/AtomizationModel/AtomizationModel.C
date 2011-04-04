@@ -25,9 +25,8 @@ License
 
 #include "AtomizationModel.H"
 
-// * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
-
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
+
 
 template<class CloudType>
 Foam::AtomizationModel<CloudType>::AtomizationModel(CloudType& owner)
@@ -36,7 +35,6 @@ Foam::AtomizationModel<CloudType>::AtomizationModel(CloudType& owner)
     owner_(owner),
     coeffDict_(dictionary::null)
 {}
-
 
 template<class CloudType>
 Foam::AtomizationModel<CloudType>::AtomizationModel
@@ -72,7 +70,6 @@ CloudType& Foam::AtomizationModel<CloudType>::owner()
     return owner_;
 }
 
-
 template<class CloudType>
 const Foam::dictionary& Foam::AtomizationModel<CloudType>::coeffDict() const
 {
@@ -81,11 +78,9 @@ const Foam::dictionary& Foam::AtomizationModel<CloudType>::coeffDict() const
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
-
-Foam::AtomizationModel::~AtomizationModel()
+template<class CloudType>
+Foam::AtomizationModel<CloudType>::~AtomizationModel()
 {}
-
-// * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -61,13 +61,13 @@ public:
 
 
     //- Destructor
-    virtual ~NoHeatTransfer();
+        virtual ~NoAtomization();
 
 
     // Member Functions
 
         //- Atomize parcel (Do nothing)
-        atomize(CloudType& owner);
+        virtual void atomize() const;
 
 };
 

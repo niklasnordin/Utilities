@@ -30,11 +30,11 @@ License
 template <class CloudType>
 Foam::NoAtomization<CloudType>::NoAtomization
 (
-    const dictionary&,
+    const Foam::dictionary& dict,
     CloudType& owner
 )
 :
-    AtomzationModel<CloudType>(owner)
+    AtomizationModel<CloudType>(owner)
 {}
 
 
@@ -48,7 +48,7 @@ Foam::NoAtomization<CloudType>::~NoAtomization()
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template <class CloudType>
-Foam::NoAtomization<CloudType>::atomize(CloudType& owner)
+void Foam::NoAtomization<CloudType>::atomize() const
 {
     // set liquidCore = 0
 }

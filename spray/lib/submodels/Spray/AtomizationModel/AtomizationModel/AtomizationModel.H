@@ -65,6 +65,7 @@ protected:
         //- The coefficients dictionary
         const dictionary coeffDict_;
 
+  /*
     // Private Member Functions
 
         //- Disallow default bitwise copy construct
@@ -72,7 +73,7 @@ protected:
 
         //- Disallow default bitwise assignment
         void operator=(const AtomizationModel&);
-
+  */
 
 public:
 
@@ -137,7 +138,7 @@ public:
         
 
     //- Update the liquidCore parcel properties
-        virtual atomize(CloudType& owner);
+        virtual void atomize() const = 0;
 
 };
 
@@ -157,16 +158,6 @@ public:
         AtomizationModel<CloudType>,                                          \
         dictionary                                                            \
     );
-
-
-#define makeAtomizationModelType(SS, CloudType, ParcelType)                   \
-                                                                              \
-    defineNamedTemplateTypeNameAndDebug(SS<CloudType<ParcelType> >, 0);       \
-                                                                              \
-    AtomizationModel<CloudType<ParcelType> >::                                \
-        adddictionaryConstructorToTable<SS<CloudType<ParcelType> > >          \
-            add##SS##CloudType##ParcelType##ConstructorToTable_;
-
 
 #define makeAtomizationModelThermoType(SS, CloudType, ParcelType, ThermoType) \
                                                                               \
