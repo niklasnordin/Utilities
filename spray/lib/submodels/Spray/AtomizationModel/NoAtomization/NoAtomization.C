@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 1991-2010 OpenCFD Ltd.
+    \\  /    A nd           | Copyright (C) 2009-2010 OpenCFD Ltd.
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -30,7 +30,7 @@ License
 template <class CloudType>
 Foam::NoAtomization<CloudType>::NoAtomization
 (
-    const Foam::dictionary& dict,
+    const dictionary&,
     CloudType& owner
 )
 :
@@ -47,10 +47,11 @@ Foam::NoAtomization<CloudType>::~NoAtomization()
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
-template <class CloudType>
+template<class CloudType>
 void Foam::NoAtomization<CloudType>::atomize() const
 {
-    // set liquidCore = 0
+  // Do nothing
 }
+
 
 // ************************************************************************* //

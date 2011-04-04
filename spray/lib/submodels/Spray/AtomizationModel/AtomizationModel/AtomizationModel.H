@@ -25,11 +25,11 @@ Class
     Foam::AtomizationModel
 
 Description
+    Templated phase change model class
 
 SourceFiles
-    AtomizationModelI.H
     AtomizationModel.C
-    AtomizationModelIO.C
+    NewAtomizationModel.C
 
 \*---------------------------------------------------------------------------*/
 
@@ -46,7 +46,7 @@ namespace Foam
 {
 
 /*---------------------------------------------------------------------------*\
-                          Class AtomizationModel Declaration
+                      Class AtomizationModel Declaration
 \*---------------------------------------------------------------------------*/
 
 template<class CloudType>
@@ -54,6 +54,7 @@ class AtomizationModel
 {
 
 protected:
+
     // Protected data
 
         //- The cloud dictionary
@@ -62,18 +63,9 @@ protected:
         //- Reference to the owner cloud class
         CloudType& owner_;
 
-        //- The coefficients dictionary
+        //- The coefficient dictionary
         const dictionary coeffDict_;
 
-  /*
-    // Private Member Functions
-
-        //- Disallow default bitwise copy construct
-        AtomizationModel(const AtomizationModel&);
-
-        //- Disallow default bitwise assignment
-        void operator=(const AtomizationModel&);
-  */
 
 public:
 
@@ -93,6 +85,7 @@ public:
         (dict, owner)
     );
 
+
     // Constructors
 
         //- Construct null from owner
@@ -107,6 +100,10 @@ public:
         );
 
 
+    //- Destructor
+    virtual ~AtomizationModel();
+
+
     //- Selector
     static autoPtr<AtomizationModel<CloudType> > New
     (
@@ -114,30 +111,22 @@ public:
         CloudType& owner
     );
 
-    //- Destructor
-        virtual ~AtomizationModel();
-
-
 
     // Access
 
-        //- Return the owner cloud dictionary
-        const dictionary& dict() const;
-
-        //- Return const access the owner cloud object
+        //- Return the owner cloud object
         const CloudType& owner() const;
 
-        //- Return non-const access the owner cloud object for manipulation
-        CloudType& owner();
+        //- Return the cloud dictionary
+        const dictionary& dict() const;
 
-        //- Return the coefficients dictionary
+        //- Return the coefficient dictionary
         const dictionary& coeffDict() const;
 
-        
-    // Member Functions
-        
 
-    //- Update the liquidCore parcel properties
+    // Member Functions
+
+        //- Flag to indicate whether model activates phase change model
         virtual void atomize() const = 0;
 
 };
@@ -158,6 +147,7 @@ public:
         AtomizationModel<CloudType>,                                          \
         dictionary                                                            \
     );
+
 
 #define makeAtomizationModelThermoType(SS, CloudType, ParcelType, ThermoType) \
                                                                               \

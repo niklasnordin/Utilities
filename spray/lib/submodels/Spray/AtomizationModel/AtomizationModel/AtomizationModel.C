@@ -27,14 +27,17 @@ License
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-
 template<class CloudType>
-Foam::AtomizationModel<CloudType>::AtomizationModel(CloudType& owner)
+Foam::AtomizationModel<CloudType>::AtomizationModel
+(
+    CloudType& owner
+)
 :
     dict_(dictionary::null),
     owner_(owner),
     coeffDict_(dictionary::null)
 {}
+
 
 template<class CloudType>
 Foam::AtomizationModel<CloudType>::AtomizationModel
@@ -50,7 +53,20 @@ Foam::AtomizationModel<CloudType>::AtomizationModel
 {}
 
 
+// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
+
+template<class CloudType>
+Foam::AtomizationModel<CloudType>::~AtomizationModel()
+{}
+
+
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
+template<class CloudType>
+const CloudType& Foam::AtomizationModel<CloudType>::owner() const
+{
+    return owner_;
+}
+
 
 template<class CloudType>
 const Foam::dictionary& Foam::AtomizationModel<CloudType>::dict() const
@@ -58,17 +74,6 @@ const Foam::dictionary& Foam::AtomizationModel<CloudType>::dict() const
     return dict_;
 }
 
-template<class CloudType>
-const CloudType& Foam::AtomizationModel<CloudType>::owner() const
-{
-    return owner_;
-}
-
-template<class CloudType>
-CloudType& Foam::AtomizationModel<CloudType>::owner()
-{
-    return owner_;
-}
 
 template<class CloudType>
 const Foam::dictionary& Foam::AtomizationModel<CloudType>::coeffDict() const
@@ -76,14 +81,9 @@ const Foam::dictionary& Foam::AtomizationModel<CloudType>::coeffDict() const
     return coeffDict_;
 }
 
-
-// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
-template<class CloudType>
-Foam::AtomizationModel<CloudType>::~AtomizationModel()
-{}
-
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 #include "NewAtomizationModel.C"
 
 // ************************************************************************* //
+

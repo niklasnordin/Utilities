@@ -24,7 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "SprayCloud.H"
-
+#include "AtomizationModel.H"
 
 template<class ParcelType>
 void Foam::SprayCloud<ParcelType>::preEvolve()
@@ -122,7 +122,15 @@ Foam::SprayCloud<ParcelType>::SprayCloud
 :
     ReactingCloud<ParcelType>(cloudName, rho, U, g, thermo, false),
     sprayCloud(),
-    constProps_(this->particleProperties())
+    constProps_(this->particleProperties()),
+    atomizationModel_
+    (
+        AtomizationModel<SprayCloud<ParcelType> >::New
+        (
+	     this->particleProperties(),
+	     *this
+        )
+    )
 {
     if (readFields)
     {

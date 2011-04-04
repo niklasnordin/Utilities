@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 1991-2010 OpenCFD Ltd.
+    \\  /    A nd           | Copyright (C) 2009-2010 OpenCFD Ltd.
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -25,7 +25,7 @@ Class
     Foam::NoAtomization
 
 Description
-    Dummy atomization model for 'none'
+    Dummy phase change model for 'none'
 
 \*---------------------------------------------------------------------------*/
 
@@ -38,9 +38,8 @@ Description
 
 namespace Foam
 {
-
 /*---------------------------------------------------------------------------*\
-                       Class NoHeatTransfer Declaration
+                       Class NoAtomization Declaration
 \*---------------------------------------------------------------------------*/
 
 template<class CloudType>
@@ -57,16 +56,16 @@ public:
     // Constructors
 
         //- Construct from dictionary
-        NoAtomization(const dictionary&, CloudType& owner);
+        NoAtomization(const dictionary&, CloudType&);
 
 
     //- Destructor
-        virtual ~NoAtomization();
+    virtual ~NoAtomization();
 
 
     // Member Functions
 
-        //- Atomize parcel (Do nothing)
+        //- Flag to indicate whether model activates phase change model
         virtual void atomize() const;
 
 };

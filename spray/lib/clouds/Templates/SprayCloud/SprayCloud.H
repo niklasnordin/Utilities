@@ -78,6 +78,9 @@ protected:
         //- Parcel constant properties
         typename ParcelType::constantProperties constProps_;
 
+        // Reference to the cloud sub-models
+            autoPtr<AtomizationModel<SprayCloud<ParcelType> > > atomizationModel_;
+
         // Cloud evolution functions
 
             //- Pre-evolve
