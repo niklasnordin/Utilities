@@ -38,7 +38,6 @@ Foam::BasicSprayParcel<ThermoType>::BasicSprayParcel
     SprayParcel<BasicSprayParcel<ThermoType> >(owner, position, cellI)
 {}
 
-
 template<class ThermoType>
 Foam::BasicSprayParcel<ThermoType>::BasicSprayParcel
 (
@@ -50,6 +49,15 @@ Foam::BasicSprayParcel<ThermoType>::BasicSprayParcel
     const scalar d0,
     const vector& U0,
     const scalarField& Y0,
+    const scalar& dInit,
+    const scalar& liquidCore,
+    const scalar& KHindex,
+    const scalar& y,
+    const scalar& yDot,
+    const scalar& ms,
+    const scalar& injector,
+    const scalar& tMom,
+    const scalar& user,
     const typename SprayParcel<BasicSprayParcel<ThermoType> >::
         constantProperties& constProps
 )
@@ -64,10 +72,18 @@ Foam::BasicSprayParcel<ThermoType>::BasicSprayParcel
         d0,
         U0,
         Y0,
+	dInit,
+	liquidCore,
+	KHindex,
+	y,
+        yDot,
+	ms,
+	injector,
+	tMom,
+	user,
         constProps
     )
 {}
-
 
 template<class ThermoType>
 Foam::BasicSprayParcel<ThermoType>::BasicSprayParcel
