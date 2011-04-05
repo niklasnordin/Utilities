@@ -50,6 +50,7 @@ Foam::NoAtomization<CloudType>::~NoAtomization()
 template<class CloudType>
 void Foam::NoAtomization<CloudType>::atomize() const
 {
+  Info << "entering NoAtomization::atomize()" << endl;
   // Do nothing
 }
 

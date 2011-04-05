@@ -98,7 +98,7 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
     Cloud<ParcelType>::move(td);
     this->injection().inject(td);
     this->atomization().atomize();
-    //this->breakup().breakup();
+    this->breakup().breakup();
 }
 
 

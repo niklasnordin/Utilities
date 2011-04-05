@@ -155,16 +155,16 @@ public:
                 atomization() const;
 
             //- Return reference to the atomization model
-            inline AtomizationModel<SprayCloud<ParcelType> >& 
-                atomization();
+            //inline AtomizationModel<SprayCloud<ParcelType> >& 
+            //    atomization();
 
             //- Return const-access to the breakup model
             inline const BreakupModel<SprayCloud<ParcelType> >& 
                 breakup() const;
 
             //- Return reference to the breakup model
-            inline BreakupModel<SprayCloud<ParcelType> >& 
-                breakup();
+            //inline BreakupModel<SprayCloud<ParcelType> >& 
+            //    breakup();
 
 };
 
