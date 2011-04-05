@@ -31,3 +31,31 @@ Foam::SprayCloud<ParcelType>::constProps() const
 {
     return constProps_;
 }
+
+template<class ParcelType>
+inline const Foam::AtomizationModel<Foam::SprayCloud<ParcelType> >&
+Foam::SprayCloud<ParcelType>::atomization() const
+{
+    return atomizationModel_;
+}
+
+template<class ParcelType>
+inline Foam::AtomizationModel<Foam::SprayCloud<ParcelType> >&
+Foam::SprayCloud<ParcelType>::atomization()
+{
+    return atomizationModel_;
+}
+
+template<class ParcelType>
+inline const Foam::BreakupModel<Foam::SprayCloud<ParcelType> >&
+Foam::SprayCloud<ParcelType>::breakup() const
+{
+    return breakupModel_;
+}
+
+template<class ParcelType>
+inline Foam::BreakupModel<Foam::SprayCloud<ParcelType> >&
+Foam::SprayCloud<ParcelType>::breakup()
+{
+    return breakupModel_;
+}
