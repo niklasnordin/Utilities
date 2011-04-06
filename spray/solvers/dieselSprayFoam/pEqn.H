@@ -23,7 +23,7 @@ if (transonic)
           + fvm::div(phid, p)
           - fvm::laplacian(rho*rUA, p)
          ==
-            Sevap
+            sprayParcels.Srho()
         );
 
         pEqn.solve();
@@ -51,7 +51,7 @@ else
           + fvc::div(phi)
           - fvm::laplacian(rho*rUA, p)
          ==
-            Sevap
+            sprayParcels.Srho()
         );
 
         pEqn.solve();

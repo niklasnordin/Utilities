@@ -4,11 +4,12 @@
       + fvm::div(phi, U)
       + turbulence->divDevRhoReff(U)
      ==
-        rho*g
-        //+ dieselSpray.momentumSource()
+        rho.dimensionedInternalField()*g
+      + sprayParcels.SU()
     );
 
     if (momentumPredictor)
     {
         solve(UEqn == -fvc::grad(p));
     }
+

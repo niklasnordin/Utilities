@@ -83,7 +83,6 @@ void Foam::KinematicCloud<ParcelType>::evolveCloud()
     }
 
     Cloud<ParcelType>::move(td);
-
     this->injection().inject(td);
 
 }

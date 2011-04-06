@@ -29,36 +29,13 @@ Description
 
 \*---------------------------------------------------------------------------*/
 
-volScalarField Sevap
-(
-    IOobject
-    (
-        "Sevap",
-        runTime.timeName(),
-        mesh,
-        IOobject::NO_READ,
-        IOobject::NO_WRITE
-    ),
-    mesh,
-    dimensionedScalar("zero", dimensionSet(1, -3, -1, 0, 0), 0.0)
-);
-
-/*
-for (label i=0; i<Y.size(); i++)
-{
-    if (dieselSpray.isLiquidFuel()[i])
-    {
-        Sevap += dieselSpray.evaporationSource(i);
-    }
-}
-    */
 {
     solve
     (
         fvm::ddt(rho)
       + fvc::div(phi)
       ==
-        Sevap
+        sprayParcels.Srho()
     );
 }
 

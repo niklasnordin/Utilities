@@ -26,8 +26,8 @@ tmp<fv::convectionScheme<scalar> > mvConvection
               + mvConvection->fvmDiv(phi, Yi)
               - fvm::laplacian(turbulence->muEff(), Yi)
               ==
-                //dieselSpray.evaporationSource(i)
-                kappa*chemistry.RR(i),
+                sprayParcels.Srho(i)
+		+ kappa*chemistry.RR(i)().dimensionedInternalField(),
                 mesh.solver("Yi")
             );
 

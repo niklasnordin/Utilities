@@ -116,7 +116,7 @@ void Foam::SprayParcel<ParcelType>::calc
     const label cellI
 )
 {
-  
+
     // check if parcel belongs to liquid core
     if (liquidCore() > 0.5)
     {
@@ -167,12 +167,12 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
     scalar sigma = td.cloud().composition().liquids().sigma(this->pc_, this->T(), X);
 
     // Average molecular weight of carrier mix - assumes perfect gas
-    scalar RR = specie::RR;
     scalar Wc = this->rhoc_*specie::RR*this->Tc_/this->pc_;
 
     scalar t0 = 0.0;
     scalar t1 = t0 + dt;
     scalar massflowRate = rho*td.cloud().injection().volumeToInject(t0, t1)/dt;
+
     /*
     td.cloud().atomization().update
     (
