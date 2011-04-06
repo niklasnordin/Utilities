@@ -116,6 +116,16 @@ void Foam::SprayParcel<ParcelType>::calc
     const label cellI
 )
 {
+  
+    // check if parcel belongs to liquid core
+    if (liquidCore() > 0.5)
+    {
+        // liquid core parcels should not interact with the gas
+        if (td.cloud().coupled())
+	{
+	    td.cloud().coupled() = false;
+	}
+    }
 
     ReactingParcel<ParcelType>::calc(td, dt, cellI);
 
@@ -127,6 +137,13 @@ void Foam::SprayParcel<ParcelType>::calc
     {
         calcBreakup(td, dt, cellI);
     }
+
+    // check if parcel is uncoupled and does not belong to liquid core
+    if ( (!td.cloud().coupled()) && (liquidCore() < 0.5) )
+    {
+        td.cloud().coupled() = true;
+    }
+
 }
 
 
@@ -145,7 +162,7 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
     const scalarField& Y(this->Y());
     scalarField X(td.cloud().composition().liquids().X(Y));
     scalar sigma = td.cloud().composition().liquids().sigma(this->pc_, this->T(), X);
-
+    Info << sigma << endl;
     //td.cloud().atomization().update(td, dt, cellI);
 }
 
