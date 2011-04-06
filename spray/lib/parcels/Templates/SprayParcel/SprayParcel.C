@@ -117,12 +117,14 @@ void Foam::SprayParcel<ParcelType>::calc
 {
 
     ReactingParcel<ParcelType>::calc(td, dt, cellI);
+    //    SprayParcel<ParcelType>& p = *this;
+    //SprayParcel& p = *this;
+    //scalar& d = p.d();
 
     if (liquidCore() < 0.5)
     {
-	// atomization
-      SprayParcel<ParcelType>& p = *this;
-      td.cloud().atomization().update(p.d(), p.liquidCore(), p.tc());
+        // atomization
+      td.cloud().atomization().update(td, dt, cellI);
     }
     else
     {

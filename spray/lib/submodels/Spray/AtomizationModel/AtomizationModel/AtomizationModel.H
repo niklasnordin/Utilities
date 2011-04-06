@@ -129,13 +129,16 @@ public:
         //- initial value of liquidCore
         virtual scalar initLiquidCore() const = 0;
 
+        virtual void calc() const = 0;
         //- Flag to indicate whether model activates phase change model
-        virtual void update
+
+        template<class TrackData>
+        void update
         (
-	    scalar& d,
-            scalar& liquidCore,
-	    scalar& tc
-        ) const = 0;
+            TrackData& td,
+	    const scalar& dt,
+	    const label& cellI
+        ) const;
 
 };
 
