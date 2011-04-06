@@ -157,13 +157,34 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
 )
 {
 
-    // cell state info should be updated in ReactingParcel calc
-    Info << "cell pressure = " << this->pc_ << endl;
+    // cell state info is updated in ReactingParcel calc
+
     const scalarField& Y(this->Y());
     scalarField X(td.cloud().composition().liquids().X(Y));
+
+    scalar rho = td.cloud().composition().liquids().rho(this->pc_, this->T(), X);
+    scalar mu = td.cloud().composition().liquids().mu(this->pc_, this->T(), X);
     scalar sigma = td.cloud().composition().liquids().sigma(this->pc_, this->T(), X);
-    Info << sigma << endl;
-    //td.cloud().atomization().update(td, dt, cellI);
+
+    // Average molecular weight of carrier mix - assumes perfect gas
+    scalar RR = specie::RR;
+    scalar Wc = this->rhoc_*specie::RR*this->Tc_/this->pc_;
+
+    scalar t0 = 0.0;
+    scalar t1 = t0 + dt;
+    scalar massflowRate = rho*td.cloud().injection().volumeToInject(t0, t1)/dt;
+    /*
+    td.cloud().atomization().update
+    (
+        this->d(),
+        this->liquidCore(),
+	this->tc(),
+	rho,
+	mu,
+	sigma,
+	massflowRate
+    );
+    */
 }
 
 
