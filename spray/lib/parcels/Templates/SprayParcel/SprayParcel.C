@@ -40,6 +40,7 @@ Foam::SprayParcel<ParcelType>::SprayParcel
     KHindex_(p.KHindex_),
     y_(p.y_),
     yDot_(p.yDot_),
+    tc_(p.tc_),
     ms_(p.ms_),
     injector_(p.injector_),
     tMom_(p.tMom_),
@@ -117,8 +118,8 @@ void Foam::SprayParcel<ParcelType>::calc
   Info << "entering SprayParcel::calc" << endl;
     ReactingParcel<ParcelType>::calc(td, dt, cellI);
 
-    SprayParcel<ParcelType>& p = *this;
-    //td.cloud().atomization().atomize(*this);
+    td.cloud().atomization().atomize(td.cloud());
+    liquidCore() = 0.0;
 }
 
 // * * * * * * * * * * * * * * IOStream operators  * * * * * * * * * * * * * //

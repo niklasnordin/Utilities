@@ -126,8 +126,11 @@ public:
 
     // Member Functions
 
+        //- initial value of liquidCore
+        virtual scalar initLiquidCore() const = 0;
+
         //- Flag to indicate whether model activates phase change model
-        virtual void atomize() const = 0;
+        virtual void atomize(CloudType& c) const = 0;
 
 };
 

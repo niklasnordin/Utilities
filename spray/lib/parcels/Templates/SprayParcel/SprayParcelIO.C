@@ -36,6 +36,7 @@ Foam::string Foam::SprayParcel<ParcelType>::propHeader =
         + " KHindex"
         + " y"
         + " yDot"
+        + " tc"
         + " ms"
         + " injector"
         + " tMom"
@@ -58,6 +59,7 @@ Foam::SprayParcel<ParcelType>::SprayParcel
     KHindex_(0.0),
     y_(0.0),
     yDot_(0.0),
+    tc_(0.0),
     ms_(0.0),
     injector_(1.0),
     tMom_(GREAT),
@@ -73,6 +75,7 @@ Foam::SprayParcel<ParcelType>::SprayParcel
 	    KHindex_ = readScalar(is);
 	    y_ = readScalar(is);
 	    yDot_ = readScalar(is);
+	    tc_ = readScalar(is);
 	    ms_ = readScalar(is);
 	    injector_ = readScalar(is);
 	    tMom_ = readScalar(is);
@@ -88,6 +91,7 @@ Foam::SprayParcel<ParcelType>::SprayParcel
 	      + sizeof(KHindex_)
 	      + sizeof(y_)
 	      + sizeof(yDot_)
+	      + sizeof(tc_)
 	      + sizeof(ms_)
 	      + sizeof(injector_)
 	      + sizeof(tMom_)
@@ -125,30 +129,26 @@ void Foam::SprayParcel<ParcelType>::readFields(Cloud<ParcelType>& cIn)
     IOField<scalar> d0(c.fieldIOobject("d0", IOobject::MUST_READ));
     c.checkFieldIOobject(c, d0);
 
-
     IOField<scalar> liquidCore(c.fieldIOobject("liquidCore", IOobject::MUST_READ));
     c.checkFieldIOobject(c, liquidCore);
-
 
     IOField<scalar> KHindex(c.fieldIOobject("KHindex", IOobject::MUST_READ));
     c.checkFieldIOobject(c, KHindex);
 
-
     IOField<scalar> y(c.fieldIOobject("y", IOobject::MUST_READ));
     c.checkFieldIOobject(c, y);
-
 
     IOField<scalar> yDot(c.fieldIOobject("yDot", IOobject::MUST_READ));
     c.checkFieldIOobject(c, yDot);
 
+    IOField<scalar> tc(c.fieldIOobject("tc", IOobject::MUST_READ));
+    c.checkFieldIOobject(c, tc);
 
     IOField<scalar> ms(c.fieldIOobject("ms", IOobject::MUST_READ));
     c.checkFieldIOobject(c, ms);
 
-
     IOField<scalar> injector(c.fieldIOobject("injector", IOobject::MUST_READ));
     c.checkFieldIOobject(c, injector);
-
 
     IOField<scalar> tMom(c.fieldIOobject("tMom", IOobject::MUST_READ));
     c.checkFieldIOobject(c, tMom);
@@ -165,6 +165,7 @@ void Foam::SprayParcel<ParcelType>::readFields(Cloud<ParcelType>& cIn)
 	p.KHindex_ = KHindex[i];
 	p.y_ = y[i];
 	p.yDot_ = yDot[i];
+	p.tc_ = tc[i];
 	p.ms_ = ms[i];
 	p.injector_ = injector[i];
 	p.tMom_ = tMom[i];
@@ -192,6 +193,7 @@ void Foam::SprayParcel<ParcelType>::writeFields
     IOField<scalar> KHindex(c.fieldIOobject("KHindex", IOobject::NO_READ), np);
     IOField<scalar> y(c.fieldIOobject("y", IOobject::NO_READ), np);
     IOField<scalar> yDot(c.fieldIOobject("yDot", IOobject::NO_READ), np);
+    IOField<scalar> tc(c.fieldIOobject("tc", IOobject::NO_READ), np);
     IOField<scalar> ms(c.fieldIOobject("ms", IOobject::NO_READ), np);
     IOField<scalar> injector(c.fieldIOobject("injector", IOobject::NO_READ), np);
     IOField<scalar> tMom(c.fieldIOobject("tMom", IOobject::NO_READ), np);
@@ -206,6 +208,7 @@ void Foam::SprayParcel<ParcelType>::writeFields
 	KHindex[i] = p.KHindex_;
 	y[i] = p.y_;
 	yDot[i] = p.yDot_;
+	tc[i] = p.tc_;
 	ms[i] = p.ms_;
 	injector[i] = p.injector_;
 	tMom[i] = p.tMom_;
@@ -218,6 +221,7 @@ void Foam::SprayParcel<ParcelType>::writeFields
     KHindex.write();
     y.write();
     yDot.write();
+    tc.write();
     ms.write();
     injector.write();
     tMom.write();
@@ -242,6 +246,7 @@ Foam::Ostream& Foam::operator<<
 	    << token::SPACE << p.KHindex()
 	    << token::SPACE << p.y()
 	    << token::SPACE << p.yDot()
+	    << token::SPACE << p.tc()
 	    << token::SPACE << p.ms()
 	    << token::SPACE << p.injector()
 	    << token::SPACE << p.tMom()
@@ -254,7 +259,7 @@ Foam::Ostream& Foam::operator<<
 	(
             reinterpret_cast<const char*>(&p.d0_),
 	    sizeof(p.d0()) + sizeof(p.liquidCore()) + sizeof(p.KHindex())
-          + sizeof(p.y()) + sizeof(p.yDot()) + sizeof(p.ms())
+          + sizeof(p.y()) + sizeof(p.yDot()) + sizeof(p.tc()) + sizeof(p.ms())
           + sizeof(p.injector()) + sizeof(p.tMom()) + sizeof(p.user())
         );
     }

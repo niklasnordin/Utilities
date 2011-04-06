@@ -49,7 +49,7 @@ volVectorField U
 
 volScalarField& p = thermo.p();
 const volScalarField& psi = thermo.psi();
-const volScalarField& T = thermo.T();
+//const volScalarField& T = thermo.T();
 volScalarField& hs = thermo.hs();
 
 

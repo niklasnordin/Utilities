@@ -48,12 +48,16 @@ Foam::NoAtomization<CloudType>::~NoAtomization()
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class CloudType>
-void Foam::NoAtomization<CloudType>::atomize() const
+void Foam::NoAtomization<CloudType>::atomize(CloudType& c) const
 {
-  Info << "entering NoAtomization::atomize()" << endl;
-
   // Do nothing
 }
 
+
+template<class CloudType>
+Foam::scalar Foam::NoAtomization<CloudType>::initLiquidCore() const
+{
+    return 0.0;
+}
 
 // ************************************************************************* //

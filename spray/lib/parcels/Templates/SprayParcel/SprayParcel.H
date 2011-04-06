@@ -81,6 +81,9 @@ protected:
             //- rate of change of spherical deviation
             scalar yDot_;
 
+            //- characteristic time (used in atomization model)
+            scalar tc_;
+
             //- stripped parcel mass due to breakup
             scalar ms_;
 
@@ -193,6 +196,7 @@ public:
 	    const scalar& KHindex,
 	    const scalar& y,
 	    const scalar& yDot,
+	    const scalar& tc,
 	    const scalar& ms,
 	    const scalar& injector,
 	    const scalar& tMom,
@@ -236,6 +240,9 @@ public:
             //- Return const access to rate of change of spherical deviation
             inline const scalar& yDot() const;
 
+            //- Return const access to atomization characteristic time
+            inline const scalar& tc() const;
+
             //- Return const access to stripped parcel mass
             inline const scalar& ms() const;
 
@@ -264,6 +271,9 @@ public:
 
             //- Return access to rate of change of spherical deviation
             inline scalar& yDot();
+
+            //- Return access to atomization characteristic time
+            inline scalar& tc();
 
             //- Return access to stripped parcel mass
             inline scalar& ms();

@@ -80,14 +80,13 @@ inline Foam::SprayParcel<ParcelType>::SprayParcel
     KHindex_(0.0),
     y_(0.0),
     yDot_(0.0),
+    tc_(0.0),
     ms_(0.0),
     injector_(1.0),
     tMom_(GREAT),
     user_(0.0)
 {
-    // ReactingParcel properties should be set by the fuels props and not constProps
-    liquidCore_ = 0.1; // should be set by atomization model
-    Info<< "in Foam::SprayParcel<ParcelType>::SprayParcel constructor";
+    liquidCore_ = owner.atomization().initLiquidCore();
 }
 
 
@@ -107,6 +106,7 @@ inline Foam::SprayParcel<ParcelType>::SprayParcel
     const scalar& KHindex,
     const scalar& y,
     const scalar& yDot,
+    const scalar& tc,
     const scalar& ms,
     const scalar& injector,
     const scalar& tMom,
@@ -131,6 +131,7 @@ inline Foam::SprayParcel<ParcelType>::SprayParcel
     KHindex_(KHindex),
     y_(y),
     yDot_(yDot),
+    tc_(tc),
     ms_(ms),
     injector_(injector),
     tMom_(tMom),
@@ -188,12 +189,18 @@ inline const Foam::scalar& Foam::SprayParcel<ParcelType>::yDot() const
     return yDot_;
 }
 
+
+template<class ParcelType>
+inline const Foam::scalar& Foam::SprayParcel<ParcelType>::tc() const
+{
+    return tc_;
+}
+
 template<class ParcelType>
 inline const Foam::scalar& Foam::SprayParcel<ParcelType>::ms() const
 {
     return ms_;
 }
-
 
 template<class ParcelType>
 inline const Foam::scalar& Foam::SprayParcel<ParcelType>::injector() const
@@ -245,11 +252,16 @@ inline Foam::scalar& Foam::SprayParcel<ParcelType>::yDot()
 }
 
 template<class ParcelType>
+inline Foam::scalar& Foam::SprayParcel<ParcelType>::tc()
+{
+    return tc_;
+}
+
+template<class ParcelType>
 inline Foam::scalar& Foam::SprayParcel<ParcelType>::ms()
 {
     return ms_;
 }
-
 
 template<class ParcelType>
 inline Foam::scalar& Foam::SprayParcel<ParcelType>::injector()

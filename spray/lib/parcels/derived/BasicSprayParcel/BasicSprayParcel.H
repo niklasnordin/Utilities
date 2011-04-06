@@ -92,6 +92,7 @@ public:
 	    const scalar& KHindex,
 	    const scalar& y,
 	    const scalar& yDot,
+	    const scalar& tc,
 	    const scalar& ms,
 	    const scalar& injector,
 	    const scalar& tMom,
