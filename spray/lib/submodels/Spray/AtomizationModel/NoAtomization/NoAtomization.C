@@ -48,8 +48,14 @@ Foam::NoAtomization<CloudType>::~NoAtomization()
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class CloudType>
-void Foam::NoAtomization<CloudType>::atomize(CloudType& c) const
+void Foam::NoAtomization<CloudType>::update
+(
+    scalar& d,
+    scalar& liquidCore,
+    scalar& tc
+) const
 {
+  Info << "tjo" << endl;
   // Do nothing
 }
 

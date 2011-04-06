@@ -76,7 +76,7 @@ inline Foam::SprayParcel<ParcelType>::SprayParcel
 :
     ReactingParcel<ParcelType>(owner, position, cellI),
     d0_(this->d()),
-    liquidCore_(0.0),
+    liquidCore_(owner.atomization().initLiquidCore()),
     KHindex_(0.0),
     y_(0.0),
     yDot_(0.0),
@@ -86,7 +86,7 @@ inline Foam::SprayParcel<ParcelType>::SprayParcel
     tMom_(GREAT),
     user_(0.0)
 {
-    liquidCore_ = owner.atomization().initLiquidCore();
+  //    liquidCore_ = 
 }
 
 

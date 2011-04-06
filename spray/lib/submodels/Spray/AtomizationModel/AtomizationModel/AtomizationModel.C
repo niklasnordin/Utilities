@@ -81,6 +81,12 @@ const Foam::dictionary& Foam::AtomizationModel<CloudType>::coeffDict() const
     return coeffDict_;
 }
 
+/*
+template<class CloudType>
+template<class TrackData>
+void Foam::AtomizationModel<CloudType>::atomize(TrackData& td) const
+{}
+*/
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 #include "NewAtomizationModel.C"

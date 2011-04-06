@@ -69,7 +69,12 @@ public:
         virtual scalar initLiquidCore() const;
 
         //- Flag to indicate whether model activates phase change model
-        virtual void atomize(CloudType& c) const;
+        virtual void update
+        (
+            scalar& d,
+	    scalar& liquidCore,
+	    scalar& tc
+        ) const;
 
 };
 

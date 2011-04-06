@@ -115,11 +115,19 @@ void Foam::SprayParcel<ParcelType>::calc
     const label cellI
 )
 {
-  Info << "entering SprayParcel::calc" << endl;
+
     ReactingParcel<ParcelType>::calc(td, dt, cellI);
 
-    td.cloud().atomization().atomize(td.cloud());
-    liquidCore() = 0.0;
+    if (liquidCore() < 0.5)
+    {
+	// atomization
+      SprayParcel<ParcelType>& p = *this;
+      td.cloud().atomization().update(p.d(), p.liquidCore(), p.tc());
+    }
+    else
+    {
+	// breakup
+    }
 }
 
 // * * * * * * * * * * * * * * IOStream operators  * * * * * * * * * * * * * //
