@@ -32,6 +32,7 @@ template <class ParcelType>
 Foam::string Foam::SprayParcel<ParcelType>::propHeader =
     ReactingParcel<ParcelType>::propHeader
         + " d0"
+        + " position0"
         + " liquidCore"
         + " KHindex"
         + " y"
@@ -55,6 +56,7 @@ Foam::SprayParcel<ParcelType>::SprayParcel
 :
     ReactingParcel<ParcelType>(cloud, is, readFields),
     d0_(0.0),
+    position0_(vector::zero),
     liquidCore_(0.0),
     KHindex_(0.0),
     y_(0.0),
@@ -71,6 +73,7 @@ Foam::SprayParcel<ParcelType>::SprayParcel
         if (is.format() == IOstream::ASCII)
         {
             d0_ = readScalar(is);
+	    is >> position0_;
 	    liquidCore_ = readScalar(is);
 	    KHindex_ = readScalar(is);
 	    y_ = readScalar(is);
@@ -87,6 +90,7 @@ Foam::SprayParcel<ParcelType>::SprayParcel
             (
                 reinterpret_cast<char*>(&d0_),
                 sizeof(d0_)
+              + sizeof(position0_)
 	      + sizeof(liquidCore_)
 	      + sizeof(KHindex_)
 	      + sizeof(y_)
@@ -129,6 +133,9 @@ void Foam::SprayParcel<ParcelType>::readFields(Cloud<ParcelType>& cIn)
     IOField<scalar> d0(c.fieldIOobject("d0", IOobject::MUST_READ));
     c.checkFieldIOobject(c, d0);
 
+    IOField<vector> position0(c.fieldIOobject("position0", IOobject::MUST_READ));
+    c.checkFieldIOobject(c, position0);
+
     IOField<scalar> liquidCore(c.fieldIOobject("liquidCore", IOobject::MUST_READ));
     c.checkFieldIOobject(c, liquidCore);
 
@@ -161,6 +168,7 @@ void Foam::SprayParcel<ParcelType>::readFields(Cloud<ParcelType>& cIn)
     {
         SprayParcel<ParcelType>& p = iter();
 	p.d0_ = d0[i];
+	p.position0_ = position0[i];
 	p.liquidCore_ = liquidCore[i];
 	p.KHindex_ = KHindex[i];
 	p.y_ = y[i];
@@ -189,6 +197,7 @@ void Foam::SprayParcel<ParcelType>::writeFields
     label np = c.size();
 
     IOField<scalar> d0(c.fieldIOobject("d0", IOobject::NO_READ), np);
+    IOField<vector> position0(c.fieldIOobject("position0", IOobject::NO_READ), np);
     IOField<scalar> liquidCore(c.fieldIOobject("liquidCore", IOobject::NO_READ), np);
     IOField<scalar> KHindex(c.fieldIOobject("KHindex", IOobject::NO_READ), np);
     IOField<scalar> y(c.fieldIOobject("y", IOobject::NO_READ), np);
@@ -204,6 +213,7 @@ void Foam::SprayParcel<ParcelType>::writeFields
     {
         const SprayParcel<ParcelType>& p = iter();
 	d0[i] = p.d0_;
+	position0[i] = p.position0_;
 	liquidCore[i] = p.liquidCore_;
 	KHindex[i] = p.KHindex_;
 	y[i] = p.y_;
@@ -217,6 +227,7 @@ void Foam::SprayParcel<ParcelType>::writeFields
     }
 
     d0.write();
+    position0.write();
     liquidCore.write();
     KHindex.write();
     y.write();
@@ -242,6 +253,7 @@ Foam::Ostream& Foam::operator<<
     {
         os  << static_cast<const ReactingParcel<ParcelType>&>(p)
 	    << token::SPACE << p.d0()
+	    << token::SPACE << p.position0()
 	    << token::SPACE << p.liquidCore()
 	    << token::SPACE << p.KHindex()
 	    << token::SPACE << p.y()
@@ -258,7 +270,7 @@ Foam::Ostream& Foam::operator<<
 	os.write
 	(
             reinterpret_cast<const char*>(&p.d0_),
-	    sizeof(p.d0()) + sizeof(p.liquidCore()) + sizeof(p.KHindex())
+	    sizeof(p.d0()) + sizeof(p.position0()) + sizeof(p.liquidCore()) + sizeof(p.KHindex())
           + sizeof(p.y()) + sizeof(p.yDot()) + sizeof(p.tc()) + sizeof(p.ms())
           + sizeof(p.injector()) + sizeof(p.tMom()) + sizeof(p.user())
         );

@@ -36,6 +36,7 @@ Foam::SprayParcel<ParcelType>::SprayParcel
 :
     ReactingParcel<ParcelType>(p),
     d0_(p.d0_),
+    position0_(p.position_),
     liquidCore_(p.liquidCore_),
     KHindex_(p.KHindex_),
     y_(p.y_),
@@ -117,19 +118,47 @@ void Foam::SprayParcel<ParcelType>::calc
 {
 
     ReactingParcel<ParcelType>::calc(td, dt, cellI);
-    //    SprayParcel<ParcelType>& p = *this;
-    //SprayParcel& p = *this;
-    //scalar& d = p.d();
 
     if (liquidCore() < 0.5)
     {
-        // atomization
-      td.cloud().atomization().update(td, dt, cellI);
+        calcAtomization(td, dt, cellI);
     }
     else
     {
-	// breakup
+        calcBreakup(td, dt, cellI);
     }
+}
+
+
+template<class ParcelType>
+template<class TrackData>
+void Foam::SprayParcel<ParcelType>::calcAtomization
+(
+    TrackData& td,
+    const scalar dt,
+    const label cellI
+)
+{
+
+    // cell state info should be updated in ReactingParcel calc
+    Info << "cell pressure = " << this->pc_ << endl;
+    const scalarField& Y(this->Y());
+    scalarField X(td.cloud().composition().liquids().X(Y));
+    scalar sigma = td.cloud().composition().liquids().sigma(this->pc_, this->T(), X);
+
+    //td.cloud().atomization().update(td, dt, cellI);
+}
+
+
+template<class ParcelType>
+template<class TrackData>
+void Foam::SprayParcel<ParcelType>::calcBreakup
+(
+    TrackData& td,
+    const scalar dt,
+    const label cellI
+)
+{
 }
 
 // * * * * * * * * * * * * * * IOStream operators  * * * * * * * * * * * * * //

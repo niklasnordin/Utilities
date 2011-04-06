@@ -76,6 +76,7 @@ inline Foam::SprayParcel<ParcelType>::SprayParcel
 :
     ReactingParcel<ParcelType>(owner, position, cellI),
     d0_(this->d()),
+    position0_(position),
     liquidCore_(owner.atomization().initLiquidCore()),
     KHindex_(0.0),
     y_(0.0),
@@ -85,9 +86,7 @@ inline Foam::SprayParcel<ParcelType>::SprayParcel
     injector_(1.0),
     tMom_(GREAT),
     user_(0.0)
-{
-  //    liquidCore_ = 
-}
+{}
 
 
 template<class ParcelType>
@@ -127,6 +126,7 @@ inline Foam::SprayParcel<ParcelType>::SprayParcel
         constProps
     ),
     d0_(dInit),
+    position0_(position),
     liquidCore_(liquidCore),
     KHindex_(KHindex),
     y_(y),
@@ -163,6 +163,12 @@ template<class ParcelType>
 inline const Foam::scalar& Foam::SprayParcel<ParcelType>::d0() const
 {
     return d0_;
+}
+
+template<class ParcelType>
+inline const Foam::vector& Foam::SprayParcel<ParcelType>::position0() const
+{
+    return position0_;
 }
 
 template<class ParcelType>
@@ -225,6 +231,12 @@ template<class ParcelType>
 inline Foam::scalar& Foam::SprayParcel<ParcelType>::d0()
 {
     return d0_;
+}
+
+template<class ParcelType>
+inline Foam::vector& Foam::SprayParcel<ParcelType>::position0()
+{
+    return position0_;
 }
 
 template<class ParcelType>

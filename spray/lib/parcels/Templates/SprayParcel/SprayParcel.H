@@ -69,6 +69,9 @@ protected:
             //- initial droplet diameter
             scalar d0_;
 
+            //- injection position
+            vector position0_;
+
             //- part of liquid core ( > 0.5-liquid, < 0.5-droplet )
             scalar liquidCore_;
 
@@ -228,6 +231,9 @@ public:
             //- Return const access to initial droplet diameter
             inline const scalar& d0() const;
 
+            //- Return const access to initial droplet position
+            inline const vector& position0() const;
+
             //- Return const access to liquid core
             inline const scalar& liquidCore() const;
 
@@ -259,6 +265,9 @@ public:
 
             //- Return access to initial droplet diameter
             inline scalar& d0();
+
+            //- Return access to initial droplet position
+            inline vector& position0();
 
             //- Return access to liquid core
             inline scalar& liquidCore();
@@ -299,6 +308,23 @@ public:
                 const label cellI
             );
 
+            //- Correct parcel properties according to atomization model
+            template<class TrackData>
+            void calcAtomization
+            (
+                TrackData& td,
+                const scalar dt,
+                const label cellI
+            );
+
+            //- Correct parcel properties according to breakup model
+            template<class TrackData>
+            void calcBreakup
+            (
+                TrackData& td,
+                const scalar dt,
+                const label cellI
+            );
 
             //- Correct cell values using latest transfer information
             template<class TrackData>
