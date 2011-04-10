@@ -60,12 +60,13 @@ Foam::scalar Foam::NoAtomization<CloudType>::Taverage
     const scalar& Tc
 ) const
 {
-  return (2.0*Tl + Tc)/3.0;
+    return (2.0*Tl + Tc)/3.0;
 }
 
 template<class CloudType>
 void Foam::NoAtomization<CloudType>::update
 (
+    const scalar& dt,
     scalar& d,
     scalar& liquidCore,
     scalar& tc,
@@ -76,7 +77,10 @@ void Foam::NoAtomization<CloudType>::update
     const scalar& rhoAv,
     const scalar& Urel,
     const vector& pos,
-    const vector& injectionPos
+    const vector& injectionPos,
+    const scalar& pAmbient,
+    const scalar& chi,
+    Random& rndGen
 ) const
 {
 }

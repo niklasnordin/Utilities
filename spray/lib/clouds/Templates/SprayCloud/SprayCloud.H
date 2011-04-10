@@ -59,10 +59,15 @@ class SprayCloud
     public ReactingCloud<ParcelType>,
     public sprayCloud
 {
+private:
+
+    //- Averaged ambient domain pressure
+        scalar pAmbient_;
+
 public:
 
     //- Type of thermodynamics the cloud was instantiated for
-    typedef typename ParcelType::thermoType thermoType;
+        typedef typename ParcelType::thermoType thermoType;
 
 
 private:
@@ -158,6 +163,8 @@ public:
             inline const BreakupModel<SprayCloud<ParcelType> >& 
                 breakup() const;
 
+            //- Return const-access to the ambient pressure
+            inline const scalar& pAmbient() const;
 };
 
 

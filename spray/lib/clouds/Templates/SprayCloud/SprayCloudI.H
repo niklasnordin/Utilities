@@ -45,3 +45,9 @@ Foam::SprayCloud<ParcelType>::breakup() const
     return breakupModel_;
 }
 
+template<class ParcelType>
+inline const Foam::scalar& Foam::SprayCloud<ParcelType>::pAmbient() const
+{
+    return pAmbient_;
+}
+

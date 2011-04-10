@@ -69,6 +69,7 @@ Foam::scalar Foam::BlobsSheetAtomization<CloudType>::Taverage
 template<class CloudType>
 void Foam::BlobsSheetAtomization<CloudType>::update
 (
+    const scalar& dt,
     scalar& d,
     scalar& liquidCore,
     scalar& tc,
@@ -79,7 +80,10 @@ void Foam::BlobsSheetAtomization<CloudType>::update
     const scalar& rhoAv,
     const scalar& Urel,
     const vector& pos,
-    const vector& injectionPos
+    const vector& injectionPos,
+    const scalar& pAmbient,
+    const scalar& chi,
+    Random& rndGen
 ) const
 {
 

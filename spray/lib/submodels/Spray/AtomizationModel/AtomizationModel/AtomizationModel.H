@@ -66,7 +66,6 @@ protected:
         //- The coefficient dictionary
         const dictionary coeffDict_;
 
-
 public:
 
     //- Runtime type information
@@ -134,6 +133,7 @@ public:
 
         virtual void update
         (
+            const scalar& dt,
 	    scalar& d,
 	    scalar& liquidCore,
 	    scalar& tc,
@@ -144,7 +144,10 @@ public:
 	    const scalar& rhoAv,
 	    const scalar& Urel,
 	    const vector& pos,
-	    const vector& injectionPos
+	    const vector& injectionPos,
+	    const scalar& pAmbient,
+	    const scalar& chi,
+	    Random& rndGen
         ) const = 0;
 
 };

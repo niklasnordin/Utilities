@@ -185,8 +185,11 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
     // disregard the continous phase when calculating the relative velocity
     scalar Urel = mag(this->U());
 
+    scalar chi = 0.0;
+    scalar pAmbient = 1.0e+5;
     td.cloud().atomization().update
     (
+        dt,
         this->d(),
         this->liquidCore(),
 	this->tc(),
@@ -197,7 +200,10 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
 	rhoAv,
 	Urel,
 	pos,
-	injectionPos
+	injectionPos,
+	pAmbient,
+	chi,
+	td.cloud().rndGen()
     );
 
 }
