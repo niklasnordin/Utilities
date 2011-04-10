@@ -32,7 +32,7 @@ void Foam::SprayCloud<ParcelType>::preEvolve()
 {
     ReactingCloud<ParcelType>::preEvolve();
     
-    pAmbient_ = 0.0;
+    pAmbient_ = this->carrierThermo().p().average().value();
 }
 
 
