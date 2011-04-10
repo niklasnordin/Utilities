@@ -144,7 +144,13 @@ ConeInjectionCoeffs
 
 }
 
-AtomizationModel LISA;
+AtomizationModel BlobsSheetAtomization;
+
+BlobsSheetAtomizationCoeffs
+{
+    B           1.0;
+    angle       10.0;
+}
 
 BreakupModel     none;
 

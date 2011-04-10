@@ -156,7 +156,7 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
     const label cellI
 )
 {
-  /*
+
     // cell state info is updated in ReactingParcel calc
 
     const scalarField& Y(this->Y());
@@ -169,11 +169,11 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
     // Average molecular weight of carrier mix - assumes perfect gas
     scalar Wc = this->rhoc_*specie::RR*this->Tc_/this->pc_;
 
-    scalar t0 = this->cloud().db().time().value();
-    scalar t1 = t0 + dt;
-    Info << "t0 = " << t0 << endl;
+    scalar soi = td.cloud().injection().timeStart();
+    scalar t1 = this->cloud().db().time().value() - soi;
+    scalar t0 = t1 - dt;
+
     scalar massflowRate = rho*td.cloud().injection().volumeToInject(t0, t1)/dt;
-  */
 
     /*
     td.cloud().atomization().update
