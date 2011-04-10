@@ -56,7 +56,7 @@ public:
     // Constructors
 
         //- Construct from dictionary
-        NoAtomization(const dictionary&, CloudType&);
+        NoAtomization(const dictionary& dict, CloudType& cloud);
 
 
     //- Destructor

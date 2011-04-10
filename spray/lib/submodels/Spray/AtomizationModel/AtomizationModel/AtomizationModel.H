@@ -159,7 +159,6 @@ public:
         dictionary                                                            \
     );
 
-
 #define makeAtomizationModelThermoType(SS, CloudType, ParcelType, ThermoType) \
                                                                               \
     defineNamedTemplateTypeNameAndDebug                                       \

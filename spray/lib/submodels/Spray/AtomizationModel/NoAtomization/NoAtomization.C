@@ -30,7 +30,7 @@ License
 template <class CloudType>
 Foam::NoAtomization<CloudType>::NoAtomization
 (
-    const dictionary&,
+    const dictionary& dict,
     CloudType& owner
 )
 :

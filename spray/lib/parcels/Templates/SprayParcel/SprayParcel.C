@@ -156,7 +156,7 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
     const label cellI
 )
 {
-
+  /*
     // cell state info is updated in ReactingParcel calc
 
     const scalarField& Y(this->Y());
@@ -173,6 +173,7 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
     scalar t1 = t0 + dt;
     Info << "t0 = " << t0 << endl;
     scalar massflowRate = rho*td.cloud().injection().volumeToInject(t0, t1)/dt;
+  */
 
     /*
     td.cloud().atomization().update

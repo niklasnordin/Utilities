@@ -63,9 +63,9 @@ class BlobsSheetAtomization
 {
 private:
 
-        dictionary coeffsDict_;
-        scalar B_;
-        scalar angle_;
+  //dictionary coeffsDict_;
+  //     scalar B_;
+  //    scalar angle_;
   //Random& rndGen_;
 
 public:
@@ -77,7 +77,7 @@ public:
     // Constructors
 
         //- Construct from dictionary
-        BlobsSheetAtomization(const dictionary&, CloudType&);
+        BlobsSheetAtomization(const dictionary& dict, CloudType& cloud);
 
 
     //- Destructor
@@ -101,7 +101,7 @@ public:
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#ifdef BlobsSheetRepository
+#ifdef NoRepository
 #   include "BlobsSheetAtomization.C"
 #endif
 

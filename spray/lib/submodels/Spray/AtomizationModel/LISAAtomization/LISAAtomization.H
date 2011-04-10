@@ -95,7 +95,7 @@ public:
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#ifdef LISARepository
+#ifdef NoRepository
 #   include "LISAAtomization.C"
 #endif
 

@@ -44,13 +44,11 @@ License
         ParcelType,                                                           \
         constGasThermoPhysics                                                 \
     );                                                                        \
-                                                                              \
     makeSprayAtomizationModelThermoType                                       \
     (                                                                         \
         ParcelType,                                                           \
         gasThermoPhysics                                                      \
     );                                                                        \
-                                                                              \
     makeSprayAtomizationModelThermoType                                       \
     (                                                                         \
         ParcelType,                                                           \
@@ -68,7 +66,6 @@ License
         ParcelType,                                                           \
         ThermoType                                                            \
     );                                                                        \
-                                                                              \
     makeAtomizationModelThermoType                                            \
     (                                                                         \
         BlobsSheetAtomization,                                                \
@@ -76,7 +73,7 @@ License
         ParcelType,                                                           \
         ThermoType                                                            \
     );                                                                        \
-                                                                              \
+									      \
     makeAtomizationModelThermoType                                            \
     (                                                                         \
         LISAAtomization,                                                      \
