@@ -32,6 +32,8 @@ License
 #include "SprayCloud.H"
 
 #include "NoAtomization.H"
+#include "BlobsSheetAtomization.H"
+#include "LISAAtomization.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -65,7 +67,23 @@ License
         SprayCloud,                                                           \
         ParcelType,                                                           \
         ThermoType                                                            \
-    );
+    );                                                                        \
+                                                                              \
+    makeAtomizationModelThermoType                                            \
+    (                                                                         \
+        BlobsSheetAtomization,                                                \
+        SprayCloud,                                                           \
+        ParcelType,                                                           \
+        ThermoType                                                            \
+    );                                                                        \
+                                                                              \
+    makeAtomizationModelThermoType                                            \
+    (                                                                         \
+        LISAAtomization,                                                      \
+        SprayCloud,                                                           \
+        ParcelType,                                                           \
+        ThermoType                                                            \
+    );                                                                    
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -36,7 +36,7 @@ Foam::SprayParcel<ParcelType>::SprayParcel
 :
     ReactingParcel<ParcelType>(p),
     d0_(p.d0_),
-    position0_(p.position_),
+    position0_(p.position0_),
     liquidCore_(p.liquidCore_),
     KHindex_(p.KHindex_),
     y_(p.y_),
@@ -129,7 +129,7 @@ void Foam::SprayParcel<ParcelType>::calc
 
     ReactingParcel<ParcelType>::calc(td, dt, cellI);
 
-    if (liquidCore() < 0.5)
+    if (liquidCore() > 0.5)
     {
         calcAtomization(td, dt, cellI);
     }
@@ -169,8 +169,9 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
     // Average molecular weight of carrier mix - assumes perfect gas
     scalar Wc = this->rhoc_*specie::RR*this->Tc_/this->pc_;
 
-    scalar t0 = 0.0;
+    scalar t0 = this->cloud().db().time().value();
     scalar t1 = t0 + dt;
+    Info << "t0 = " << t0 << endl;
     scalar massflowRate = rho*td.cloud().injection().volumeToInject(t0, t1)/dt;
 
     /*

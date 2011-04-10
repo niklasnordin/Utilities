@@ -144,7 +144,7 @@ ConeInjectionCoeffs
 
 }
 
-AtomizationModel none;
+AtomizationModel LISA;
 
 BreakupModel     none;
 
