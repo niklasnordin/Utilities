@@ -168,12 +168,18 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
 
     // Average molecular weight of carrier mix - assumes perfect gas
     scalar Wc = this->rhoc_*specie::RR*this->Tc_/this->pc_;
+    scalar R = specie::RR/Wc;
+    scalar Tav = td.cloud().atomization().Taverage(this->T(), this->Tc_);
+    scalar rhoAv = this->pc_/(R*Tav);
 
     scalar soi = td.cloud().injection().timeStart();
     scalar t1 = this->cloud().db().time().value() - soi;
     scalar t0 = t1 - dt;
 
     scalar massflowRate = rho*td.cloud().injection().volumeToInject(t0, t1)/dt;
+    const vector& pos = this->position();
+    const vector& injectorPos = this->position0();
+    const vector& U = this->U();
 
     /*
     td.cloud().atomization().update

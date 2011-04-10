@@ -129,8 +129,11 @@ public:
         //- initial value of liquidCore
         virtual scalar initLiquidCore() const = 0;
 
-        virtual void calc() const = 0;
+        //- Average temperature calculation
+        virtual scalar Taverage(const scalar& Tliq, const scalar& Tc) const = 0;
+
         //- Flag to indicate whether model activates phase change model
+        virtual void calc() const = 0;
 
         template<class TrackData>
         void update

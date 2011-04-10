@@ -61,4 +61,15 @@ Foam::scalar Foam::NoAtomization<CloudType>::initLiquidCore() const
     return 0.0;
 }
 
+template<class CloudType>
+Foam::scalar Foam::NoAtomization<CloudType>::Taverage
+(
+    const scalar& Tl,
+    const scalar& Tc
+) const
+{
+  return (2.0*Tl + Tc)/3.0;
+}
+
+
 // ************************************************************************* //

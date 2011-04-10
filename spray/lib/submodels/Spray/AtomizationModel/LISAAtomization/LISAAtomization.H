@@ -83,6 +83,9 @@ public:
         //- initial value of liquidCore
         virtual scalar initLiquidCore() const;
 
+        //- Average temperature calculation
+        virtual scalar Taverage(const scalar& Tliq, const scalar& Tc) const;
+
         //- Flag to indicate whether model activates phase change model
         virtual void calc() const;
 

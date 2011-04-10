@@ -61,4 +61,14 @@ Foam::scalar Foam::LISAAtomization<CloudType>::initLiquidCore() const
     return 1.0;
 }
 
+template<class CloudType>
+Foam::scalar Foam::LISAAtomization<CloudType>::Taverage
+(
+    const scalar& Tliq,
+    const scalar& Tc
+) const
+{
+    return (2.0*Tliq + Tc)/3.0;
+}
+
 // ************************************************************************* //
