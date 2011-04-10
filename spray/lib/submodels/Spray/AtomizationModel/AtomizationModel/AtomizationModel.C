@@ -81,18 +81,6 @@ const Foam::dictionary& Foam::AtomizationModel<CloudType>::coeffDict() const
     return coeffDict_;
 }
 
-template<class CloudType>
-template<class TrackData>
-void Foam::AtomizationModel<CloudType>::update
-(
-    TrackData& td,
-    const scalar& dt,
-    const label& cellI
-) const
-{
-  //scalar d = td.cloud().parcel().d();
-}
-
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 #include "NewAtomizationModel.C"

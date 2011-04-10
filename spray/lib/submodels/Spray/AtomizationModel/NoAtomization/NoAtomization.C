@@ -48,14 +48,6 @@ Foam::NoAtomization<CloudType>::~NoAtomization()
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class CloudType>
-void Foam::NoAtomization<CloudType>::calc() const
-{
-  Info << "tjo" << endl;
-  // Do nothing
-}
-
-
-template<class CloudType>
 Foam::scalar Foam::NoAtomization<CloudType>::initLiquidCore() const
 {
     return 0.0;
@@ -71,5 +63,22 @@ Foam::scalar Foam::NoAtomization<CloudType>::Taverage
   return (2.0*Tl + Tc)/3.0;
 }
 
+template<class CloudType>
+void Foam::NoAtomization<CloudType>::update
+(
+    scalar& d,
+    scalar& liquidCore,
+    scalar& tc,
+    const scalar& rho,
+    const scalar& mu,
+    const scalar& sigma,
+    const scalar& massflowRate,
+    const scalar& rhoAv,
+    const scalar& Urel,
+    const vector& pos,
+    const vector& injectionPos
+) const
+{
+}
 
 // ************************************************************************* //

@@ -48,14 +48,6 @@ Foam::LISAAtomization<CloudType>::~LISAAtomization()
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class CloudType>
-void Foam::LISAAtomization<CloudType>::calc() const
-{
-  Info << "tjo" << endl;
-  // Do nothing
-}
-
-
-template<class CloudType>
 Foam::scalar Foam::LISAAtomization<CloudType>::initLiquidCore() const
 {
     return 1.0;
@@ -69,6 +61,25 @@ Foam::scalar Foam::LISAAtomization<CloudType>::Taverage
 ) const
 {
     return (2.0*Tliq + Tc)/3.0;
+}
+
+
+template<class CloudType>
+void Foam::LISAAtomization<CloudType>::update
+(
+    scalar& d,
+    scalar& liquidCore,
+    scalar& tc,
+    const scalar& rho,
+    const scalar& mu,
+    const scalar& sigma,
+    const scalar& massflowRate,
+    const scalar& rhoAv,
+    const scalar& Urel,
+    const vector& pos,
+    const vector& injectionPos
+) const
+{
 }
 
 // ************************************************************************* //

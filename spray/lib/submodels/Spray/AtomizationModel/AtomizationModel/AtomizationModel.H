@@ -132,16 +132,20 @@ public:
         //- Average temperature calculation
         virtual scalar Taverage(const scalar& Tliq, const scalar& Tc) const = 0;
 
-        //- Flag to indicate whether model activates phase change model
-        virtual void calc() const = 0;
-
-        template<class TrackData>
-        void update
+        virtual void update
         (
-            TrackData& td,
-	    const scalar& dt,
-	    const label& cellI
-        ) const;
+	    scalar& d,
+	    scalar& liquidCore,
+	    scalar& tc,
+	    const scalar& rho,
+	    const scalar& mu,
+	    const scalar& sigma,
+	    const scalar& massflowRate,
+	    const scalar& rhoAv,
+	    const scalar& Urel,
+	    const vector& pos,
+	    const vector& injectionPos
+        ) const = 0;
 
 };
 

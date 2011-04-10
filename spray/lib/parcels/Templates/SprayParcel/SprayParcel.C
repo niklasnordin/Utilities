@@ -170,6 +170,8 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
     scalar Wc = this->rhoc_*specie::RR*this->Tc_/this->pc_;
     scalar R = specie::RR/Wc;
     scalar Tav = td.cloud().atomization().Taverage(this->T(), this->Tc_);
+
+    // calculate average gas density based on average temperature
     scalar rhoAv = this->pc_/(R*Tav);
 
     scalar soi = td.cloud().injection().timeStart();
@@ -178,10 +180,11 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
 
     scalar massflowRate = rho*td.cloud().injection().volumeToInject(t0, t1)/dt;
     const vector& pos = this->position();
-    const vector& injectorPos = this->position0();
-    const vector& U = this->U();
+    const vector& injectionPos = this->position0();
 
-    /*
+    // disregard the continous phase when calculating the relative velocity
+    scalar Urel = mag(this->U());
+
     td.cloud().atomization().update
     (
         this->d(),
@@ -190,9 +193,13 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
 	rho,
 	mu,
 	sigma,
-	massflowRate
+	massflowRate,
+	rhoAv,
+	Urel,
+	pos,
+	injectionPos
     );
-    */
+
 }
 
 
