@@ -30,11 +30,15 @@ License
 template <class CloudType>
 Foam::LISAAtomization<CloudType>::LISAAtomization
 (
-    const dictionary&,
+    const dictionary& dict,
     CloudType& owner
 )
 :
-    AtomizationModel<CloudType>(owner)
+    AtomizationModel<CloudType>(owner),
+    coeffsDict_(dict.subDict(typeName+"Coeffs")),
+    Cl_(readScalar(coeffsDict_.lookup("Cl"))),
+    cTau_(readScalar(coeffsDict_.lookup("cTau"))),
+    Q_(readScalar(coeffsDict_.lookup("Q")))
 {}
 
 
@@ -67,6 +71,7 @@ Foam::scalar Foam::LISAAtomization<CloudType>::Taverage
 template<class CloudType>
 void Foam::LISAAtomization<CloudType>::update
 (
+    const scalar& dt,
     scalar& d,
     scalar& liquidCore,
     scalar& tc,
@@ -80,6 +85,16 @@ void Foam::LISAAtomization<CloudType>::update
     const vector& injectionPos
 ) const
 {
+
+    scalar We = 0.5*rhoAv*pow(Urel, 2)*d/sigma;
+    scalar nu = mu/rho;
+
+    tc += dt;
+
+    scalar Q = rhoAv/rho;
+
+    scalar pWalk = mag(pos - injectionPos);
+
 }
 
 // ************************************************************************* //

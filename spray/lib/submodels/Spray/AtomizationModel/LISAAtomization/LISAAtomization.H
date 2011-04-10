@@ -62,6 +62,15 @@ class LISAAtomization
 :
     public AtomizationModel<CloudType>
 {
+private:
+
+    // Private data
+
+        dictionary coeffsDict_;
+        scalar Cl_;
+        scalar cTau_;
+        scalar Q_;
+
 public:
 
     //- Runtime type information
