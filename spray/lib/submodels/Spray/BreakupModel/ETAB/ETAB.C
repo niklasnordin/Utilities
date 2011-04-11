@@ -30,12 +30,23 @@ License
 template <class CloudType>
 Foam::ETAB<CloudType>::ETAB
 (
-    const dictionary&,
+    const dictionary& dict,
     CloudType& owner
 )
 :
-    BreakupModel<CloudType>(owner)
-{}
+  BreakupModel<CloudType>(owner),
+    coeffsDict_(dict.subDict(typeName + "Coeffs")),
+    Cmu_(readScalar(coeffsDict_.lookup("Cmu"))),
+    Comega_(readScalar(coeffsDict_.lookup("Comega"))),
+    k1_(readScalar(coeffsDict_.lookup("k1"))),
+    k2_(readScalar(coeffsDict_.lookup("k2"))),
+    WeCrit_(readScalar(coeffsDict_.lookup("WeCrit"))),
+    WeTransition_(readScalar(coeffsDict_.lookup("WeTransition"))),
+    AWe_(0.0)
+{
+    scalar k21 = k2_/k1_;
+    AWe_ = (k21*sqrt(WeTransition_) - 1.0)/pow(WeTransition_, 4.0);
+}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //

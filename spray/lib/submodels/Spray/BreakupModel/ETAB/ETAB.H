@@ -65,6 +65,24 @@ class ETAB
 :
     public BreakupModel<CloudType>
 {
+private:
+
+    // Private data
+
+        dictionary coeffsDict_;
+
+        // model constants
+
+        // Cmu_ and Comega_ are the same as in the TAB model
+        scalar Cmu_;
+        scalar Comega_;
+
+        scalar k1_;
+        scalar k2_;
+        scalar WeCrit_;
+        scalar WeTransition_;
+        scalar AWe_;
+
 public:
 
     //- Runtime type information
