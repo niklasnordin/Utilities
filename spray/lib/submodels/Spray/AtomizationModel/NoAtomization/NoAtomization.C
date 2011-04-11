@@ -63,6 +63,13 @@ Foam::scalar Foam::NoAtomization<CloudType>::Taverage
     return (2.0*Tl + Tc)/3.0;
 }
 
+
+template<class CloudType>
+bool Foam::NoAtomization<CloudType>::calcChi() const
+{
+    return false;
+}
+
 template<class CloudType>
 void Foam::NoAtomization<CloudType>::update
 (

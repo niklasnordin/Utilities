@@ -185,7 +185,11 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
     // disregard the continous phase when calculating the relative velocity
     scalar Urel = mag(this->U());
 
-    scalar chi = this->chi(td, X);
+    scalar chi = 0.0;
+    if (td.cloud().atomization().calcChi())
+    {
+	chi = this->chi(td, X);
+    }
     scalar pAmbient = 1.0e+5;
     td.cloud().atomization().update
     (

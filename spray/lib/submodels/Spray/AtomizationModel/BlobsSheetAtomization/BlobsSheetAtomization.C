@@ -67,6 +67,12 @@ Foam::scalar Foam::BlobsSheetAtomization<CloudType>::Taverage
 }
 
 template<class CloudType>
+bool Foam::BlobsSheetAtomization<CloudType>::calcChi() const
+{
+    return false;
+}
+
+template<class CloudType>
 void Foam::BlobsSheetAtomization<CloudType>::update
 (
     const scalar& dt,

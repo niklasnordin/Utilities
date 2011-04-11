@@ -72,6 +72,11 @@ Foam::scalar Foam::LISAAtomization<CloudType>::Taverage
     return (2.0*Tliq + Tc)/3.0;
 }
 
+template<class CloudType>
+bool Foam::LISAAtomization<CloudType>::calcChi() const
+{
+    return true;
+}
 
 template<class CloudType>
 void Foam::LISAAtomization<CloudType>::update
@@ -236,12 +241,10 @@ void Foam::LISAAtomization<CloudType>::update
     scalar pExp = 0.135;
 
     //  modifing dD to take account of flash boiling
-
     dD = dD*(1.0 - chi*pow(pRatio, -pExp));
-
     scalar lBU = Cl_ * mag(Urel)*tau;
 
-    if(pWalk > lBU)
+    if (pWalk > lBU)
     {
 
         liquidCore = 0.0;

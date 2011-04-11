@@ -98,6 +98,9 @@ public:
         //- Average temperature calculation
         virtual scalar Taverage(const scalar& Tliq, const scalar& Tc) const;
 
+        //- flag to indicate if chi needs to be calculated
+        virtual bool calcChi() const;
+
         virtual void update
         (
             const scalar& dt,
