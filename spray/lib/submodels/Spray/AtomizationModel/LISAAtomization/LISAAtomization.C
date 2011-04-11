@@ -112,7 +112,6 @@ void Foam::LISAAtomization<CloudType>::update
     // update drop diameter
     d = min(d, hSheet);
 
-
     if(We > 27.0/16.0)
     {
 
@@ -236,9 +235,6 @@ void Foam::LISAAtomization<CloudType>::update
 
     if (pWalk > lBU)
     {
-
-        liquidCore = 0.0;
-
 //      calculate the new diameter with a Rosin Rammler distribution
 
         scalar minValue = min(d, dD/10.0);
@@ -274,6 +270,7 @@ void Foam::LISAAtomization<CloudType>::update
         }
 
         //  New droplet properties
+        liquidCore = 0.0;
         d = x;
         tc = 0.0;
 

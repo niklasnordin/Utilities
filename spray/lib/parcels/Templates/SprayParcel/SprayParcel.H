@@ -84,7 +84,7 @@ protected:
             //- rate of change of spherical deviation
             scalar yDot_;
 
-            //- characteristic time (used in atomization model)
+            //- characteristic time (used in atomization and/or breakup model)
             scalar tc_;
 
             //- stripped parcel mass due to breakup
