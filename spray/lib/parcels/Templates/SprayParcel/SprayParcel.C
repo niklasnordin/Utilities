@@ -190,7 +190,7 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
     {
 	chi = this->chi(td, X);
     }
-    scalar pAmbient = 1.0e+5;
+
     td.cloud().atomization().update
     (
         dt,
@@ -205,7 +205,7 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
 	Urel,
 	pos,
 	injectionPos,
-	pAmbient,
+        td.cloud().pAmbient(),
 	chi,
 	td.cloud().rndGen()
     );
