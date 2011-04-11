@@ -123,7 +123,7 @@ ConeInjectionCoeffs
     duration          1.25e-3;
     position          ( 0 0.0995 0 );
     direction         ( 0 -1 0 );
-    parcelsPerSecond  10000000;
+    parcelsPerSecond  1000000;
     volumeFlowRate    constant 1.0;
     Umag              constant 300.0;
 
@@ -144,12 +144,21 @@ ConeInjectionCoeffs
 
 }
 
-AtomizationModel BlobsSheetAtomization;
+AtomizationModel LISA;
 
 BlobsSheetAtomizationCoeffs
 {
     B           1.0e-2;
     angle       90.0;
+}
+
+LISACoeffs
+{
+    Cl                 0.5;
+    cTau               12.0;
+    Q                  1.0e-3;
+    lisaExp            0.27;
+    injectorDirection  ( 0 -1 0 );
 }
 
 BreakupModel     ReitzDiwakar;

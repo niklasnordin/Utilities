@@ -46,7 +46,9 @@ Foam::SprayParcel<ParcelType>::SprayParcel
     injector_(p.injector_),
     tMom_(p.tMom_),
     user_(p.user_)
-{}
+{
+  Info << "creating parcel from parcel rho = " << p.rho() << endl;
+}
 
 
 // * * * * * * * * * * *  Protected Member Functions * * * * * * * * * * * * //
@@ -126,8 +128,15 @@ void Foam::SprayParcel<ParcelType>::calc
 	    td.cloud().coupled() = false;
 	}
     }
+    const scalarField& Y(this->Y());
+    scalarField X(td.cloud().composition().liquids().X(Y));
+    this->rho() = td.cloud().composition().liquids().rho(this->pc_, this->T(), X);
 
     ReactingParcel<ParcelType>::calc(td, dt, cellI);
+
+    Info << "1. mass = " << this->mass0() << ", np = " << this->nParticle() << ", core = " << this->liquidCore() << ", d = " << this->d() << ", vol = " << this->volume() << ", rho = " << this->rho() << ", T = " << this->T() << endl;
+    
+    scalar vol0 = this->volume();
 
     if (liquidCore() > 0.5)
     {
@@ -143,6 +152,10 @@ void Foam::SprayParcel<ParcelType>::calc
     {
         td.cloud().coupled() = true;
     }
+
+    // preserve the total mass/volume, by increasing the number of parcels
+
+    Info << "2. mass = " << this->mass0() << ", np = " << this->nParticle() << ", core = " << this->liquidCore() << ", d = " << this->d() << ", vol = " << this->volume() << ", rho = " << this->rho() << ", T = " << this->T() << endl;
 
 }
 
