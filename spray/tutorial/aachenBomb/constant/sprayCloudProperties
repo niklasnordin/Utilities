@@ -148,8 +148,8 @@ AtomizationModel BlobsSheetAtomization;
 
 BlobsSheetAtomizationCoeffs
 {
-    B           1.0;
-    angle       10.0;
+    B           1.0e-2;
+    angle       90.0;
 }
 
 BreakupModel     none;
