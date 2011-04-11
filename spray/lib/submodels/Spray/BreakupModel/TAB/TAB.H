@@ -61,6 +61,22 @@ class TAB
 :
     public BreakupModel<CloudType>
 {
+
+    // Private data
+
+        dictionary coeffsDict_;
+
+    // inverse function approximation
+    // of the Rossin-Rammler Distribution
+    // used when calculating the droplet size after breakup
+        scalar rrd_[100];
+
+        // model constants
+
+        scalar Cmu_;
+        scalar Comega_;
+        scalar WeCrit_;
+
 public:
 
     //- Runtime type information

@@ -30,12 +30,28 @@ License
 template <class CloudType>
 Foam::TAB<CloudType>::TAB
 (
-    const dictionary&,
+    const dictionary& dict,
     CloudType& owner
 )
 :
-    BreakupModel<CloudType>(owner)
-{}
+    BreakupModel<CloudType>(owner),
+    coeffsDict_(dict.subDict(typeName + "Coeffs")),
+    Cmu_(readScalar(coeffsDict_.lookup("Cmu"))),
+    Comega_(readScalar(coeffsDict_.lookup("Comega"))),
+    WeCrit_(readScalar(coeffsDict_.lookup("WeCrit")))
+{
+
+    // calculate the inverse function of the Rossin-Rammler Distribution
+    const scalar xx0 = 12.0;
+    const scalar rrd100 = 1.0/(1.0-exp(-xx0)*(1.0+xx0+pow(xx0, 2.0)/2.0 + pow(xx0, 3.0)/6.0));
+
+    for(label n=0; n<100; n++)
+    {
+        scalar xx = 0.12*(n+1);
+        rrd_[n] = (1.0 - exp(-xx)*(1.0 + xx + pow(xx, 2.0)/2.0 + pow(xx, 3.0)/6.0))*rrd100;
+    }
+}
+
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //

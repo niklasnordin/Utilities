@@ -49,6 +49,21 @@ class ReitzKHRT
 :
     public BreakupModel<CloudType>
 {
+private:
+
+    // Private data
+
+        dictionary coeffsDict_;
+
+        // model constants
+        scalar b0_;
+        scalar b1_;
+        scalar cTau_;
+        scalar cRT_;
+        scalar msLimit_;
+        scalar weberLimit_;
+
+
 public:
 
     //- Runtime type information

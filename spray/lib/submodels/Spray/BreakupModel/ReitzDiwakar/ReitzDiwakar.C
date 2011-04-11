@@ -75,11 +75,6 @@ void Foam::ReitzDiwakar<CloudType>::breakup
 {
 
     scalar nuc = muc/rhoc;
-
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-    //     The We and Re numbers are to be evaluated using the 1/3 rule.
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
     scalar We = 0.5*rhoc*pow(Urel, 2)*d/sigma;
     scalar Re = Urel*d/nuc;
 
