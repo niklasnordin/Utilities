@@ -185,7 +185,7 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
     // disregard the continous phase when calculating the relative velocity
     scalar Urel = mag(this->U());
 
-    scalar chi = 0.0;
+    scalar chi = this->chi(td, X);
     scalar pAmbient = 1.0e+5;
     td.cloud().atomization().update
     (
@@ -218,6 +218,69 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
     const label cellI
 )
 {
+}
+
+
+template<class ParcelType>
+template<class TrackData>
+Foam::scalar Foam::SprayParcel<ParcelType>::chi
+(
+    TrackData& td,
+    const scalarField& X
+) const
+{
+
+
+//  modifications to take account of the flash boiling on primary breakUp
+
+    scalar chi = 0.0;
+    label Nf = td.cloud().composition().liquids().components().size();
+
+    scalar Td = this->T();
+    scalar pAmb = td.cloud().pAmbient();
+
+    for(label i = 0; i < Nf ; i++)
+    {
+        scalar pv = td.cloud().composition().liquids().sigma(this->pc_, this->T(), X);
+
+        if(pv >= 0.999*pAmb)
+        {
+
+//          The fuel is boiling.....
+//          Calculation of the boiling temperature
+
+            scalar tBoilingSurface = Td;
+
+            label Niter = 200;
+
+            for(label k=0; k< Niter ; k++)
+            {
+                scalar pBoil = td.cloud().composition().liquids().properties()[i].pv(this->pc_, tBoilingSurface);
+
+                if(pBoil > this->pc_)
+                {
+                    tBoilingSurface = tBoilingSurface - (Td-this->Tc_)/Niter;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            scalar hl = td.cloud().composition().liquids().properties()[i].hl(pAmb, tBoilingSurface);
+            scalar iTp = td.cloud().composition().liquids().properties()[i].h(pAmb, Td) - pAmb/td.cloud().composition().liquids().properties()[i].rho(pAmb, Td);
+            scalar iTb = td.cloud().composition().liquids().properties()[i].h(pAmb, tBoilingSurface) - pAmb/td.cloud().composition().liquids().properties()[i].rho(pAmb, tBoilingSurface);
+
+            chi += X[i]*(iTp-iTb)/hl;
+
+        }
+    }
+
+    //  bound chi
+    chi = max(chi, 0.0);
+    chi = min(chi, 1.0);
+
+  return chi;
 }
 
 // * * * * * * * * * * * * * * IOStream operators  * * * * * * * * * * * * * //

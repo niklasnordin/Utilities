@@ -358,6 +358,13 @@ public:
                 const label cellI
             );
 
+            //- Calculate the chi-factor for flash-boiling for the atomization model
+            template<class TrackData>
+            scalar chi
+            (
+                TrackData& td,
+       	        const scalarField& X
+            ) const;
 
         // I-O
 

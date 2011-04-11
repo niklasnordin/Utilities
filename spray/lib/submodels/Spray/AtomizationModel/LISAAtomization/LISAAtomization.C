@@ -235,57 +235,6 @@ void Foam::LISAAtomization<CloudType>::update
 
     scalar pExp = 0.135;
 
-    /*
-//  modifications to take account of the flash boiling on primary breakUp
-
-    scalar chi = 0.0;
-
-    label Nf = fuels.components().size();
-
-    scalar Td = p.T();
-
-    for(label i = 0; i < Nf ; i++)
-    {
-
-        if(fuels.properties()[i].pv(spray_.ambientPressure(), Td) >= 0.999*spray_.ambientPressure())
-        {
-
-//          The fuel is boiling.....
-//          Calculation of the boiling temperature
-
-            scalar tBoilingSurface = Td;
-
-            label Niter = 200;
-
-            for(label k=0; k< Niter ; k++)
-            {
-                scalar pBoil = fuels.properties()[i].pv(pressure, tBoilingSurface);
-
-                if(pBoil > pressure)
-                {
-                    tBoilingSurface = tBoilingSurface - (Td-temperature)/Niter;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            scalar hl = fuels.properties()[i].hl(spray_.ambientPressure(), tBoilingSurface);
-            scalar iTp = fuels.properties()[i].h(spray_.ambientPressure(), Td) - spray_.ambientPressure()/fuels.properties()[i].rho(spray_.ambientPressure(), Td);
-            scalar iTb = fuels.properties()[i].h(spray_.ambientPressure(), tBoilingSurface) - spray_.ambientPressure()/fuels.properties()[i].rho(spray_.ambientPressure(), tBoilingSurface);
-
-            chi += p.X()[i]*(iTp-iTb)/hl;
-
-        }
-    }
-
-    //  bounding chi
-
-    chi = max(chi, 0.0);
-    chi = min(chi, 1.0);
-    */
-
     //  modifing dD to take account of flash boiling
 
     dD = dD*(1.0 - chi*pow(pRatio, -pExp));
@@ -300,7 +249,6 @@ void Foam::LISAAtomization<CloudType>::update
 //      calculate the new diameter with a Rosin Rammler distribution
 
         scalar minValue = min(d, dD/10.0);
-
         scalar maxValue = dD;
 
         if(maxValue - minValue < SMALL)
@@ -320,15 +268,11 @@ void Foam::LISAAtomization<CloudType>::update
 
             x = minValue + range*rndGen.scalar01();
             y = rndGen.scalar01();
-
             scalar p = 0.0;
-
             scalar nExp = 1;
-
             scalar xx = pow(x/dD, nExp);
 
             p = xx*exp(-xx);
-
             if (y<p)
             {
                 success = true;
