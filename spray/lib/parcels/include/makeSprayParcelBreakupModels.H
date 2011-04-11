@@ -32,6 +32,7 @@ License
 #include "SprayCloud.H"
 
 #include "NoBreakup.H"
+#include "ReitzDiwakar.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -65,8 +66,15 @@ License
         SprayCloud,                                                           \
         ParcelType,                                                           \
         ThermoType                                                            \
+    );                                                                        \
+         								      \
+    makeBreakupModelThermoType                                                \
+    (                                                                         \
+        ReitzDiwakar,                                                         \
+        SprayCloud,                                                           \
+        ParcelType,                                                           \
+        ThermoType                                                            \
     );
-
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
