@@ -56,6 +56,55 @@ class SHF
 :
     public BreakupModel<CloudType>
 {
+private:
+
+    // Private data
+
+        dictionary coeffsDict_;
+
+        // model constants
+
+        scalar weCorrCoeff_;
+
+        scalar weBuCrit_;
+        scalar weBuBag_;
+        scalar weBuMM_;
+
+        scalar ohnCoeffCrit_;
+        scalar ohnCoeffBag_;
+        scalar ohnCoeffMM_;
+
+        scalar ohnExpCrit_;
+        scalar ohnExpBag_;
+        scalar ohnExpMM_;
+
+        scalar cInit_;
+
+        scalar c1_;
+        scalar c2_;
+        scalar c3_;
+
+        scalar cExp1_;
+        scalar cExp2_;
+        scalar cExp3_;
+
+        scalar weConst_;
+        scalar weCrit1_;
+        scalar weCrit2_;
+
+        scalar coeffD_;
+        scalar onExpD_;
+        scalar weExpD_;
+
+        scalar mu_;
+        scalar sigma_;
+
+        scalar d32Coeff_;
+        scalar cDmaxBM_;
+        scalar cDmaxS_;
+
+        scalar corePerc_;
+
 public:
 
     //- Runtime type information

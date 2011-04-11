@@ -30,11 +30,41 @@ License
 template <class CloudType>
 Foam::SHF<CloudType>::SHF
 (
-    const dictionary&,
+    const dictionary& dict,
     CloudType& owner
 )
 :
-    BreakupModel<CloudType>(owner)
+    BreakupModel<CloudType>(owner),
+    coeffsDict_(dict.subDict(typeName + "Coeffs")),
+    weCorrCoeff_(readScalar(coeffsDict_.lookup("weCorrCoeff"))),
+    weBuCrit_(readScalar(coeffsDict_.lookup("weBuCrit"))),
+    weBuBag_(readScalar(coeffsDict_.lookup("weBuBag"))),
+    weBuMM_(readScalar(coeffsDict_.lookup("weBuMM"))),
+    ohnCoeffCrit_(readScalar(coeffsDict_.lookup("ohnCoeffCrit"))),
+    ohnCoeffBag_(readScalar(coeffsDict_.lookup("ohnCoeffBag"))),
+    ohnCoeffMM_(readScalar(coeffsDict_.lookup("ohnCoeffMM"))),
+    ohnExpCrit_(readScalar(coeffsDict_.lookup("ohnExpCrit"))),
+    ohnExpBag_(readScalar(coeffsDict_.lookup("ohnExpBag"))),
+    ohnExpMM_(readScalar(coeffsDict_.lookup("ohnExpMM"))),
+    cInit_(readScalar(coeffsDict_.lookup("Cinit"))),
+    c1_(readScalar(coeffsDict_.lookup("C1"))),
+    c2_(readScalar(coeffsDict_.lookup("C2"))),
+    c3_(readScalar(coeffsDict_.lookup("C3"))),
+    cExp1_(readScalar(coeffsDict_.lookup("Cexp1"))),
+    cExp2_(readScalar(coeffsDict_.lookup("Cexp2"))),
+    cExp3_(readScalar(coeffsDict_.lookup("Cexp3"))),
+    weConst_(readScalar(coeffsDict_.lookup("Weconst"))),
+    weCrit1_(readScalar(coeffsDict_.lookup("Wecrit1"))),
+    weCrit2_(readScalar(coeffsDict_.lookup("Wecrit2"))),
+    coeffD_(readScalar(coeffsDict_.lookup("CoeffD"))),
+    onExpD_(readScalar(coeffsDict_.lookup("OnExpD"))),
+    weExpD_(readScalar(coeffsDict_.lookup("WeExpD"))),
+    mu_(readScalar(coeffsDict_.lookup("mu"))),
+    sigma_(readScalar(coeffsDict_.lookup("sigma"))),
+    d32Coeff_(readScalar(coeffsDict_.lookup("d32Coeff"))),
+    cDmaxBM_(readScalar(coeffsDict_.lookup("cDmaxBM"))),
+    cDmaxS_(readScalar(coeffsDict_.lookup("cDmaxS"))),
+    corePerc_(readScalar(coeffsDict_.lookup("corePerc")))
 {}
 
 
