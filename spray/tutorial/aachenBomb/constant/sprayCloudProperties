@@ -152,6 +152,14 @@ BlobsSheetAtomizationCoeffs
     angle       90.0;
 }
 
-BreakupModel     none;
+BreakupModel     ReitzDiwakar;
+
+ReitzDiwakarCoeffs
+{
+    Cbag          6.0;
+    Cb            0.785;
+    Cstrip        0.5;
+    Cs            10.0;
+}
 
 // ************************************************************************* //
