@@ -267,8 +267,14 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
     // calculate average gas density based on average temperature
     scalar rhoAv = this->pc_/(R*Tav);
     scalar muAv = this->muc_;
-    scalar Urel = mag(this->U() - this->Uc_);
-    
+    vector Urel = this->U() - this->Uc_;
+    scalar Urmag = mag(Urel);
+    scalar As = this->areaS(this->d());
+    scalar Re = rhoAv*Urmag*this->d()/muAv;
+
+    scalar utc = td.cloud().drag().utc(Re, this->d(), muAv) + ROOTVSMALL;
+    scalar tMom = 1.0/(As*utc);
+
     td.cloud().breakup().breakup
     (
         dt,
@@ -278,7 +284,7 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
 	sigma,
 	rhoAv,
 	muAv,
-	Urel
+	Urmag
     );
 }
 

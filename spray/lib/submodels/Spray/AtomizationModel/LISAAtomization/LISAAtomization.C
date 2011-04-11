@@ -89,6 +89,10 @@ void Foam::LISAAtomization<CloudType>::update
 ) const
 {
 
+    if (massflowRate < SMALL)
+    {
+        return;
+    }
     scalar tau = 0.0;
     scalar dL = 0.0;
     scalar k = 0.0;
@@ -112,6 +116,7 @@ void Foam::LISAAtomization<CloudType>::update
     // update drop diameter
     d = min(d, hSheet);
 
+    Info << "1....here: massflowRate = " << massflowRate << endl;
     if(We > 27.0/16.0)
     {
 

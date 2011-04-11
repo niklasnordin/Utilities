@@ -59,17 +59,18 @@ void Foam::ReitzKHRT<CloudType>::breakup
 (
     const scalar& dt,
     scalar& d,
-    scalar& tc,
-    scalar& ms,
+    //    scalar& tc,
+    //    scalar& ms,
     const scalar& rho,
     const scalar& mu,
     const scalar& sigma,
-    const vector& U,
+    //    const vector& U,
     const scalar& rhoc,
     const scalar& muc,
-    const vector& Urel,
-    const scalar& tMom,
-    const scalar& averageParcelMass
+    //    const vector& Urel,
+    const scalar& Urel
+    //    const scalar& tMom,
+    //    const scalar& averageParcelMass
 ) const
 {
   /*
@@ -128,7 +129,7 @@ void Foam::ReitzKHRT<CloudType>::breakup
     // and we start to keep track of how long they have been growing
     if ((tc > 0) || (lambdaRT < d) )
     {
-        tc += deltaT;
+        tc += dt;
     }
 
     // characteristic RT breakup time
@@ -140,7 +141,7 @@ void Foam::ReitzKHRT<CloudType>::breakup
         // the RT breakup creates diameter/lambdaRT new droplets
         tc = -GREAT;
         scalar nDrops = d/lambdaRT;
-        d = cbrt(semiMass/nDrops);
+        d = cbrt(d3/nDrops);
     }
     // otherwise check for KH breakup
     else if (dc < d)
@@ -198,7 +199,7 @@ void Foam::ReitzKHRT<CloudType>::breakup
                 );
 
                 p.m() -= mc;
-                p.ms() = 0.0;
+                ms = 0.0;
             }
         }
     }
