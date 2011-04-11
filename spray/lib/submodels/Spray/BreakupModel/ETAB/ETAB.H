@@ -22,15 +22,15 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::ReitzKHRT
+    Foam::ETAB
 
 Description
     Dummy breakup model for 'none'
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef ReitzKHRT_H
-#define ReitzKHRT_H
+#ifndef ETAB_H
+#define ETAB_H
 
 #include "BreakupModel.H"
 
@@ -39,28 +39,28 @@ Description
 namespace Foam
 {
 /*---------------------------------------------------------------------------*\
-                       Class ReitzKHRT Declaration
+                       Class ETAB Declaration
 \*---------------------------------------------------------------------------*/
 
 template<class CloudType>
-class ReitzKHRT
+class ETAB
 :
     public BreakupModel<CloudType>
 {
 public:
 
     //- Runtime type information
-    TypeName("ReitzKHRT");
+    TypeName("ETAB");
 
 
     // Constructors
 
         //- Construct from dictionary
-        ReitzKHRT(const dictionary&, CloudType&);
+        ETAB(const dictionary&, CloudType&);
 
 
     //- Destructor
-    virtual ~ReitzKHRT();
+    virtual ~ETAB();
 
 
     // Member Functions
@@ -88,7 +88,7 @@ public:
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 #ifdef NoRepository
-#   include "ReitzKHRT.C"
+#   include "ETAB.C"
 #endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
