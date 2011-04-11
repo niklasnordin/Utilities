@@ -25,7 +25,9 @@ Class
     Foam::ReitzKHRT
 
 Description
-    Dummy breakup model for 'none'
+   secondary breakup model which uses the Kelvin-Helmholtz
+    instability theory to predict the 'stripped' droplets... and
+    the Raleigh-Taylor instability as well.
 
 \*---------------------------------------------------------------------------*/
 

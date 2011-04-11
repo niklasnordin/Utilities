@@ -33,6 +33,10 @@ License
 
 #include "NoBreakup.H"
 #include "ReitzDiwakar.H"
+#include "ReitzKHRT.H"
+#include "TAB.H"
+#include "ETAB.H"
+#include "SHF.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -63,6 +67,38 @@ License
     makeBreakupModelThermoType                                                \
     (                                                                         \
         NoBreakup,                                                            \
+        SprayCloud,                                                           \
+        ParcelType,                                                           \
+        ThermoType                                                            \
+    );                                                                        \
+                                                                              \
+    makeBreakupModelThermoType                                                \
+    (                                                                         \
+        SHF,                                                                  \
+        SprayCloud,                                                           \
+        ParcelType,                                                           \
+        ThermoType                                                            \
+    );                                                                        \
+                                                                              \
+    makeBreakupModelThermoType                                                \
+    (                                                                         \
+        ETAB,                                                                 \
+        SprayCloud,                                                           \
+        ParcelType,                                                           \
+        ThermoType                                                            \
+    );                                                                        \
+                                                                              \
+    makeBreakupModelThermoType                                                \
+    (                                                                         \
+        TAB,                                                                  \
+        SprayCloud,                                                           \
+        ParcelType,                                                           \
+        ThermoType                                                            \
+    );                                                                        \
+         								      \
+    makeBreakupModelThermoType                                                \
+    (                                                                         \
+        ReitzKHRT,                                                            \
         SprayCloud,                                                           \
         ParcelType,                                                           \
         ThermoType                                                            \
