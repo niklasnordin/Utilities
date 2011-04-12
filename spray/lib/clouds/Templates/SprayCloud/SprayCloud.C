@@ -173,6 +173,13 @@ void Foam::SprayCloud<ParcelType>::checkParcelProperties
         fullyDescribed
     );
 
+    const scalarField& Y(parcel.Y());
+    scalarField X(this->composition().liquids().X(Y));
+
+    // override rho and cp from constantProperties
+    parcel.cp() = this->composition().liquids().cp(parcel.pc(), parcel.T(), X);
+    parcel.rho() = this->composition().liquids().rho(parcel.pc(), parcel.T(), X);
+
 }
 
 

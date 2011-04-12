@@ -81,6 +81,17 @@ const Foam::dictionary& Foam::AtomizationModel<CloudType>::coeffDict() const
     return coeffDict_;
 }
 
+
+template<class CloudType>
+Foam::scalar Foam::AtomizationModel<CloudType>::Taverage
+(
+    const scalar& Tl,
+    const scalar& Tc
+) const
+{
+    return (2.0*Tl + Tc)/3.0;
+}
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 #include "NewAtomizationModel.C"

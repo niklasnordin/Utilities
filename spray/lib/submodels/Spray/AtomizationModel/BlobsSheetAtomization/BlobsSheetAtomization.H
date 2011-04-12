@@ -89,9 +89,6 @@ public:
         //- initial value of liquidCore
         virtual scalar initLiquidCore() const;
 
-        //- Average temperature calculation
-        virtual scalar Taverage(const scalar& Tliq, const scalar& Tc) const;
-
         //- flag to indicate if chi needs to be calculated
         virtual bool calcChi() const;
 

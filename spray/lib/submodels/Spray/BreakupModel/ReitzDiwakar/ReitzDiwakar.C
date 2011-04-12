@@ -63,93 +63,64 @@ Foam::ReitzDiwakar<CloudType>::~ReitzDiwakar()
 template<class CloudType>
 void Foam::ReitzDiwakar<CloudType>::breakup
 (
-
+    const scalar& dt,
+    scalar& d,
+    const scalar& rho,
+    const scalar& mu,
+    const scalar& sigma,
+    const scalar& rhoc,
+    const scalar& muc,
+    const scalar& Urel
 ) const
 {
-  // Do nothing
-  /*
 
-    label Ns = Y.size();
-    label cellI = p.cell();
-    scalar pressure = spray_.p()[cellI];
-    scalar temperature = spray_.T()[cellI];
-    scalar Taverage = p.T() + (temperature - p.T())/3.0;
-
-    scalar muAverage = 0.0;
-    scalar Winv = 0.0;
-    for(label i=0; i<Ns; i++)
-    {
-        Winv += Y[i][cellI]/spray_.gasProperties()[i].W();
-        muAverage += Y[i][cellI]*spray_.gasProperties()[i].mu(Taverage);
-    }
-    scalar R = specie::RR*Winv;
-
-    // ideal gas law to evaluate density
-    scalar rhoAverage = pressure/R/Taverage;
-    scalar nuAverage = muAverage/rhoAverage;
-    scalar sigma = fuels.sigma(pressure, p.T(), p.X());
+    scalar nuc = muc/rhoc;
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
     //     The We and Re numbers are to be evaluated using the 1/3 rule.
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-    scalar WeberNumber = p.We(vel, rhoAverage, sigma);
-    scalar ReynoldsNumber = p.Re(vel, nuAverage);
+    scalar We = 0.5*rhoc*pow(Urel, 2)*d/sigma;
+    scalar Re = Urel*d/nuc;
 
-    scalar sqRey = sqrt(ReynoldsNumber);
+    scalar sqRey = sqrt(Re);
 
-    if (WeberNumber > Cbag_)
+    if (We > Cbag_)
     {
-        if (WeberNumber > Cstrip_*sqRey)
+        if (We > Cstrip_*sqRey)
         {
-            scalar dStrip =
-                pow(2.0*Cstrip_*sigma, 2.0)/
-                (
-                    rhoAverage
-                  * pow(mag(p.Urel(vel)), 3.0)
-                  * muAverage
-                );
+            scalar dStrip = pow(2.0*Cstrip_*sigma, 2.0)/
+            (
+	        rhoc*pow(Urel, 3.0)*muc
+	    );
 
-            scalar tauStrip =
-                Cs_ * p.d()
-              * sqrt
-                (
-                    fuels.rho(pressure, p.T(), p.X())
-                    / rhoAverage
-                )
-              / mag(p.Urel(vel));
-
-            scalar fraction = deltaT/tauStrip;
+            scalar tauStrip = Cs_*d*sqrt(rho/rhoc)/Urel;
+            scalar fraction = dt/tauStrip;
 
             // new droplet diameter, implicit calculation
-            p.d() = (fraction*dStrip + p.d())/(1.0 + fraction);
+            d = (fraction*dStrip + d)/(1.0 + fraction);
         }
         else
         {
             scalar dBag =
                 2.0 * Cbag_ * sigma
               / (
-                  rhoAverage
-                * pow(mag(p.Urel(vel)), 2.0)
+                    rhoc * pow(Urel, 2.0)
                 );
 
             scalar tauBag =
-                Cb_ * p.d()
+                Cb_ * d
                 * sqrt
                   (
-                      fuels.rho(pressure, p.T(), p.X())
-                    * p.d()
-                    / sigma
+                      rho * d / sigma
                   );
 
-            scalar fraction = deltaT/tauBag;
+            scalar fraction = dt/tauBag;
 
             // new droplet diameter, implicit calculation
-            p.d() = (fraction*dBag + p.d())/(1.0 + fraction);
+            d = (fraction*dBag + d)/(1.0 + fraction);
         }
-
     }
-  */
 }
 
 

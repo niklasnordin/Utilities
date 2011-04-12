@@ -126,8 +126,19 @@ public:
 
     // Member Functions
 
-        //- Flag to indicate whether model activates phase change model
-        virtual void breakup() const = 0;
+        //- update the parcel diameter
+        virtual void breakup
+        (
+            const scalar& dt,
+	    scalar& d,
+	    const scalar& rho,
+	    const scalar& mu,
+	    const scalar& sigma,
+	    const scalar& rhoc,
+	    const scalar& muc,
+	    const scalar& Urel
+	) const = 0;
+
 
 };
 

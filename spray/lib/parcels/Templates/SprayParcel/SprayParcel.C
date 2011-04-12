@@ -51,10 +51,11 @@ Foam::SprayParcel<ParcelType>::SprayParcel
 }
 
 
-// * * * * * * * * * * *  Protected Member Functions * * * * * * * * * * * * //
+// * * * * * * * * * * *  Member Functions * * * * * * * * * * * * //
 
 // NN. Dont think all these functions are needed, but I'm adding them in case 
 //     one might have to add anything later
+
 
 template<class ParcelType>
 template<class TrackData>
@@ -128,15 +129,30 @@ void Foam::SprayParcel<ParcelType>::calc
 	    td.cloud().coupled() = false;
 	}
     }
+
+    // store the parcel properties
     const scalarField& Y(this->Y());
     scalarField X(td.cloud().composition().liquids().X(Y));
-    this->rho() = td.cloud().composition().liquids().rho(this->pc_, this->T(), X);
+
+    scalar T0 = this->T();
+    this->cp() = td.cloud().composition().liquids().cp(this->pc_, T0, X);
+    scalar rho0 = td.cloud().composition().liquids().rho(this->pc_, T0, X);
+    this->rho() = rho0;
 
     ReactingParcel<ParcelType>::calc(td, dt, cellI);
 
-    Info << "1. mass = " << this->mass0() << ", np = " << this->nParticle() << ", core = " << this->liquidCore() << ", d = " << this->d() << ", vol = " << this->volume() << ", rho = " << this->rho() << ", T = " << this->T() << endl;
-    
-    scalar vol0 = this->volume();
+    // update drop cp, diameter and density because of change in temperature/composition
+    scalar T1 = this->T();
+    const scalarField& Y1(this->Y());
+    scalarField X1(td.cloud().composition().liquids().X(Y1));
+
+    this->cp() = td.cloud().composition().liquids().cp(this->pc_, T1, X1);
+    //this->mu() = td.cloud().composition().liquids().cp(this->pc_, T1, X1);
+
+    scalar rho1 = td.cloud().composition().liquids().rho(this->pc_, T1, X1);
+    this->rho() = rho1;
+    scalar d1 = this->d()*pow(rho0/rho1, 1.0/3.0);
+    this->d() = d1;
 
     if (liquidCore() > 0.5)
     {
@@ -153,9 +169,9 @@ void Foam::SprayParcel<ParcelType>::calc
         td.cloud().coupled() = true;
     }
 
-    // preserve the total mass/volume, by increasing the number of parcels
-
-    Info << "2. mass = " << this->mass0() << ", np = " << this->nParticle() << ", core = " << this->liquidCore() << ", d = " << this->d() << ", vol = " << this->volume() << ", rho = " << this->rho() << ", T = " << this->T() << endl;
+    // preserve the total mass/volume, by increasing the number of particles in parcels due to breakup
+    scalar d2 = this->d();
+    this->nParticle() *= pow(d1/d2, 3.0);
 
 }
 
@@ -171,7 +187,6 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
 {
 
     // cell state info is updated in ReactingParcel calc
-
     const scalarField& Y(this->Y());
     scalarField X(td.cloud().composition().liquids().X(Y));
 
@@ -235,6 +250,36 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
     const label cellI
 )
 {
+
+    // cell state info is updated in ReactingParcel calc
+    const scalarField& Y(this->Y());
+    scalarField X(td.cloud().composition().liquids().X(Y));
+
+    scalar rho = td.cloud().composition().liquids().rho(this->pc_, this->T(), X);
+    scalar mu = td.cloud().composition().liquids().mu(this->pc_, this->T(), X);
+    scalar sigma = td.cloud().composition().liquids().sigma(this->pc_, this->T(), X);
+
+    // Average molecular weight of carrier mix - assumes perfect gas
+    scalar Wc = this->rhoc_*specie::RR*this->Tc_/this->pc_;
+    scalar R = specie::RR/Wc;
+    scalar Tav = td.cloud().atomization().Taverage(this->T(), this->Tc_);
+
+    // calculate average gas density based on average temperature
+    scalar rhoAv = this->pc_/(R*Tav);
+    scalar muAv = this->muc_;
+    scalar Urel = mag(this->U() - this->Uc_);
+    
+    td.cloud().breakup().breakup
+    (
+        dt,
+	this->d(),
+	rho,
+	mu,
+	sigma,
+	rhoAv,
+	muAv,
+	Urel
+    );
 }
 
 

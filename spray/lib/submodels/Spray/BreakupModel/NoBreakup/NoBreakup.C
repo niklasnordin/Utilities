@@ -48,7 +48,17 @@ Foam::NoBreakup<CloudType>::~NoBreakup()
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class CloudType>
-void Foam::NoBreakup<CloudType>::breakup() const
+void Foam::NoBreakup<CloudType>::breakup
+(
+    const scalar& dt,
+    scalar& d,
+    const scalar& rho,
+    const scalar& mu,
+    const scalar& sigma,
+    const scalar& rhoc,
+    const scalar& muc,
+    const scalar& Urel
+) const
 {
   // Do nothing
 }

@@ -57,16 +57,6 @@ Foam::scalar Foam::BlobsSheetAtomization<CloudType>::initLiquidCore() const
 }
 
 template<class CloudType>
-Foam::scalar Foam::BlobsSheetAtomization<CloudType>::Taverage
-(
-    const scalar& Tliq,
-    const scalar& Tc
-) const
-{
-    return (2.0*Tliq + Tc)/3.0;
-}
-
-template<class CloudType>
 bool Foam::BlobsSheetAtomization<CloudType>::calcChi() const
 {
     return false;

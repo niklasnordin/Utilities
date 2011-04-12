@@ -31,8 +31,10 @@ inline Foam::SprayParcel<ParcelType>::constantProperties::constantProperties
     const dictionary& parentDict
 )
 :
-    ReactingParcel<ParcelType>::constantProperties(parentDict)
-{}
+      ReactingParcel<ParcelType>::constantProperties(parentDict)
+{
+
+}
 
 
 template<class ParcelType>
@@ -87,7 +89,7 @@ inline Foam::SprayParcel<ParcelType>::SprayParcel
     tMom_(GREAT),
     user_(0.0)
 {
-  Info << "creating parcel from owner, pos, celli, rho = " << this->rho() << endl;
+  //  Info << "creating parcel from owner, pos, celli, rho = " << this->rho() << endl;
 }
 
 
