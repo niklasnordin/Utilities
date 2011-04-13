@@ -157,6 +157,10 @@ void Foam::SprayParcel<ParcelType>::calc
     if (liquidCore() > 0.5)
     {
         calcAtomization(td, dt, cellI);
+
+        // preserve the total mass/volume, by increasing the number of particles in parcels due to breakup
+        scalar d2 = this->d();
+        this->nParticle() *= pow(d1/d2, 3.0);
     }
     else
     {
@@ -168,10 +172,6 @@ void Foam::SprayParcel<ParcelType>::calc
     {
         td.cloud().coupled() = true;
     }
-
-    // preserve the total mass/volume, by increasing the number of particles in parcels due to breakup
-    scalar d2 = this->d();
-    this->nParticle() *= pow(d1/d2, 3.0);
 
 }
 
@@ -275,17 +275,39 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
     scalar utc = td.cloud().drag().utc(Re, this->d(), muAv) + ROOTVSMALL;
     scalar tMom = 1.0/(As*utc);
 
-    td.cloud().breakup().breakup
+    scalar averageParcelMass = 1.0;
+
+    scalar massChild = 0.0;
+    scalar dChild = 0.0;
+    if
     (
-        dt,
-	this->d(),
-	rho,
-	mu,
-	sigma,
-	rhoAv,
-	muAv,
-	Urmag
-    );
+        td.cloud().breakup().update
+        (
+            dt,
+            this->d(),
+	    this->tc(),
+	    this->ms(),
+	    this->nParticle(),
+            rho,
+            mu,
+            sigma,
+	    this->U(),
+            rhoAv,
+            muAv,
+	    Urel,
+            Urmag,
+	    tMom,
+	    averageParcelMass,
+	    dChild,
+	    massChild
+        )
+    )
+    {
+        // add child parcel. most properties will be identical to the parent
+        ParcelType child(*this);
+	child.d() = dChild;
+	child.tc() = -GREAT;
+    }
 }
 
 

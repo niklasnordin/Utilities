@@ -61,22 +61,31 @@ Foam::ReitzDiwakar<CloudType>::~ReitzDiwakar()
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class CloudType>
-void Foam::ReitzDiwakar<CloudType>::breakup
+bool Foam::ReitzDiwakar<CloudType>::update
 (
     const scalar& dt,
     scalar& d,
+    scalar& tc,
+    scalar& ms,
+    scalar& nParticle,
     const scalar& rho,
     const scalar& mu,
     const scalar& sigma,
+    const vector& U,
     const scalar& rhoc,
     const scalar& muc,
-    const scalar& Urel
+    const vector& Urel,
+    const scalar& Urmag,
+    const scalar& tMom,
+    const scalar& averageParcelMass,
+    scalar& dChild,
+    scalar& massChild
 ) const
 {
 
     scalar nuc = muc/rhoc;
-    scalar We = 0.5*rhoc*pow(Urel, 2)*d/sigma;
-    scalar Re = Urel*d/nuc;
+    scalar We = 0.5*rhoc*pow(Urmag, 2)*d/sigma;
+    scalar Re = Urmag*d/nuc;
 
     scalar sqRey = sqrt(Re);
 
@@ -86,10 +95,10 @@ void Foam::ReitzDiwakar<CloudType>::breakup
         {
             scalar dStrip = pow(2.0*Cstrip_*sigma, 2.0)/
             (
-	        rhoc*pow(Urel, 3.0)*muc
+	        rhoc*pow(Urmag, 3.0)*muc
 	    );
 
-            scalar tauStrip = Cs_*d*sqrt(rho/rhoc)/Urel;
+            scalar tauStrip = Cs_*d*sqrt(rho/rhoc)/Urmag;
             scalar fraction = dt/tauStrip;
 
             // new droplet diameter, implicit calculation
@@ -100,7 +109,7 @@ void Foam::ReitzDiwakar<CloudType>::breakup
             scalar dBag =
                 2.0 * Cbag_ * sigma
               / (
-                    rhoc * pow(Urel, 2.0)
+                    rhoc * pow(Urmag, 2.0)
                 );
 
             scalar tauBag =
@@ -116,6 +125,9 @@ void Foam::ReitzDiwakar<CloudType>::breakup
             d = (fraction*dBag + d)/(1.0 + fraction);
         }
     }
+
+    return false;
+
 }
 
 

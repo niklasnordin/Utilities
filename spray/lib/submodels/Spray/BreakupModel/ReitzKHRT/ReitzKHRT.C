@@ -55,27 +55,34 @@ Foam::ReitzKHRT<CloudType>::~ReitzKHRT()
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class CloudType>
-void Foam::ReitzKHRT<CloudType>::breakup
+bool Foam::ReitzKHRT<CloudType>::update
 (
     const scalar& dt,
     scalar& d,
-    //    scalar& tc,
-    //    scalar& ms,
+    scalar& tc,
+    scalar& ms,
+    scalar& nParticle,
     const scalar& rho,
     const scalar& mu,
     const scalar& sigma,
-    //    const vector& U,
+    const vector& U,
     const scalar& rhoc,
     const scalar& muc,
-    //    const vector& Urel,
-    const scalar& Urel
-    //    const scalar& tMom,
-    //    const scalar& averageParcelMass
+    const vector& Urel,
+    const scalar& Urmag,
+    const scalar& tMom,
+    const scalar& averageParcelMass,
+    scalar& dChild,
+    scalar& massChild
 ) const
 {
+
+    bool addParcel = false;
+
   /*
     scalar r = 0.5*d;
     scalar d3 = pow(d, 3.0);
+    scalar mass = nParticle*rho*mathematicalConstant::pi*d3/6.0;
     scalar Urmag = mag(Urel);
     scalar We = 0.5*rhoc*pow(Urmag, 2)*d/sigma;
     scalar Re = Urel*d/nuc;
@@ -149,8 +156,6 @@ void Foam::ReitzKHRT<CloudType>::breakup
         // no breakup below Weber = 12
         if (weGas > weberLimit_)
         {
-
-            label injector = label(p.injector());
             scalar fraction = dt/tauKH;
 
             // reduce the diameter according to the rate-equation
@@ -161,49 +166,25 @@ void Foam::ReitzKHRT<CloudType>::breakup
 
             if (ms/averageParcelMass > msLimit_)
             {
+		addParcel = true;
                 // set the initial ms value to -GREAT. This prevents
                 // new droplets from being formed from the child droplet
                 // from the KH instability
 
                 // mass of stripped child parcel
-                scalar mc = ms;
                 // Prevent child parcel from taking too much mass
-                if (mc > 0.5*p.m())
-                {
-                    mc = 0.5*p.m();
-                }
+                scalar mc = min(ms, 0.5*mass);
 
-                spray_.addParticle
-                (
-                    new parcel
-                    (
-                        spray_,
-                        p.position(),
-                        p.cell(),
-                        p.n(),
-                        dc,
-                        p.T(),
-                        mc,
-                        0.0,
-                        0.0,
-                        0.0,
-                        -GREAT,
-                        p.tTurb(),
-                        0.0,
-                        p.injector(),
-                        p.U(),
-                        p.Uturb(),
-                        p.X(),
-                        p.fuelNames()
-                    )
-                );
-
-                p.m() -= mc;
+		// reduce the parcel mass by reducing nParticle
+		scalar mass1 = mass - mc;
+		scalar massDrop = rho*mathematicalConstant::pi*d3/6.0;
+		nParticle = mass/massDrop;
                 ms = 0.0;
             }
         }
     }
   */
+    return addParcel;
 }
 
 

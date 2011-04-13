@@ -116,7 +116,6 @@ void Foam::LISAAtomization<CloudType>::update
     // update drop diameter
     d = min(d, hSheet);
 
-    Info << "1....here: massflowRate = " << massflowRate << endl;
     if(We > 27.0/16.0)
     {
 

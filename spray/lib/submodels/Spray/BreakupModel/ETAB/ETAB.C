@@ -59,19 +59,29 @@ Foam::ETAB<CloudType>::~ETAB()
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class CloudType>
-void Foam::ETAB<CloudType>::breakup
+bool Foam::ETAB<CloudType>::update
 (
     const scalar& dt,
     scalar& d,
+    scalar& tc,
+    scalar& ms,
+    scalar& nParticle,
     const scalar& rho,
     const scalar& mu,
     const scalar& sigma,
+    const vector& U,
     const scalar& rhoc,
     const scalar& muc,
-    const scalar& Urel
+    const vector& Urel,
+    const scalar& Urmag,
+    const scalar& tMom,
+    const scalar& averageParcelMass,
+    scalar& dChild,
+    scalar& massChild
 ) const
 {
   // Do nothing
+  return false;
 }
 
 

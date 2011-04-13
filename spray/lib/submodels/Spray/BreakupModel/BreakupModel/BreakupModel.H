@@ -126,17 +126,26 @@ public:
 
     // Member Functions
 
-        //- update the parcel diameter
-        virtual void breakup
+        //- update the parcel properties and return true if a child parcel should be added
+        virtual bool update
         (
-            const scalar& dt,
+	    const scalar& dt,
 	    scalar& d,
+	    scalar& tc,
+	    scalar& ms,
+	    scalar& nParticle,
 	    const scalar& rho,
 	    const scalar& mu,
 	    const scalar& sigma,
+	    const vector& U,
 	    const scalar& rhoc,
 	    const scalar& muc,
-	    const scalar& Urel
+	    const vector& Urel,
+	    const scalar& Urmag,
+	    const scalar& tMom,
+	    const scalar& averageParcelMass,
+	    scalar& dChild,
+	    scalar& massChild
 	) const = 0;
 
 
