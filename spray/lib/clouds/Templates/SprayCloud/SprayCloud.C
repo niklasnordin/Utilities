@@ -181,7 +181,8 @@ void Foam::SprayCloud<ParcelType>::checkParcelProperties
     parcel.cp() = this->composition().liquids().cp(parcel.pc(), parcel.T(), X);
     parcel.rho() = this->composition().liquids().rho(parcel.pc(), parcel.T(), X);
 
-    // store the injection position
+    // store the injection position and initial drop size
+    parcel.position0() = parcel.position();
     parcel.d0() = parcel.d();
 }
 

@@ -58,10 +58,13 @@ template<class CloudType>
 bool Foam::ReitzKHRT<CloudType>::update
 (
     const scalar& dt,
+    const vector& g,
     scalar& d,
     scalar& tc,
     scalar& ms,
     scalar& nParticle,
+    scalar& KHindex,
+    const scalar& d0,
     const scalar& rho,
     const scalar& mu,
     const scalar& sigma,
@@ -76,16 +79,12 @@ bool Foam::ReitzKHRT<CloudType>::update
     scalar& massChild
 ) const
 {
-
-    scalar d0 = 1.0;
-    scalar KHindex = 0.0;
-    vector g(vector::zero);
-
     bool addParcel = false;
 
     scalar r = 0.5*d;
     scalar d3 = pow(d, 3.0);
-    scalar mass = nParticle*rho*mathematicalConstant::pi*d3/6.0;
+    scalar rhopi6 = rho*mathematicalConstant::pi/6.0;
+    scalar mass = nParticle*d3*rhopi6;
 
     //scalar We = 0.5*rhoc*pow(Urmag, 2)*d/sigma;
     //scalar Re = Urmag*d/nuc;
@@ -188,23 +187,23 @@ bool Foam::ReitzKHRT<CloudType>::update
 
        	        if (br3) 
 		{
-			D3 = sqrt(D3);
-			scalar ue3 = cbrt(-qe3+D3);	
-                        scalar ve3 = cbrt(-qe3-D3);
-			scalar dParenDrops = ue3 + ve3 - be3/3.;
-                        scalar mc = nParticle*(pow3(d)-pow3(dParenDrops));
-			scalar nChildDrops = mc/pow3(dc);
-			if (nChildDrops >= nParticle)
-			{
-			    addParcel = true;
-			    d = dParenDrops;
-			    ms = 0.0;
-
-			    // reduce the parcel mass by reducing nParticle
-			    scalar mass1 = mass - mc;
-			    scalar massDrop = rho*mathematicalConstant::pi*d3/6.0;
-			    nParticle = mass/massDrop;
-			}
+                    D3 = sqrt(D3);
+		    scalar ue3 = cbrt(-qe3+D3);	
+		    scalar ve3 = cbrt(-qe3-D3);
+		    scalar dParenDrops = ue3 + ve3 - be3/3.;
+		    scalar mc = nParticle*(pow3(d)-pow3(dParenDrops));
+		    scalar nChildDrops = mc/pow3(dc);
+		    if (nChildDrops >= nParticle)
+		    {
+		        addParcel = true;
+			d = dParenDrops;
+			ms = 0.0;
+			
+			// reduce the parcel mass by reducing nParticle
+			scalar mass1 = mass - mc*rhopi6;
+			scalar massDrop = pow(d, 3)*rhopi6;
+			nParticle = mass1/massDrop;
+		    }
 		}
             }
         }

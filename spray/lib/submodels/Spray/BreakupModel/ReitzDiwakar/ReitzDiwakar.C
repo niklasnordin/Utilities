@@ -64,10 +64,13 @@ template<class CloudType>
 bool Foam::ReitzDiwakar<CloudType>::update
 (
     const scalar& dt,
+    const vector& g,
     scalar& d,
     scalar& tc,
     scalar& ms,
     scalar& nParticle,
+    scalar& KHindex,
+    const scalar& d0,
     const scalar& rho,
     const scalar& mu,
     const scalar& sigma,
@@ -83,7 +86,7 @@ bool Foam::ReitzDiwakar<CloudType>::update
 ) const
 {
 
-    scalar d0 = d;
+    scalar d1 = d;
     scalar nuc = muc/rhoc;
     scalar We = 0.5*rhoc*pow(Urmag, 2)*d/sigma;
     scalar Re = Urmag*d/nuc;
@@ -127,7 +130,7 @@ bool Foam::ReitzDiwakar<CloudType>::update
         }
 
         // preserve the total mass/volume, by increasing the number of particles in parcels due to breakup
-        nParticle *= pow(d0/d, 3.0);
+        nParticle *= pow(d1/d, 3.0);
 
     }
 

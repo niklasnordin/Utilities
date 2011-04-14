@@ -62,10 +62,13 @@ template<class CloudType>
 bool Foam::ETAB<CloudType>::update
 (
     const scalar& dt,
+    const vector& g,
     scalar& d,
     scalar& tc,
     scalar& ms,
     scalar& nParticle,
+    scalar& KHindex,
+    const scalar& d0,
     const scalar& rho,
     const scalar& mu,
     const scalar& sigma,

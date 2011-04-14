@@ -46,9 +46,7 @@ Foam::SprayParcel<ParcelType>::SprayParcel
     injector_(p.injector_),
     tMom_(p.tMom_),
     user_(p.user_)
-{
-  Info << "creating parcel from parcel rho = " << p.rho() << endl;
-}
+{}
 
 
 // * * * * * * * * * * *  Member Functions * * * * * * * * * * * * //
@@ -275,6 +273,7 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
     scalar tMom = 1.0/(As*utc);
 
     scalar averageParcelMass = 1.0;
+    const vector g = td.cloud().g().value();
 
     scalar massChild = 0.0;
     scalar dChild = 0.0;
@@ -283,10 +282,13 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
         td.cloud().breakup().update
         (
             dt,
+	    g,
             this->d(),
 	    this->tc(),
 	    this->ms(),
 	    this->nParticle(),
+	    this->KHindex(),
+	    this->d0(),
             rho,
             mu,
             sigma,

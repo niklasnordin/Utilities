@@ -88,9 +88,7 @@ inline Foam::SprayParcel<ParcelType>::SprayParcel
     injector_(1.0),
     tMom_(GREAT),
     user_(0.0)
-{
-  //  Info << "creating parcel from owner, pos, celli, rho = " << this->rho() << endl;
-}
+{}
 
 
 template<class ParcelType>
@@ -140,9 +138,7 @@ inline Foam::SprayParcel<ParcelType>::SprayParcel
     injector_(injector),
     tMom_(tMom),
     user_(user)
-{
-  Info << "creating from parcel from components, rho = " << this->rho() << endl;
-}
+{}
 
 // * * * * * * * * * * * trackData Member Functions  * * * * * * * * * * * * //
 
