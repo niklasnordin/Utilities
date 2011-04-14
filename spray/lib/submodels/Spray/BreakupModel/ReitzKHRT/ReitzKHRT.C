@@ -193,13 +193,16 @@ bool Foam::ReitzKHRT<CloudType>::update
 		    scalar dParenDrops = ue3 + ve3 - be3/3.;
 		    scalar mc = nParticle*(pow3(d)-pow3(dParenDrops));
 		    scalar nChildDrops = mc/pow3(dc);
+
 		    if (nChildDrops >= nParticle)
 		    {
 		        addParcel = true;
 			d = dParenDrops;
 			ms = 0.0;
-			
-			// reduce the parcel mass by reducing nParticle
+			dChild = dc;
+			massChild = mc*rhopi6;
+
+			// reduce the parent mass by reducing nParticle
 			scalar mass1 = mass - mc*rhopi6;
 			scalar massDrop = pow(d, 3)*rhopi6;
 			nParticle = mass1/massDrop;
