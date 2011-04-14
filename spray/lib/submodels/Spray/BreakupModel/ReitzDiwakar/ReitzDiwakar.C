@@ -83,6 +83,7 @@ bool Foam::ReitzDiwakar<CloudType>::update
 ) const
 {
 
+    scalar d0 = d;
     scalar nuc = muc/rhoc;
     scalar We = 0.5*rhoc*pow(Urmag, 2)*d/sigma;
     scalar Re = Urmag*d/nuc;
@@ -124,6 +125,10 @@ bool Foam::ReitzDiwakar<CloudType>::update
             // new droplet diameter, implicit calculation
             d = (fraction*dBag + d)/(1.0 + fraction);
         }
+
+        // preserve the total mass/volume, by increasing the number of particles in parcels due to breakup
+        nParticle *= pow(d0/d, 3.0);
+
     }
 
     return false;
