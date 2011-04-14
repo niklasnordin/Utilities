@@ -147,7 +147,6 @@ void Foam::SprayParcel<ParcelType>::calc
     scalarField X1(td.cloud().composition().liquids().X(Y1));
 
     this->cp() = td.cloud().composition().liquids().cp(this->pc_, T1, X1);
-    //this->mu() = td.cloud().composition().liquids().cp(this->pc_, T1, X1);
 
     scalar rho1 = td.cloud().composition().liquids().rho(this->pc_, T1, X1);
     this->rho() = rho1;
@@ -304,9 +303,10 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
     )
     {
         // add child parcel. most properties will be identical to the parent
-        //ParcelType* child(*this);
-	//child.d() = dChild;
-	//child.tc() = -GREAT;
+        ParcelType* child = new ParcelType(td.cloud(), this->position(), cellI);
+	child->d() = dChild;
+	child->tc() = -GREAT;
+	td.cloud().addParticle(child);
     }
 }
 
