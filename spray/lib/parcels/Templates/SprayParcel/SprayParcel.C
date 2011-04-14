@@ -304,7 +304,7 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
     )
     {
         // add child parcel. most properties will be identical to the parent
-        ParcelType* child(*this);
+        //ParcelType* child(*this);
 	//child.d() = dChild;
 	//child.tc() = -GREAT;
     }

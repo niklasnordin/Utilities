@@ -96,6 +96,7 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
     {
         resetSourceTerms();
     }
+    Info << "coupled = " << this->coupled() << endl;
 
     Cloud<ParcelType>::move(td);
     this->injection().inject(td);
