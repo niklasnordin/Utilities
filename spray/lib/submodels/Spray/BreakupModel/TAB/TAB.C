@@ -50,6 +50,15 @@ Foam::TAB<CloudType>::TAB
         scalar xx = 0.12*(n+1);
         rrd_[n] = (1.0 - exp(-xx)*(1.0 + xx + pow(xx, 2.0)/2.0 + pow(xx, 3.0)/6.0))*rrd100;
     }
+
+    if (!BreakupModel<CloudType>::solveOscillationEq_)
+    {
+        Info << "Warning: solveOscillationEq is set to " << BreakupModel<CloudType>::solveOscillationEq_ 
+	     << endl
+	     << " Setting it to true in order for the TAB model to work." << endl;
+	BreakupModel<CloudType>::solveOscillationEq_ = true;
+    }
+
 }
 
 

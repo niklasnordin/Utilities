@@ -383,17 +383,13 @@ void Foam::SprayParcel<ParcelType>::solveTABEq
 )
 {
 
-    if(includeOscillation_)
-    {
+    scalar r = 0.5 * d_;
+    scalar r2 = r*r;
+    scalar r3 = r*r2;
     
-        scalar T = p.T();
-        scalar pc = spray_.p()[p.cell()];
-        scalar r = 0.5 * p.d();
-        scalar r2 = r*r;
-        scalar r3 = r*r2;
-    
-        scalar rho = fuels.rho(pc, T, p.X());
-        scalar sigma = fuels.sigma(pc, T, p.X());
+    scalar rho = this->rho();
+    /*
+    scalar sigma = fuels.sigma(pc, T, p.X());
         scalar mu = fuels.mu(pc, T, p.X());
     
         // inverse of characteristic viscous damping time    
@@ -438,7 +434,7 @@ void Foam::SprayParcel<ParcelType>::solveTABEq
         }
 
     }
-    
+  */
 }
 
 // * * * * * * * * * * * * * * IOStream operators  * * * * * * * * * * * * * //

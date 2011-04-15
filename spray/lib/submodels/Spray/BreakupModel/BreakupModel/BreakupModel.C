@@ -65,7 +65,7 @@ Foam::BreakupModel<CloudType>::BreakupModel
     TABCmu_(0.0),
     TABWeCrit_(0.0)
 {
-    if (includeOscillation_)
+    if (solveOscillationEq_)
     {
         y0_ = readScalar(TABcoeffsDict_.lookup("y0"));
         yDot0_ = readScalar(TABcoeffsDict_.lookup("yDot0"));
