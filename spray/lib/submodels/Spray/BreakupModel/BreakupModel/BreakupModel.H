@@ -67,6 +67,16 @@ protected:
         const dictionary coeffDict_;
 
 
+        Switch solveOscillationEq_;
+        
+        dictionary TABcoeffsDict_;
+        scalar y0_;
+        scalar yDot0_;
+        scalar TABComega_;
+        scalar TABCmu_;
+        scalar TABWeCrit_;
+        
+
 public:
 
     //- Runtime type information

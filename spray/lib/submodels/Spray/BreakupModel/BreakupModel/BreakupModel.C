@@ -35,7 +35,14 @@ Foam::BreakupModel<CloudType>::BreakupModel
 :
     dict_(dictionary::null),
     owner_(owner),
-    coeffDict_(dictionary::null)
+    coeffDict_(dictionary::null),
+    solveOscillationEq_(false),
+    TABcoeffsDict_(dictionary::null),
+    y0_(0.0),
+    yDot0_(0.0),
+    TABComega_(0.0),
+    TABCmu_(0.0),
+    TABWeCrit_(0.0)
 {}
 
 
@@ -49,8 +56,24 @@ Foam::BreakupModel<CloudType>::BreakupModel
 :
     dict_(dict),
     owner_(owner),
-    coeffDict_(dict.subDict(type + "Coeffs"))
-{}
+    coeffDict_(dict.subDict(type + "Coeffs")),
+    solveOscillationEq_(dict_.lookup("solveOscillationEq")),
+    TABcoeffsDict_(dict.subDict("TABCoeffs")),
+    y0_(0.0),
+    yDot0_(0.0),
+    TABComega_(0.0),
+    TABCmu_(0.0),
+    TABWeCrit_(0.0)
+{
+    if (includeOscillation_)
+    {
+        y0_ = readScalar(TABcoeffsDict_.lookup("y0"));
+        yDot0_ = readScalar(TABcoeffsDict_.lookup("yDot0"));
+        TABComega_ = readScalar(TABcoeffsDict_.lookup("Comega"));
+        TABCmu_ = readScalar(TABcoeffsDict_.lookup("Cmu"));
+        TABWeCrit_ = readScalar(TABcoeffsDict_.lookup("WeCrit"));
+    }
+}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //

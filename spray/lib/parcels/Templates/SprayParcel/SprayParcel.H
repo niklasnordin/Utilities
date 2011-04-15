@@ -366,6 +366,16 @@ public:
        	        const scalarField& X
             ) const;
 
+
+            //- Solve the TAB equation
+            template<class TrackData>
+            void solveTABEq
+            (
+                TrackData& td,
+                cons scalar& dt
+
+            );
+
         // I-O
 
             //- Read
