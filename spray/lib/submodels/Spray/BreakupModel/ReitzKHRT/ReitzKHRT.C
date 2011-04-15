@@ -83,11 +83,11 @@ bool Foam::ReitzKHRT<CloudType>::update
 
     scalar r = 0.5*d;
     scalar d3 = pow(d, 3.0);
+    scalar d03 = pow(d, 3.0);
+
     scalar rhopi6 = rho*mathematicalConstant::pi/6.0;
     scalar mass = nParticle*d3*rhopi6;
-
-    //scalar We = 0.5*rhoc*pow(Urmag, 2)*d/sigma;
-    //scalar Re = Urmag*d/nuc;
+    scalar mass0 = nParticle*d03*rhopi6;
 
     scalar weGas      = 0.5*rhoc*pow(Urmag, 2)*d/sigma;
     scalar weLiquid   = 0.5*rho*pow(Urmag, 2)*d/sigma;
@@ -166,7 +166,7 @@ bool Foam::ReitzKHRT<CloudType>::update
             d = (fraction*dc + d)/(1.0 + fraction);
 
             //scalar ms0 = rho*pow3(dc)*mathematicalConstant::pi/6.0;
-	    scalar ms0 = mass*(1.0 - pow(d/d0,3.0));
+	    scalar ms0 = mass0*(1.0 - pow(d/d0,3.0));
             ms += ms0;
 
             if (ms/averageParcelMass > msLimit_)
