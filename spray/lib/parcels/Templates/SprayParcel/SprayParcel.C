@@ -118,6 +118,8 @@ void Foam::SprayParcel<ParcelType>::calc
 )
 {
 
+    bool coupled = td.cloud().coupled();
+
     // check if parcel belongs to liquid core
     if (liquidCore() > 0.5)
     {
@@ -164,11 +166,8 @@ void Foam::SprayParcel<ParcelType>::calc
         calcBreakup(td, dt, cellI);
     }
 
-    // check if parcel is uncoupled and does not belong to liquid core
-    if ( (!td.cloud().coupled()) && (liquidCore() < 0.5) )
-    {
-        td.cloud().coupled() = true;
-    }
+    // recover coupled
+    td.cloud().coupled() = coupled;
 
 }
 
