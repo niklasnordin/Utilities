@@ -86,7 +86,7 @@ bool Foam::ReitzKHRT<CloudType>::update
 
     scalar r = 0.5*d;
     scalar d3 = pow(d, 3.0);
-    scalar d03 = pow(d, 3.0);
+    scalar d03 = pow(d0, 3.0);
 
     scalar rhopi6 = rho*mathematicalConstant::pi/6.0;
     scalar mass = nParticle*d3*rhopi6;
@@ -160,6 +160,7 @@ bool Foam::ReitzKHRT<CloudType>::update
     // otherwise check for KH breakup
     else if (dc < d)
     {
+
         // no breakup below Weber = 12
         if (weGas > weberLimit_)
         {
@@ -175,7 +176,7 @@ bool Foam::ReitzKHRT<CloudType>::update
             if (ms/averageParcelMass > msLimit_)
             {
 
-                //--------------------------------AL_____101201------------------------------//
+                //--------AL_____101201-------------//
                 // 2. Correct evaluation of the number of child droplets and the diameter of parcel droplets after breaukp
                 //   Solution of cubic equation for the diameter of the parent drops after breakup, see Eq. 18 in Patterson & Reitz, SAE 980131
                 bool br3 = true;
@@ -216,7 +217,7 @@ bool Foam::ReitzKHRT<CloudType>::update
     }
     else if (KHindex < 0.5)
     {
-        //--------------------------------AL_____101202------------------------------//
+        //--------AL_____101202-------------//
         //  3. Case of larger drops after breakup (Reitz, Atomization & Spray Technology 3 (1987) 309-337, p.322)
         //     pIndKH() should be introduced
 
