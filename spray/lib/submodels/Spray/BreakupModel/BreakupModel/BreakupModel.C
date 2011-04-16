@@ -37,7 +37,6 @@ Foam::BreakupModel<CloudType>::BreakupModel
     owner_(owner),
     coeffDict_(dictionary::null),
     solveOscillationEq_(false),
-    TABcoeffsDict_(dictionary::null),
     y0_(0.0),
     yDot0_(0.0),
     TABComega_(0.0),
@@ -58,7 +57,6 @@ Foam::BreakupModel<CloudType>::BreakupModel
     owner_(owner),
     coeffDict_(dict.subDict(type + "Coeffs")),
     solveOscillationEq_(dict_.lookup("solveOscillationEq")),
-    TABcoeffsDict_(dict.subDict("TABCoeffs")),
     y0_(0.0),
     yDot0_(0.0),
     TABComega_(0.0),
@@ -67,11 +65,12 @@ Foam::BreakupModel<CloudType>::BreakupModel
 {
     if (solveOscillationEq_)
     {
-        y0_ = readScalar(TABcoeffsDict_.lookup("y0"));
-        yDot0_ = readScalar(TABcoeffsDict_.lookup("yDot0"));
-        TABComega_ = readScalar(TABcoeffsDict_.lookup("Comega"));
-        TABCmu_ = readScalar(TABcoeffsDict_.lookup("Cmu"));
-        TABWeCrit_ = readScalar(TABcoeffsDict_.lookup("WeCrit"));
+        dictionary TABcoeffsDict(dict.subDict("TABCoeffs"));
+        y0_ = readScalar(TABcoeffsDict.lookup("y0"));
+        yDot0_ = readScalar(TABcoeffsDict.lookup("yDot0"));
+        TABComega_ = readScalar(TABcoeffsDict.lookup("Comega"));
+        TABCmu_ = readScalar(TABcoeffsDict.lookup("Cmu"));
+        TABWeCrit_ = readScalar(TABcoeffsDict.lookup("WeCrit"));
     }
 }
 

@@ -34,7 +34,7 @@ Foam::TAB<CloudType>::TAB
     CloudType& owner
 )
 :
-    BreakupModel<CloudType>(owner),
+    BreakupModel<CloudType>(dict, owner, typeName),
     coeffsDict_(dict.subDict(typeName + "Coeffs")),
     Cmu_(BreakupModel<CloudType>::TABCmu_),
     Comega_(BreakupModel<CloudType>::TABComega_),

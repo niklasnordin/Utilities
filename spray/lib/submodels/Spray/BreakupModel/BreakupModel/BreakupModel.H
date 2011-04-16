@@ -69,7 +69,6 @@ protected:
 
         Switch solveOscillationEq_;
         
-        dictionary TABcoeffsDict_;
         scalar y0_;
         scalar yDot0_;
         scalar TABComega_;

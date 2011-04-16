@@ -34,7 +34,7 @@ Foam::ReitzKHRT<CloudType>::ReitzKHRT
     CloudType& owner
 )
 :
-    BreakupModel<CloudType>(owner),
+    BreakupModel<CloudType>(dict, owner, typeName),
     coeffsDict_(dict.subDict(typeName + "Coeffs")),
     b0_(readScalar(coeffsDict_.lookup("B0"))),
     b1_(readScalar(coeffsDict_.lookup("B1"))),

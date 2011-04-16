@@ -34,7 +34,7 @@ Foam::SHF<CloudType>::SHF
     CloudType& owner
 )
 :
-    BreakupModel<CloudType>(owner),
+    BreakupModel<CloudType>(dict, owner, typeName),
     coeffsDict_(dict.subDict(typeName + "Coeffs")),
     weCorrCoeff_(readScalar(coeffsDict_.lookup("weCorrCoeff"))),
     weBuCrit_(readScalar(coeffsDict_.lookup("weBuCrit"))),

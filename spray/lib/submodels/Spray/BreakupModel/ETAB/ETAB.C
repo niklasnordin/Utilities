@@ -34,7 +34,7 @@ Foam::ETAB<CloudType>::ETAB
     CloudType& owner
 )
 :
-    BreakupModel<CloudType>(owner),
+    BreakupModel<CloudType>(dict, owner, typeName),
     coeffsDict_(dict.subDict(typeName + "Coeffs")),
     Cmu_(readScalar(coeffsDict_.lookup("Cmu"))),
     Comega_(readScalar(coeffsDict_.lookup("Comega"))),
