@@ -310,6 +310,7 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
         )
     )
     {
+        Info << "adding child drop" << endl;
         scalar As = this->areaS(dChild);
         scalar Re = rhoAv*Urmag*dChild/muAv;
         scalar utc = td.cloud().drag().utc(Re, dChild, muAv) + ROOTVSMALL;
@@ -318,12 +319,14 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
         ParcelType* child = new ParcelType(td.cloud(), this->position(), cellI);
         scalar massDrop = rho*mathematicalConstant::pi*pow(dChild, 3.0)/6.0;
 	child->d() = dChild;
+        child->rho() = this->rho();
+        child->T() = this->T();
         child->U() = this->U();
         child->nParticle() = massChild/massDrop;
         child->d0() = this->d0();
         child->position0() = this->position0();
         child->liquidCore() = 0.0;
-        child->liquidCore() = 0.0; // 1.0?
+        child->KHindex() = 0.0;
         child->y() = td.cloud().breakup().y0();
         child->yDot() = td.cloud().breakup().yDot0();
 	child->tc() = -GREAT;
