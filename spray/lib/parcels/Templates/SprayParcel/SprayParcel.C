@@ -215,6 +215,11 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
 	chi = this->chi(td, X);
     }
 
+    if (td.cloud().breakup().solveOscillationEq())
+    {
+        solveTABEq(td, dt); 
+    }
+
     td.cloud().atomization().update
     (
         dt,
@@ -281,25 +286,25 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
         td.cloud().breakup().update
         (
             dt,
-	    g,
+            g,
             this->d(),
-	    this->tc(),
-	    this->ms(),
-	    this->nParticle(),
-	    this->KHindex(),
-	    this->d0(),
+            this->tc(),
+            this->ms(),
+            this->nParticle(),
+            this->KHindex(),
+            this->d0(),
             rho,
             mu,
             sigma,
-	    this->U(),
+            this->U(),
             rhoAv,
             muAv,
-	    Urel,
+            Urel,
             Urmag,
-	    tMom,
-	    averageParcelMass,
-	    dChild,
-	    massChild
+            tMom,
+            averageParcelMass,
+            dChild,
+            massChild
         )
     )
     {
@@ -382,59 +387,64 @@ void Foam::SprayParcel<ParcelType>::solveTABEq
     const scalar& dt
 )
 {
+    const scalar& TABCmu = td.cloud().breakup().TABCmu();
+    const scalar& TABWeCrit = td.cloud().breakup().TABWeCrit();
+    const scalar& TABComega = td.cloud().breakup().TABComega();
 
-    scalar r = 0.5 * d_;
+
+    scalar r = 0.5 * this->d_;
     scalar r2 = r*r;
     scalar r3 = r*r2;
     
-    scalar rho = this->rho();
-    /*
-    scalar sigma = fuels.sigma(pc, T, p.X());
-        scalar mu = fuels.mu(pc, T, p.X());
-    
-        // inverse of characteristic viscous damping time    
-        scalar rtd = 0.5*TABCmu_*mu/(rho*r2);
-        
-        // oscillation frequency (squared)
-        scalar omega2 = TABComega_ * sigma /(rho*r3) - rtd*rtd;
-        
-        if(omega2 > 0)
-        {
+    const scalarField& Y(this->Y());
+    scalarField X(td.cloud().composition().liquids().X(Y));
 
-            scalar omega = sqrt(omega2);
-            scalar rhog = spray_.rho()[p.cell()];
-            scalar We = p.We(Ug, rhog, sigma);
-            scalar Wetmp = We/TABWeCrit_;
+    scalar rho = td.cloud().composition().liquids().rho(this->pc_, this->T(), X);
+    scalar mu = td.cloud().composition().liquids().mu(this->pc_, this->T(), X);
+    scalar sigma = td.cloud().composition().liquids().sigma(this->pc_, this->T(), X);
 
-            scalar y1 = p.dev() - Wetmp;
-            scalar y2 = p.ddev()/omega;
+    // inverse of characteristic viscous damping time    
+    scalar rtd = 0.5*TABCmu*mu/(rho*r2);
+        
+    // oscillation frequency (squared)
+    scalar omega2 = TABComega * sigma /(rho*r3) - rtd*rtd;
+        
+    if(omega2 > 0)
+    {
+        scalar omega = sqrt(omega2);
+        scalar rhoc = this->rhoc_; //spray_.rho()[p.cell()];
+        scalar We = rhoc*pow(mag(this->Uc_ - this->U()), 2.0)*this->d()/sigma;
+
+        //scalar We = p.We(Ug, rhog, sigma);
+        scalar Wetmp = We/TABWeCrit;
+
+        scalar y1 = this->y() - Wetmp;
+        scalar y2 = this->yDot()/omega;
                        
-            // update distortion parameters
-            scalar c = cos(omega*deltaT);
-            scalar s = sin(omega*deltaT);
-            scalar e = exp(-rtd*deltaT);
-            y2 = (p.ddev() + y1*rtd)/omega;
+        // update distortion parameters
+        scalar c = cos(omega*dt);
+        scalar s = sin(omega*dt);
+        scalar e = exp(-rtd*dt);
+        y2 = (this->yDot() + y1*rtd)/omega;
             
-            p.dev() = Wetmp + e*(y1*c + y2*s);
-            if (p.dev() < 0)
-            {
-                p.dev() = 0.0;
-                p.ddev() = 0.0;
-            }
-            else 
-            {
-                p.ddev() = (Wetmp-p.dev())*rtd + e*omega*(y2*c - y1*s);
-            }
-        }
-        else
+        this->y() = Wetmp + e*(y1*c + y2*s);
+        if (this->y() < 0)
         {
-            // reset droplet distortion parameters
-            p.dev() = 0;
-            p.ddev() = 0;
+            this->y() = 0.0;
+            this->yDot() = 0.0;
         }
-
+        else 
+        {
+            this->yDot() = (Wetmp - this->y())*rtd + e*omega*(y2*c - y1*s);
+        }
     }
-  */
+    else
+    {
+        // reset droplet distortion parameters
+        this->y() = 0;
+        this->yDot() = 0;
+    }
+
 }
 
 // * * * * * * * * * * * * * * IOStream operators  * * * * * * * * * * * * * //

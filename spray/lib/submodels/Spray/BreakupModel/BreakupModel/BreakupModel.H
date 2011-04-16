@@ -133,6 +133,35 @@ public:
         //- Return the coefficient dictionary
         const dictionary& coeffDict() const;
 
+        inline const Switch& solveOscillationEq() const
+        {
+            return solveOscillationEq_;
+        }
+
+        inline const scalar& y0() const
+        {
+            return y0_;
+        }
+
+        inline const scalar& yDot0() const
+        {
+            return yDot0_;
+        }
+
+        inline const scalar& TABComega() const
+        {
+            return TABComega_;
+        }
+
+        inline const scalar& TABCmu() const
+        {
+            return TABCmu_;
+        }
+
+        inline const scalar& TABWeCrit() const
+        {
+            return TABWeCrit_;
+        }
 
     // Member Functions
 

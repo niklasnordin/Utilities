@@ -184,6 +184,9 @@ void Foam::SprayCloud<ParcelType>::checkParcelProperties
     // store the injection position and initial drop size
     parcel.position0() = parcel.position();
     parcel.d0() = parcel.d();
+
+    parcel.y() = breakup().y0();
+    parcel.yDot() = breakup().yDot0();
 }
 
 
