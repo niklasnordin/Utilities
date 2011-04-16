@@ -141,34 +141,37 @@ void Foam::SprayParcel<ParcelType>::calc
 
     ReactingParcel<ParcelType>::calc(td, dt, cellI);
 
-    // update drop cp, diameter and density because of change in temperature/composition
-    scalar T1 = this->T();
-    const scalarField& Y1(this->Y());
-    scalarField X1(td.cloud().composition().liquids().X(Y1));
-
-    this->cp() = td.cloud().composition().liquids().cp(this->pc_, T1, X1);
-
-    scalar rho1 = td.cloud().composition().liquids().rho(this->pc_, T1, X1);
-    this->rho() = rho1;
-    scalar d1 = this->d()*pow(rho0/rho1, 1.0/3.0);
-    this->d() = d1;
-
-    if (liquidCore() > 0.5)
+    if (td.keepParticle)
     {
-        calcAtomization(td, dt, cellI);
 
-        // preserve the total mass/volume, by increasing the number of particles in parcels due to breakup
-        scalar d2 = this->d();
-        this->nParticle() *= pow(d1/d2, 3.0);
-    }
-    else
-    {
-        calcBreakup(td, dt, cellI);
+        // update drop cp, diameter and density because of change in temperature/composition
+        scalar T1 = this->T();
+        const scalarField& Y1(this->Y());
+        scalarField X1(td.cloud().composition().liquids().X(Y1));
+        
+        this->cp() = td.cloud().composition().liquids().cp(this->pc_, T1, X1);
+        
+        scalar rho1 = td.cloud().composition().liquids().rho(this->pc_, T1, X1);
+        this->rho() = rho1;
+        scalar d1 = this->d()*pow(rho0/rho1, 1.0/3.0);
+        this->d() = d1;
+        
+        if (liquidCore() > 0.5)
+        {
+            calcAtomization(td, dt, cellI);
+            
+            // preserve the total mass/volume, by increasing the number of particles in parcels due to breakup
+            scalar d2 = this->d();
+            this->nParticle() *= pow(d1/d2, 3.0);
+        }
+        else
+        {
+            calcBreakup(td, dt, cellI);
+        }
     }
 
-    // recover coupled
+    // restore coupled
     td.cloud().coupled() = coupled;
-
 }
 
 
@@ -321,6 +324,7 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
 	child->d() = dChild;
         child->rho() = this->rho();
         child->T() = this->T();
+        child->cp() = this->cp();
         child->U() = this->U();
         child->nParticle() = massChild/massDrop;
         child->d0() = this->d0();
