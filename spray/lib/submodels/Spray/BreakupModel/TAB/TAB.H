@@ -105,6 +105,8 @@ public:
 	    scalar& ms,
 	    scalar& nParticle,
 	    scalar& KHindex,
+            scalar& y,
+            scalar& yDot,
 	    const scalar& d0,
 	    const scalar& rho,
 	    const scalar& mu,
@@ -117,7 +119,8 @@ public:
 	    const scalar& tMom,
 	    const scalar& averageParcelMass,
 	    scalar& dChild,
-	    scalar& massChild
+	    scalar& massChild,
+            Random& rndGen
 	) const;
 
 };

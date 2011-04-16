@@ -225,18 +225,18 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
         dt,
         this->d(),
         this->liquidCore(),
-	this->tc(),
-	rho,
-	mu,
-	sigma,
-	massflowRate,
-	rhoAv,
-	Urel,
-	pos,
-	injectionPos,
+        this->tc(),
+        rho,
+        mu,
+        sigma,
+        massflowRate,
+        rhoAv,
+        Urel,
+        pos,
+        injectionPos,
         td.cloud().pAmbient(),
-	chi,
-	td.cloud().rndGen()
+        chi,
+        td.cloud().rndGen()
     );
 
 }
@@ -293,6 +293,8 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
             this->nParticle(),
             this->KHindex(),
             this->d0(),
+            this->y(),
+            this->yDot(),
             rho,
             mu,
             sigma,
@@ -304,7 +306,8 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
             tMom,
             averageParcelMass,
             dChild,
-            massChild
+            massChild,
+            td.cloud().rndGen()
         )
     )
     {
@@ -413,7 +416,7 @@ void Foam::SprayParcel<ParcelType>::solveTABEq
     {
         scalar omega = sqrt(omega2);
         scalar rhoc = this->rhoc_; //spray_.rho()[p.cell()];
-        scalar We = rhoc*pow(mag(this->Uc_ - this->U()), 2.0)*this->d()/sigma;
+        scalar We = rhoc*pow(mag(this->Uc_ - this->U()), 2.0)*r/sigma;
 
         //scalar We = p.We(Ug, rhog, sigma);
         scalar Wetmp = We/TABWeCrit;

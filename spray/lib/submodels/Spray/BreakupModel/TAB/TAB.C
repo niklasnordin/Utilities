@@ -36,9 +36,9 @@ Foam::TAB<CloudType>::TAB
 :
     BreakupModel<CloudType>(owner),
     coeffsDict_(dict.subDict(typeName + "Coeffs")),
-    Cmu_(readScalar(coeffsDict_.lookup("Cmu"))),
-    Comega_(readScalar(coeffsDict_.lookup("Comega"))),
-    WeCrit_(readScalar(coeffsDict_.lookup("WeCrit")))
+    Cmu_(BreakupModel<CloudType>::TABCmu_),
+    Comega_(BreakupModel<CloudType>::TABComega_),
+    WeCrit_(BreakupModel<CloudType>::TABWeCrit_)
 {
 
     // calculate the inverse function of the Rossin-Rammler Distribution
@@ -82,6 +82,8 @@ bool Foam::TAB<CloudType>::update
     scalar& ms,
     scalar& nParticle,
     scalar& KHindex,
+    scalar& y,
+    scalar& yDot,
     const scalar& d0,
     const scalar& rho,
     const scalar& mu,
@@ -94,10 +96,123 @@ bool Foam::TAB<CloudType>::update
     const scalar& tMom,
     const scalar& averageParcelMass,
     scalar& dChild,
-    scalar& massChild
+    scalar& massChild,
+    Random& rndGen
 ) const
 {
-    // Do nothing
+
+    scalar r = 0.5*d;
+    scalar r2 = r*r;
+    scalar r3 = r*r2;
+
+    // inverse of characteristic viscous damping time
+    scalar rtd = 0.5*Cmu_*mu/(rho*r2);
+    
+    // oscillation frequency (squared)
+    scalar omega2 = Comega_*sigma/(rho*r3) - rtd*rtd;
+
+    if (omega2 > 0)
+    {
+        scalar omega = sqrt(omega2);
+        scalar We = rhoc*pow(Urmag, 2.0)*r/sigma;
+        scalar Wetmp = We/WeCrit_;
+
+        scalar y1 = y - Wetmp;
+        scalar y2 = yDot/omega;
+
+        scalar a = sqrt(y1*y1 + y2*y2);
+
+        // scotty we may have break-up
+        if (a+Wetmp > 1.0)
+        {
+            scalar phic = y1/a;
+
+            // constrain phic within -1 to 1
+            phic = max(min(phic, 1), -1);
+
+            scalar phit = acos(phic);
+            scalar phi = phit;
+            scalar quad = -y2/a;
+            if (quad < 0)
+            {
+                phi = 2*mathematicalConstant::pi - phit;
+            }
+            
+            scalar tb = 0;
+            
+            if (mag(y) < 1.0)
+            {
+                scalar coste = 1.0;
+                if
+                (
+                    (Wetmp - a < -1) && (yDot < 0)
+                )
+                {
+                    coste = -1.0;
+                }
+                
+                scalar theta = acos((coste-Wetmp)/a);
+                
+                if (theta < phi)
+                {
+                    if (2*mathematicalConstant::pi-theta >= phi)
+                    {
+                        theta = -theta;
+                    }
+                    theta += 2*mathematicalConstant::pi;
+                }
+                tb = (theta-phi)/omega;
+
+                // breakup occurs
+                if (dt > tb)
+                {
+                    y = 1.0;
+                    yDot = -a*omega*sin(omega*tb + phi);
+                }
+
+            }
+
+            // update droplet size
+            if (dt > tb)
+            {
+                scalar rs = r/
+                (
+                    1.0
+                  + (4.0/3.0)*pow(y, 2)
+                  + rho*r3/(8*sigma)*pow(yDot, 2)
+                );
+                
+                label n = 0;
+                bool found = false;
+                scalar random = rndGen.scalar01();
+                while (!found && (n<99))
+                {
+                    if (rrd_[n]>random)
+                    {
+                        found = true;
+                    }
+                    n++;
+                }
+                scalar rNew = 0.04*n*rs;
+                if (rNew < r)
+                {
+                    d = 2*rNew;
+                    y = 0;
+                    yDot = 0;
+                }
+
+            }
+
+        }
+       
+    }
+    else
+    {
+        // reset droplet distortion parameters
+        y = 0;
+        yDot = 0;
+    }
+
     return false;
 }
 

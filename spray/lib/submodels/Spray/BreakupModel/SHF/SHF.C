@@ -87,6 +87,8 @@ bool Foam::SHF<CloudType>::update
     scalar& ms,
     scalar& nParticle,
     scalar& KHindex,
+    scalar& y,
+    scalar& yDot,
     const scalar& d0,
     const scalar& rho,
     const scalar& mu,
@@ -99,7 +101,8 @@ bool Foam::SHF<CloudType>::update
     const scalar& tMom,
     const scalar& averageParcelMass,
     scalar& dChild,
-    scalar& massChild
+    scalar& massChild,
+    Random& rndGen
 ) const
 {
     // Do nothing
