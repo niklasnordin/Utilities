@@ -207,9 +207,8 @@ bool Foam::ReitzKHRT<CloudType>::update
 			massChild = mc*rhopi6;
 
 			// reduce the parent mass by reducing nParticle
-			scalar mass1 = mass - mc*rhopi6;
-			scalar massDrop = pow(d, 3)*rhopi6;
-			nParticle = mass1/massDrop;
+			mass -= mc*rhopi6;
+
 		    }
 		}
             }
@@ -227,6 +226,9 @@ bool Foam::ReitzKHRT<CloudType>::update
         ms = 0.0;
 	KHindex = 1.0;
     }
+
+    scalar massDrop = pow(d, 3)*rhopi6;
+    nParticle = mass/massDrop;
 
     return addParcel;
 }
