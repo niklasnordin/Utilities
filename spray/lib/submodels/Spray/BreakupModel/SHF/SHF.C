@@ -105,8 +105,154 @@ bool Foam::SHF<CloudType>::update
     Random& rndGen
 ) const
 {
-    // Do nothing
-    return false;
+    bool addChild = false;
+
+    scalar d03 = pow(d, 3);
+    scalar rhopi6 = rho*mathematicalConstant::pi/6.0;
+    scalar mass0 = nParticle*rhopi6*d03;
+    scalar mass = mass0;
+
+    scalar weGas      = 0.5*rhoc*pow(Urmag, 2.0)*d/sigma;
+    scalar weLiquid   = 0.5*rho*pow(Urmag, 2.0)*d/sigma;
+
+    // correct the Reynolds number. Reitz is using radius instead of diameter
+    scalar reLiquid   = 0.5*Urmag*d/mu;
+    scalar ohnesorge  = sqrt(weLiquid)/(reLiquid + VSMALL);
+
+    vector acceleration = Urel/tMom;
+    vector trajectory = U/mag(U);
+
+    scalar weGasCorr = weGas/(1.0 + weCorrCoeff_ * ohnesorge);
+
+    // droplet deformation characteristic time
+
+    scalar tChar = d/Urmag*sqrt(rho/rhoc);
+
+    scalar tFirst = cInit_ * tChar;
+
+    scalar tSecond = 0;
+    scalar tCharSecond = 0;
+
+    bool bag = false;
+    bool multimode = false;
+    bool shear = false;
+    bool success = false;
+
+
+    //  updating the droplet characteristic time
+    tc += dt;
+
+    if(weGas > weConst_)
+    {
+        if(weGas < weCrit1_)
+        {
+            tCharSecond = c1_*pow((weGas - weConst_),cExp1_);
+        }
+        else if(weGas >= weCrit1_ && weGas <= weCrit2_)
+        {
+            tCharSecond = c2_*pow((weGas - weConst_),cExp2_);
+        }
+        else
+        {
+            tCharSecond = c3_*pow((weGas - weConst_),cExp3_);
+        }
+    }
+
+    scalar weC = weBuCrit_*(1.0+ohnCoeffCrit_*pow(ohnesorge,ohnExpCrit_));
+    scalar weB = weBuBag_*(1.0+ohnCoeffBag_*pow(ohnesorge, ohnExpBag_));
+    scalar weMM = weBuMM_*(1.0+ohnCoeffMM_*pow(ohnesorge, ohnExpMM_));
+
+    if(weGas > weC && weGas < weB)
+    {
+        bag = true;
+    }
+
+    if(weGas >= weB && weGas <= weMM)
+    {
+        multimode = true;
+    }
+
+    if(weGas > weMM)
+    {
+        shear = true;
+    }
+
+    tSecond = tCharSecond * tChar;
+
+    scalar tBreakUP = tFirst + tSecond;
+    if(tc > tBreakUP)
+    {
+
+        scalar d32 = coeffD_*d*pow(ohnesorge,onExpD_)*pow(weGasCorr,weExpD_);
+
+        if(bag || multimode)
+        {
+
+            scalar d05 = d32Coeff_ * d32;
+
+            scalar x = 0.0;
+            scalar yGuess = 0.0;
+            scalar dGuess = 0.0;
+
+            while(!success)
+            {
+                x = cDmaxBM_*rndGen.scalar01();
+                dGuess = sqr(x)*d05;
+                yGuess = rndGen.scalar01();
+
+                scalar p = x/(2.0*sqrt(2.0*mathematicalConstant::pi)*sigma_)*exp(-0.5*sqr((x-mu_)/sigma_));
+
+                if (yGuess < p)
+                {
+                    success = true;
+                }
+            }
+
+            d = dGuess;
+            tc = 0.0;
+        }
+
+        if(shear)
+        {
+            scalar dC = weConst_*sigma/(rhoc*sqr(Urmag));
+            scalar d32Red = 4.0*(d32 * dC)/(5.0 * dC - d32);
+
+            scalar d05 = d32Coeff_ * d32Red;
+
+            scalar x = 0.0;
+            scalar yGuess = 0.0;
+            scalar dGuess = 0.0;
+
+            while(!success)
+            {
+
+                x = cDmaxS_*rndGen.scalar01();
+                dGuess = sqr(x)*d05;
+                yGuess = rndGen.scalar01();
+                
+                scalar p = x/(2.0*sqrt(2.0*mathematicalConstant::pi)*sigma_)*exp(-0.5*sqr((x-mu_)/sigma_));
+                
+                if (yGuess<p)
+                {
+                    success = true;
+                }
+            }
+            
+            d = dC;
+            dChild = dGuess;
+            massChild = corePerc_ * mass0;
+            mass -= massChild;
+
+            addChild = true;
+            // reset timer
+            tc = 0.0;
+        }
+
+        // correct nParticle to conserve mass
+        nParticle = mass/(rhopi6*pow(d, 3.0));
+    }
+
+    return addChild;
 }
 
 
