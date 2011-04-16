@@ -64,6 +64,9 @@ private:
     //- Averaged ambient domain pressure
         scalar pAmbient_;
 
+    //- Average parcel mass
+        scalar averageParcelMass_;
+
 public:
 
     //- Type of thermodynamics the cloud was instantiated for
@@ -165,6 +168,9 @@ public:
 
             //- Return const-access to the ambient pressure
             inline const scalar& pAmbient() const;
+    
+            //- Return const-access to the average parcel mass
+            inline const scalar& averageParcelMass() const;
 };
 
 

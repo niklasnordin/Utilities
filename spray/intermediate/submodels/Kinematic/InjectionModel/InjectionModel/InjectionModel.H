@@ -277,6 +277,9 @@ public:
                 const scalar time1
             ) const = 0;
 
+            //- Return the average parcel mass
+            scalar averageParcelMass() const;
+
             // Counters
 
                 //- Return the number of injections

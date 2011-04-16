@@ -276,7 +276,6 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
     scalar utc = td.cloud().drag().utc(Re, this->d(), muAv) + ROOTVSMALL;
     scalar tMom = 1.0/(As*utc);
 
-    scalar averageParcelMass = 1.0;
     const vector g = td.cloud().g().value();
 
     scalar massChild = 0.0;
@@ -304,7 +303,7 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
             Urel,
             Urmag,
             tMom,
-            averageParcelMass,
+            td.cloud().averageParcelMass(),
             dChild,
             massChild,
             td.cloud().rndGen()

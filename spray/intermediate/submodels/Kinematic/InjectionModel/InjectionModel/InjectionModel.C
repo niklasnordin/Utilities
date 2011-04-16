@@ -335,6 +335,12 @@ Foam::InjectionModel<CloudType>::InjectionModel
     readProps();
 }
 
+template<class CloudType>
+Foam::scalar Foam::InjectionModel<CloudType>::averageParcelMass() const
+{
+    label Ntot = parcelsToInject(0.0, timeEnd() - timeStart());
+    return massTotal_/Ntot;
+}
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
