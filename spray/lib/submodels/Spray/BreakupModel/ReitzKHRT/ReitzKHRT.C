@@ -186,7 +186,8 @@ bool Foam::ReitzKHRT<CloudType>::update
 		scalar de3 = d*d*(dc-d);
 		scalar qe3 = pow3(be3/(3.0*ae3)) - be3*ce3/(6.0*ae3*ae3) + de3/(2.0*ae3);
 		scalar pe3 = (3.0*ae3*ce3 - be3*be3)/(9.0*ae3*ae3);
-		scalar D3 = qe3*qe3 + pe3*pe3*pe3; 
+		scalar D3 = qe3*qe3 + pe3*pe3*pe3;
+
 		if (D3 < 0) br3 = false;
 
        	        if (br3) 
@@ -207,7 +208,7 @@ bool Foam::ReitzKHRT<CloudType>::update
 			massChild = mc*rhopi6;
 
 			// reduce the parent mass by reducing nParticle
-			mass -= mc*rhopi6;
+			mass -= massChild;
 
 		    }
 		}
@@ -227,6 +228,7 @@ bool Foam::ReitzKHRT<CloudType>::update
 	KHindex = 1.0;
     }
 
+    // correct the number of parcels in parent 
     scalar massDrop = pow(d, 3)*rhopi6;
     nParticle = mass/massDrop;
 

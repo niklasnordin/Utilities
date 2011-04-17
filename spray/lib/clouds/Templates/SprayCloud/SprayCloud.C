@@ -217,6 +217,7 @@ Foam::SprayCloud<ParcelType>::SprayCloud
     {
         ParcelType::readFields(*this);
     }
+    Info << "Average parcel mass: " << averageParcelMass_ << endl;
 }
 
 
