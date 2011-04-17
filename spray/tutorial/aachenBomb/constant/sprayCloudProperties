@@ -171,4 +171,8 @@ ReitzDiwakarCoeffs
     Cs            10.0;
 }
 
+solveOscillationEq     false;
+
+CollisionModel         none;
+
 // ************************************************************************* //
