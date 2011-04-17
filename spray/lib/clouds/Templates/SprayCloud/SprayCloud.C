@@ -26,6 +26,7 @@ License
 #include "SprayCloud.H"
 #include "AtomizationModel.H"
 #include "BreakupModel.H"
+#include "CollisionModel.H"
 
 template<class ParcelType>
 void Foam::SprayCloud<ParcelType>::preEvolve()
