@@ -136,17 +136,17 @@ public:
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#define makeCollisionModel(CloudType)                                       \
+#define makeCollisionModel(CloudType)                                         \
                                                                               \
-    defineNamedTemplateTypeNameAndDebug(CollisionModel<CloudType>, 0);      \
+    defineNamedTemplateTypeNameAndDebug(CollisionModel<CloudType>, 0);        \
                                                                               \
     defineTemplateRunTimeSelectionTable                                       \
     (                                                                         \
-        CollisionModel<CloudType>,                                          \
+        CollisionModel<CloudType>,                                            \
         dictionary                                                            \
     );
 
-#define makeCollisionModelThermoType(SS, CloudType, ParcelType, ThermoType) \
+#define makeCollisionModelThermoType(SS, CloudType, ParcelType, ThermoType)   \
                                                                               \
     defineNamedTemplateTypeNameAndDebug                                       \
     (                                                                         \
@@ -154,7 +154,7 @@ public:
         0                                                                     \
     );                                                                        \
                                                                               \
-    CollisionModel<CloudType<ParcelType<ThermoType> > >::                   \
+    CollisionModel<CloudType<ParcelType<ThermoType> > >::                     \
         adddictionaryConstructorToTable                                       \
             <SS<CloudType<ParcelType<ThermoType> > > >                        \
             add##SS##CloudType##ParcelType##ThermoType##ConstructorToTable_;

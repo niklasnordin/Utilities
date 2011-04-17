@@ -34,7 +34,7 @@ Foam::NoCollision<CloudType>::NoCollision
     CloudType& owner
 )
 :
-    AtomizationModel<CloudType>(owner)
+    CollisionModel<CloudType>(owner)
 {}
 
 

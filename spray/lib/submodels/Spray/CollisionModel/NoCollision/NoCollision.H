@@ -32,7 +32,7 @@ Description
 #ifndef NoCollision_H
 #define NoCollision_H
 
-#include "AtomizationModel.H"
+#include "CollisionModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -45,7 +45,7 @@ namespace Foam
 template<class CloudType>
 class NoCollision
 :
-    public AtomizationModel<CloudType>
+    public CollisionModel<CloudType>
 {
 public:
 

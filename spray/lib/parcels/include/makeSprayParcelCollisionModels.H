@@ -33,7 +33,6 @@ License
 
 #include "NoCollision.H"
 
-
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 #define makeSprayCollisionModels(ParcelType)                                  \
@@ -64,7 +63,7 @@ License
         SprayCloud,                                                           \
         ParcelType,                                                           \
         ThermoType                                                            \
-    );                                                                        
+    );
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
