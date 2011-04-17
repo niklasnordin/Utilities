@@ -113,7 +113,7 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
             {
                 ParcelType& q = jter();
                 scalar Vj = this->mesh().V()[q.cell()];
-                collision().update
+                bool updateRho = collision().update
                 (
                     dt,
                     this->rndGen(),
@@ -138,6 +138,11 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
                     q.cell(),
                     Vj
                 );
+
+                // for coalescence we need to update the density
+                if (updateRho)
+                {
+                }
             }
             j++;
         }
@@ -148,7 +153,7 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
     forAllIter(typename Cloud<ParcelType>, *this, iter)
     {
         ParcelType& p = iter();
-        if (p.d() < VSMALL)
+        if (p.mass0() < VSMALL)
         {
             deleteParticle(p);
         }

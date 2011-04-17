@@ -65,7 +65,7 @@ public:
 
     // Member Functions
 
-        virtual void update
+        virtual bool update
         (
             const scalar& dt,
             Random& rndGen,

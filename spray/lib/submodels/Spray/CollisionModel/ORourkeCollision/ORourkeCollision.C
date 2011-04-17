@@ -48,7 +48,7 @@ Foam::ORourkeCollision<CloudType>::~ORourkeCollision()
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class CloudType>
-void Foam::ORourkeCollision<CloudType>::update
+bool Foam::ORourkeCollision<CloudType>::update
 (
     const scalar& dt,
     Random& rndGen,
@@ -73,6 +73,15 @@ void Foam::ORourkeCollision<CloudType>::update
     const label cellj,
     const scalar volj
 ) const
-{}
+{
+    // check if parcels belong to same cell
+    if ((celli != cellj) || (m1 < VSMALL) || (m2 < VSMALL))
+    {
+        return false;
+    }
+
+
+    return false;
+}
 
 // ************************************************************************* //

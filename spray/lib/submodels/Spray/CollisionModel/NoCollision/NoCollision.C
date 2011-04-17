@@ -48,7 +48,7 @@ Foam::NoCollision<CloudType>::~NoCollision()
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class CloudType>
-void Foam::NoCollision<CloudType>::update
+bool Foam::NoCollision<CloudType>::update
 (
     const scalar& dt,
     Random& rndGen,
@@ -73,6 +73,8 @@ void Foam::NoCollision<CloudType>::update
     const label cellj,
     const scalar volj
 ) const
-{}
+{
+    return false;
+}
 
 // ************************************************************************* //

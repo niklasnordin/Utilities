@@ -48,7 +48,7 @@ Foam::TrajectoryCollision<CloudType>::~TrajectoryCollision()
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class CloudType>
-void Foam::TrajectoryCollision<CloudType>::update
+bool Foam::TrajectoryCollision<CloudType>::update
 (
     const scalar& dt,
     Random& rndGen,
@@ -73,6 +73,8 @@ void Foam::TrajectoryCollision<CloudType>::update
     const label cellj,
     const scalar volj
 ) const
-{}
+{
+    return false;
+}
 
 // ************************************************************************* //

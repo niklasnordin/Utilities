@@ -32,6 +32,8 @@ License
 #include "SprayCloud.H"
 
 #include "NoCollision.H"
+#include "ORourkeCollision.H"
+#include "TrajectoryCollision.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -60,6 +62,22 @@ License
     makeCollisionModelThermoType                                              \
     (                                                                         \
         NoCollision,                                                          \
+        SprayCloud,                                                           \
+        ParcelType,                                                           \
+        ThermoType                                                            \
+    );                                                                        \
+         								      \
+    makeCollisionModelThermoType                                              \
+    (                                                                         \
+        ORourkeCollision,                                                     \
+        SprayCloud,                                                           \
+        ParcelType,                                                           \
+        ThermoType                                                            \
+    );                                                                        \
+         								      \
+    makeCollisionModelThermoType                                              \
+    (                                                                         \
+        TrajectoryCollision,                                                  \
         SprayCloud,                                                           \
         ParcelType,                                                           \
         ThermoType                                                            \
