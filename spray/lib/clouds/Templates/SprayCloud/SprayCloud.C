@@ -142,6 +142,14 @@ Foam::SprayCloud<ParcelType>::SprayCloud
 	     this->particleProperties(),
 	     *this
         )
+    ),
+    collisionModel_
+    (
+        CollisionModel<SprayCloud<ParcelType> >::New
+        (
+	     this->particleProperties(),
+	     *this
+        )
     )
 {
     if (readFields)

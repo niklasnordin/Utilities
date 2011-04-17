@@ -42,6 +42,7 @@ License
 // Spray
 #include "makeSprayParcelAtomizationModels.H"
 #include "makeSprayParcelBreakupModels.H"
+#include "makeSprayParcelCollisionModels.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -64,6 +65,7 @@ namespace Foam
     // Spray sub-models
     makeSprayAtomizationModels(BasicSprayParcel);
     makeSprayBreakupModels(BasicSprayParcel);
+    makeSprayCollisionModels(BasicSprayParcel);
 
 };
 

@@ -44,9 +44,11 @@ namespace Foam
 template<class CloudType>
 class AtomizationModel;
 
-
 template<class CloudType>
 class BreakupModel;
+
+template<class CloudType>
+class CollisionModel;
 
 /*---------------------------------------------------------------------------*\
                       Class SprayCloud Declaration
@@ -93,6 +95,8 @@ protected:
             autoPtr<AtomizationModel<SprayCloud<ParcelType> > > atomizationModel_;
 
             autoPtr<BreakupModel<SprayCloud<ParcelType> > > breakupModel_;
+
+            autoPtr<CollisionModel<SprayCloud<ParcelType> > > collisionModel_;
 
         // Cloud evolution functions
 
@@ -165,6 +169,10 @@ public:
             //- Return const-access to the breakup model
             inline const BreakupModel<SprayCloud<ParcelType> >& 
                 breakup() const;
+
+            //- Return const-access to the breakup model
+            inline const CollisionModel<SprayCloud<ParcelType> >& 
+                collision() const;
 
             //- Return const-access to the ambient pressure
             inline const scalar& pAmbient() const;

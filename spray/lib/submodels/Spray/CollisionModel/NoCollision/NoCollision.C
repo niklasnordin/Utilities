@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 1991-2010 OpenCFD Ltd.
+    \\  /    A nd           | Copyright (C) 2009-2010 OpenCFD Ltd.
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -23,44 +23,32 @@ License
 
 \*---------------------------------------------------------------------------*/
 
+#include "NoCollision.H"
+
+// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
+
+template <class CloudType>
+Foam::NoCollision<CloudType>::NoCollision
+(
+    const dictionary& dict,
+    CloudType& owner
+)
+:
+    AtomizationModel<CloudType>(owner)
+{}
+
+
+// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
+
+template <class CloudType>
+Foam::NoCollision<CloudType>::~NoCollision()
+{}
+
+
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
-template<class ParcelType>
-inline const typename ParcelType::constantProperties&
-Foam::SprayCloud<ParcelType>::constProps() const
-{
-    return constProps_;
-}
+template<class CloudType>
+void Foam::NoCollision<CloudType>::update() const
+{}
 
-template<class ParcelType>
-inline const Foam::AtomizationModel<Foam::SprayCloud<ParcelType> >& Foam::SprayCloud<ParcelType>::atomization() const
-{
-    return atomizationModel_;
-}
-
-template<class ParcelType>
-inline const Foam::BreakupModel<Foam::SprayCloud<ParcelType> >&
-Foam::SprayCloud<ParcelType>::breakup() const
-{
-    return breakupModel_;
-}
-
-template<class ParcelType>
-inline const Foam::CollisionModel<Foam::SprayCloud<ParcelType> >&
-Foam::SprayCloud<ParcelType>::collision() const
-{
-    return collisionModel_;
-}
-
-template<class ParcelType>
-inline const Foam::scalar& Foam::SprayCloud<ParcelType>::pAmbient() const
-{
-    return pAmbient_;
-}
-
-template<class ParcelType>
-inline const Foam::scalar& Foam::SprayCloud<ParcelType>::averageParcelMass() const
-{
-    return averageParcelMass_;
-}
-
+// ************************************************************************* //
