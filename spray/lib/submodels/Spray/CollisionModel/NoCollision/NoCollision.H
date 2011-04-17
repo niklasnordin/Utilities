@@ -65,7 +65,16 @@ public:
 
     // Member Functions
 
-        virtual void update() const;
+        virtual void update
+        (
+            const scalar& dt,
+            vector& x,
+            vector& U,
+            const label celli,
+            vector& y,
+            vector& V,
+            const label cellj
+        ) const;
 
 };
 

@@ -27,6 +27,7 @@ License
 #include "AtomizationModel.H"
 #include "BreakupModel.H"
 #include "CollisionModel.H"
+#include "PtrList.H"
 
 template<class ParcelType>
 void Foam::SprayCloud<ParcelType>::preEvolve()
@@ -96,6 +97,33 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
     if (this->coupled())
     {
         resetSourceTerms();
+    }
+
+    label i = 0;
+    scalar dt = 1.0;// this->db().time().deltaTValue(), 
+    forAllIter(typename Cloud<ParcelType>, *this, iter)
+    {
+        ParcelType& p = iter();
+        label j = 0;
+        forAllIter(typename Cloud<ParcelType>, *this, jter)
+        {
+            if (j > i)
+            {
+                ParcelType& q = jter();
+                collision().update
+                (
+                    dt,
+                    p.position(),
+                    p.U(),
+                    p.cell(),
+                    q.position(),
+                    q.U(),
+                    q.cell()
+                );
+            }
+            j++;
+        }
+        i++;
     }
 
     Cloud<ParcelType>::move(td);

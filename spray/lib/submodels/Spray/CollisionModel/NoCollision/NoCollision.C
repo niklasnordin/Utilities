@@ -48,7 +48,16 @@ Foam::NoCollision<CloudType>::~NoCollision()
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class CloudType>
-void Foam::NoCollision<CloudType>::update() const
+void Foam::NoCollision<CloudType>::update
+(
+    const scalar& dt,
+    vector& x,
+    vector& U,
+    const label celli,
+    vector& y,
+    vector& V,
+    const label cellj
+) const
 {}
 
 // ************************************************************************* //
