@@ -100,7 +100,7 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
     }
 
     label i = 0;
-    scalar dt = 1.0;// this->db().time().deltaTValue(), 
+    scalar dt = this->db().time().deltaTValue();
     forAllIter(typename Cloud<ParcelType>, *this, iter)
     {
         ParcelType& p = iter();
