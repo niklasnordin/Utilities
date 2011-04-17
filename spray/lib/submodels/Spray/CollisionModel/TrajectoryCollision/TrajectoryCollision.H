@@ -22,15 +22,15 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::NoCollision
+    Foam::TrajectoryCollision
 
 Description
-    Dummy collision model for 'none'
+    Trajectory collision model by N. Nordin.
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef NoCollision_H
-#define NoCollision_H
+#ifndef TrajectoryCollision_H
+#define TrajectoryCollision_H
 
 #include "CollisionModel.H"
 
@@ -39,28 +39,28 @@ Description
 namespace Foam
 {
 /*---------------------------------------------------------------------------*\
-                       Class NoCollision Declaration
+                       Class TrajectoryCollision Declaration
 \*---------------------------------------------------------------------------*/
 
 template<class CloudType>
-class NoCollision
+class TrajectoryCollision
 :
     public CollisionModel<CloudType>
 {
 public:
 
     //- Runtime type information
-    TypeName("none");
+    TypeName("Trajectory");
 
 
     // Constructors
 
         //- Construct from dictionary
-        NoCollision(const dictionary& dict, CloudType& cloud);
+        TrajectoryCollision(const dictionary& dict, CloudType& cloud);
 
 
     //- Destructor
-    virtual ~NoCollision();
+    virtual ~TrajectoryCollision();
 
 
     // Member Functions
@@ -101,7 +101,7 @@ public:
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 #ifdef NoRepository
-#   include "NoCollision.C"
+#   include "TrajectoryCollision.C"
 #endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

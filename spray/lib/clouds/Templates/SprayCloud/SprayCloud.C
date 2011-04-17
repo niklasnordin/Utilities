@@ -98,34 +98,61 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
     {
         resetSourceTerms();
     }
+    
 
     label i = 0;
     scalar dt = this->db().time().deltaTValue();
     forAllIter(typename Cloud<ParcelType>, *this, iter)
     {
         ParcelType& p = iter();
+        scalar Vi = this->mesh().V()[p.cell()];
         label j = 0;
         forAllIter(typename Cloud<ParcelType>, *this, jter)
         {
             if (j > i)
             {
                 ParcelType& q = jter();
+                scalar Vj = this->mesh().V()[q.cell()];
                 collision().update
                 (
                     dt,
+                    this->rndGen(),
                     p.position(),
+                    p.mass0(),
+                    p.d(),
+                    p.nParticle(),
                     p.U(),
+                    p.rho(),
+                    p.T(),
+                    p.Y(),
                     p.cell(),
+                    Vi,
                     q.position(),
+                    q.mass0(),
+                    q.d(),
+                    q.nParticle(),
                     q.U(),
-                    q.cell()
+                    q.rho(),
+                    q.T(),
+                    q.Y(),
+                    q.cell(),
+                    Vj
                 );
             }
             j++;
         }
+
         i++;
     }
-
+    // remove coalesced particles (diameter set to 0)
+    forAllIter(typename Cloud<ParcelType>, *this, iter)
+    {
+        ParcelType& p = iter();
+        if (p.d() < VSMALL)
+        {
+            deleteParticle(p);
+        }
+    }
     Cloud<ParcelType>::move(td);
     this->injection().inject(td);
 }

@@ -128,12 +128,27 @@ public:
         virtual void update
         (
             const scalar& dt,
-            vector& x,
+            Random& rndGen,
+            vector& pos1,
+            scalar& m1,
+            scalar& d1,
+            scalar& N1,
             vector& U,
+            scalar& rho1,
+            scalar& T1,
+            scalarField& Y1,
             const label celli,
-            vector& y,
-            vector& V,
-            const label cellj
+            const scalar voli,
+            vector& pos2,
+            scalar& m2,
+            scalar& d2,
+            scalar& N2,
+            vector& U2,
+            scalar& rho2,
+            scalar& T2,
+            scalarField& Y2,
+            const label cellj,
+            const scalar volj
         ) const = 0;
 
 };

@@ -23,12 +23,12 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "NoCollision.H"
+#include "TrajectoryCollision.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template <class CloudType>
-Foam::NoCollision<CloudType>::NoCollision
+Foam::TrajectoryCollision<CloudType>::TrajectoryCollision
 (
     const dictionary& dict,
     CloudType& owner
@@ -41,14 +41,14 @@ Foam::NoCollision<CloudType>::NoCollision
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
 template <class CloudType>
-Foam::NoCollision<CloudType>::~NoCollision()
+Foam::TrajectoryCollision<CloudType>::~TrajectoryCollision()
 {}
 
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class CloudType>
-void Foam::NoCollision<CloudType>::update
+void Foam::TrajectoryCollision<CloudType>::update
 (
     const scalar& dt,
     Random& rndGen,

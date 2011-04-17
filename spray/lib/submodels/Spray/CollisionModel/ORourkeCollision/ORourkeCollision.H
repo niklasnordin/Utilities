@@ -22,15 +22,16 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::NoCollision
+    Foam::ORourkeCollision
 
 Description
-    Dummy collision model for 'none'
+    Collision model by P.J. O'Rourke.
+
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef NoCollision_H
-#define NoCollision_H
+#ifndef ORourkeCollision_H
+#define ORourkeCollision_H
 
 #include "CollisionModel.H"
 
@@ -39,28 +40,28 @@ Description
 namespace Foam
 {
 /*---------------------------------------------------------------------------*\
-                       Class NoCollision Declaration
+                       Class ORourkeCollision Declaration
 \*---------------------------------------------------------------------------*/
 
 template<class CloudType>
-class NoCollision
+class ORourkeCollision
 :
     public CollisionModel<CloudType>
 {
 public:
 
     //- Runtime type information
-    TypeName("none");
+    TypeName("ORourke");
 
 
     // Constructors
 
         //- Construct from dictionary
-        NoCollision(const dictionary& dict, CloudType& cloud);
+        ORourkeCollision(const dictionary& dict, CloudType& cloud);
 
 
     //- Destructor
-    virtual ~NoCollision();
+    virtual ~ORourkeCollision();
 
 
     // Member Functions
@@ -101,7 +102,7 @@ public:
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 #ifdef NoRepository
-#   include "NoCollision.C"
+#   include "ORourkeCollision.C"
 #endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
