@@ -80,6 +80,10 @@ bool Foam::ORourkeCollision<CloudType>::update
         return false;
     }
 
+    // if d1 > d2
+    // collideSorted(p1, p2)
+    // else
+    // collideSorted(p2, p1)
 
     return false;
 }

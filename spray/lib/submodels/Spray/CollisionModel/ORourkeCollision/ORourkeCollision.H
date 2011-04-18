@@ -57,7 +57,11 @@ public:
     // Constructors
 
         //- Construct from dictionary
-        ORourkeCollision(const dictionary& dict, CloudType& cloud);
+        ORourkeCollision
+        (
+            const dictionary& dict, 
+            CloudType& cloud
+        );
 
 
     //- Destructor

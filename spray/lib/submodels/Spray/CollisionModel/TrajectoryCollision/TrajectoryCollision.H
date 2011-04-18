@@ -47,6 +47,13 @@ class TrajectoryCollision
 :
     public CollisionModel<CloudType>
 {
+private:
+    // Reference to the coefficients dictionary
+        dictionary coeffsDict_;
+
+        scalar cSpace_;
+        scalar cTime_;
+        Switch coalescence_;
 public:
 
     //- Runtime type information
@@ -56,7 +63,11 @@ public:
     // Constructors
 
         //- Construct from dictionary
-        TrajectoryCollision(const dictionary& dict, CloudType& cloud);
+        TrajectoryCollision
+        (
+            const dictionary& dict, 
+            CloudType& cloud
+        );
 
 
     //- Destructor
@@ -66,6 +77,33 @@ public:
     // Member Functions
 
         virtual bool update
+        (
+            const scalar& dt,
+            Random& rndGen,
+            vector& pos1,
+            scalar& m1,
+            scalar& d1,
+            scalar& N1,
+            vector& U,
+            scalar& rho1,
+            scalar& T1,
+            scalarField& Y1,
+            const label celli,
+            const scalar voli,
+            vector& pos2,
+            scalar& m2,
+            scalar& d2,
+            scalar& N2,
+            vector& U2,
+            scalar& rho2,
+            scalar& T2,
+            scalarField& Y2,
+            const label cellj,
+            const scalar volj
+        ) const;
+
+        // 1 is the larger drop and 2 is the smaller
+        bool collideSorted
         (
             const scalar& dt,
             Random& rndGen,

@@ -56,7 +56,11 @@ public:
     // Constructors
 
         //- Construct from dictionary
-        NoCollision(const dictionary& dict, CloudType& cloud);
+        NoCollision
+        (
+            const dictionary& dict, 
+            CloudType& cloud
+        );
 
 
     //- Destructor
