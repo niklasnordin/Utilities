@@ -48,6 +48,11 @@ class ORourkeCollision
 :
     public CollisionModel<CloudType>
 {
+private:
+
+    dictionary coeffsDict_;
+    Switch coalescence_;
+
 public:
 
     //- Runtime type information
@@ -73,6 +78,36 @@ public:
         virtual bool active() const;
 
         virtual bool update
+        (
+            const scalar& dt,
+            Random& rndGen,
+            vector& pos1,
+            scalar& m1,
+            scalar& d1,
+            scalar& N1,
+            vector& U,
+            scalar& rho1,
+            scalar& T1,
+            scalarField& Y1,
+            const scalar& sigma1,
+            const label celli,
+            const scalar voli,
+            vector& pos2,
+            scalar& m2,
+            scalar& d2,
+            scalar& N2,
+            vector& U2,
+            scalar& rho2,
+            scalar& T2,
+            scalarField& Y2,
+            const scalar& sigma2,
+            const label cellj,
+            const scalar volj
+        ) const;
+
+
+        // 1 is the larger drop and 2 is the smaller
+        bool collideSorted
         (
             const scalar& dt,
             Random& rndGen,

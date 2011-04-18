@@ -34,7 +34,9 @@ Foam::ORourkeCollision<CloudType>::ORourkeCollision
     CloudType& owner
 )
 :
-    CollisionModel<CloudType>(owner)
+    CollisionModel<CloudType>(owner),
+    coeffsDict_(dict.subDict(typeName + "Coeffs")),
+    coalescence_(coeffsDict_.lookup("coalescence"))
 {}
 
 
@@ -62,7 +64,7 @@ bool Foam::ORourkeCollision<CloudType>::update
     scalar& m1,
     scalar& d1,
     scalar& N1,
-    vector& U,
+    vector& U1,
     scalar& rho1,
     scalar& T1,
     scalarField& Y1,
@@ -87,13 +89,212 @@ bool Foam::ORourkeCollision<CloudType>::update
     {
         return false;
     }
+    bool coalescence = false;
 
-    // if d1 > d2
-    // collideSorted(p1, p2)
-    // else
-    // collideSorted(p2, p1)
+    scalar magVrel = mag(U1-U2);
+    scalar sumD = d1 + d2;
+    scalar nu0 = 0.25*mathematicalConstant::pi*sumD*sumD*magVrel*dt/volj;
+    scalar nMin = min(N1, N2);
+    scalar nu = nMin*nu0;
+    scalar collProb = exp(-nu);
+    scalar xx = rndGen.scalar01();
 
-    return false;
+    // collision occur
+    if ( xx > collProb)
+    {
+
+        if (d1 > d2)
+        {
+            coalescence = collideSorted
+            (
+                dt,
+                rndGen,
+                pos1,
+                m1,
+                d1,
+                N1,
+                U1,
+                rho1,
+                T1,
+                Y1,
+                sigma1,
+                celli,
+                voli,
+                pos2,
+                m2,
+                d2,
+                N2,
+                U2,
+                rho2,
+                T2,
+                Y2,
+                sigma2,
+                cellj,
+                volj
+            );
+        }
+        else
+        {
+            coalescence = collideSorted
+            (
+                dt,
+                rndGen,
+                pos2,
+                m2,
+                d2,
+                N2,
+                U2,
+                rho2,
+                T2,
+                Y2,
+                sigma2,
+                cellj,
+                volj,
+                pos1,
+                m1,
+                d1,
+                N1,
+                U1,
+                rho1,
+                T1,
+                Y1,
+                sigma1,
+                celli,
+                voli
+            );
+        }
+    }
+    return coalescence;
+}
+
+
+template<class CloudType>
+bool Foam::ORourkeCollision<CloudType>::collideSorted
+(
+    const scalar& dt,
+    Random& rndGen,
+    vector& pos1,
+    scalar& m1,
+    scalar& d1,
+    scalar& N1,
+    vector& U1,
+    scalar& rho1,
+    scalar& T1,
+    scalarField& Y1,
+    const scalar& sigma1,
+    const label celli,
+    const scalar voli,
+    vector& pos2,
+    scalar& m2,
+    scalar& d2,
+    scalar& N2,
+    vector& U2,
+    scalar& rho2,
+    scalar& T2,
+    scalarField& Y2,
+    const scalar& sigma2,
+    const label cellj,
+    const scalar volj
+) const
+{
+    bool coalescence = false;
+
+    vector vRel = U1 - U2;
+    scalar magVRel = mag(vRel);
+
+    scalar mdMin = m2/N2;
+
+    scalar mTot = m1 + m2;
+
+    scalar gamma = d1/max(d2, 1.0e-12);
+    scalar f = gamma*gamma*gamma + 2.7*gamma - 2.4*gamma*gamma;
+
+    vector momMax = m1*U1;
+    vector momMin = m2*U2;
+
+    // use mass-averaged temperature to calculate We number
+    scalar Tm = (T1*m1 + T2*m2)/mTot;
+
+    // and mass averaged fractions ...
+    //scalarField Yav((m1*Y1 + m2*Y2)/mTot;
+
+    // interpolate the averaged surface tension
+    scalar sigma = sigma1 + (sigma2 - sigma1)*(Tm - T1)/(T2 - T1);
+
+    sigma = max(1.0e-6, sigma);
+    scalar Vtot = m1/rho1 + m2/rho2;
+    scalar rho = mTot/Vtot;
+
+    scalar dMean = sqrt(d1*d2);
+    scalar WeColl = max(1.0e-12, 0.5*rho*magVRel*magVRel*dMean/sigma);
+
+    scalar coalesceProb = min(1.0, 2.4*f/WeColl);
+    
+    scalar prob = rndGen.scalar01();
+
+    // Coalescence
+    if ( prob < coalesceProb && coalescence_) 
+    {
+        coalescence = true;
+        // How 'many' of the droplets coalesce
+        scalar nProb = prob*N2/N1;
+
+        // Conservation of mass, momentum and energy
+        scalar m2Org = m2;
+        m2 -= N1*nProb*mdMin;
+
+        scalar newMaxMass = m1 + (m2Org - m2);
+        m1 = newMaxMass;
+        
+        T1 = (Tm*mTot - m2*T2)/m1;
+
+        d1 = pow
+        (
+            6.0*m1/(rho1*mathematicalConstant::pi*N1),
+            1.0/3.0
+        );
+        
+        U1 =(momMax + (1.0 - m2/m2Org)*momMin)/m1;
+
+        // update the liquid mass fractions
+        Y1 = (m1*Y1 + (m2Org - m2)*Y2)/(m1 + m2Org -m2);
+        
+    }
+    // Grazing collision (no coalescence)
+    else
+    {
+        scalar gf = sqrt(prob) - sqrt(coalesceProb);
+        scalar denom = 1.0 - sqrt(coalesceProb);
+        if (denom < 1.0e-5) {
+            denom = 1.0;
+        }
+        gf /= denom;
+        
+        // if gf negative, this means that coalescence is turned off
+        // and these parcels should have coalesced
+        gf = max(0.0, gf);
+
+        // gf -> 1 => v1p -> p1().U() ...
+        // gf -> 0 => v1p -> momentum/(m1+m2)
+
+        vector mr = m1*U1 + m2*U2;
+        vector v1p = (mr + m2*gf*vRel)/(m1+m2);
+        vector v2p = (mr - m1*gf*vRel)/(m1+m2);
+        
+        if (N1 < N2)
+        {
+            U1 = v1p;
+            U2 = (N1*v2p + (N2-N1)*U2)/N2;
+        }
+        else
+        {
+            U1 = (N2*v1p + (N1-N2)*U1)/N1;
+            U2 = v2p;
+        }
+        
+    } // if - coalescence or not
+
+    return coalescence;
 }
 
 // ************************************************************************* //
