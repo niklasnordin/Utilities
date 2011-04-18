@@ -86,7 +86,7 @@ bool Foam::TrajectoryCollision<CloudType>::update
     const scalar volj
 ) const
 {
-    bool coalescense = false;
+    bool coalescence = false;
 
     vector vRel = U1 - U2;
     //    scalar magVRel = mag(vRel);
@@ -144,7 +144,7 @@ bool Foam::TrajectoryCollision<CloudType>::update
                 {
                     if (d1 > d2)
                     {
-                        coalescense = collideSorted
+                        coalescence = collideSorted
                         (
                             dt,
                             rndGen,
@@ -174,7 +174,7 @@ bool Foam::TrajectoryCollision<CloudType>::update
                     }
                     else
                     {
-                        coalescense = collideSorted
+                        coalescence = collideSorted
                         (
                             dt,
                             rndGen,
@@ -210,7 +210,7 @@ bool Foam::TrajectoryCollision<CloudType>::update
 
     }
 
-    return coalescense;
+    return coalescence;
 }
 
 
@@ -281,7 +281,7 @@ bool Foam::TrajectoryCollision<CloudType>::collideSorted
     // Coalescence
     if ( prob < coalesceProb && coalescence_) 
     {
-        coalescense = true;
+        coalescence = true;
         // How 'many' of the droplets coalesce
         scalar nProb = prob*N2/N1;
 
@@ -294,76 +294,51 @@ bool Foam::TrajectoryCollision<CloudType>::collideSorted
         
         T1 = (Tm*mTot - m2*T2)/m1;
 
-                    pMax().d() = 
-                        pow
-                        (
-                            6.0*newMaxMass/(rhoMax*mathematicalConstant::pi*nMax),
-                            1.0/3.0
-                        );
+        d1 = pow
+        (
+            6.0*m1/(rho1*mathematicalConstant::pi*N1),
+            1.0/3.0
+        );
+        
+        U1 =(momMax + (1.0 - m2/m2Org)*momMin)/m1;
 
-                    pMax().U() = 
-                        (momMax + (1.0-newMinMass/mMin)*momMin)/newMaxMass;
+        // update the liquid mass fractions
+        Y1 = (m1*Y1 + (m2Org - m2)*Y2)/(m1 + m2Org -m2);
+        
+    }
+    // Grazing collision (no coalescence)
+    else
+    {
+        scalar gf = sqrt(prob) - sqrt(coalesceProb);
+        scalar denom = 1.0 - sqrt(coalesceProb);
+        if (denom < 1.0e-5) {
+            denom = 1.0;
+        }
+        gf /= denom;
+        
+        // if gf negative, this means that coalescence is turned off
+        // and these parcels should have coalesced
+        gf = max(0.0, gf);
 
-                    // update the liquid molar fractions
-                    scalarField Ymin = spray_.fuels().Y(pMin().X());
-                    scalarField Ymax = spray_.fuels().Y(pMax().X());
-                    scalarField Ynew = mMax*Ymax + (mMin - newMinMass)*Ymin;
-                    scalar Wlinv = 0.0;
-                    forAll(Ynew, i)
-                    {
-                        Wlinv += Ynew[i]/spray_.fuels().properties()[i].W();
-                    }
-                    forAll(Ynew, i)
-                    {
-                        pMax().X()[i] = 
-                            Ynew[i]/(spray_.fuels().properties()[i].W()*Wlinv);
-                    }
+        // gf -> 1 => v1p -> p1().U() ...
+        // gf -> 0 => v1p -> momentum/(m1+m2)
 
-
-                }
-                // Grazing collision (no coalescence)
-                else
-                {
-                    scalar gf = sqrt(prob) - sqrt(coalesceProb);
-                    scalar denom = 1.0 - sqrt(coalesceProb);
-                    if (denom < 1.0e-5) {
-                        denom = 1.0;
-                    }
-                    gf /= denom;
-
-                    // if gf negative, this means that coalescence is turned off
-                    // and these parcels should have coalesced
-                    gf = max(0.0, gf);
-
-                    scalar rho1 = spray_.fuels().rho(pc, p1().T(), p1().X());
-                    scalar rho2 = spray_.fuels().rho(0.0, p2().T(), p2().X());
-                    scalar m1 = p1().m();
-                    scalar m2 = p2().m();
-                    scalar n1 = p1().N(rho1);
-                    scalar n2 = p2().N(rho2);
-
-                    // gf -> 1 => v1p -> p1().U() ...
-                    // gf -> 0 => v1p -> momentum/(m1+m2)
-
-                    vector mr = m1*v1 + m2*v2;
-                    vector v1p = (mr + m2*gf*vRel)/(m1+m2);
-                    vector v2p = (mr - m1*gf*vRel)/(m1+m2);
-
-                    if (n1 < n2)
-                    {
-                        p1().U() = v1p;
-                        p2().U() = (n1*v2p + (n2-n1)*v2)/n2;
-                    }
-                    else
-                    {
-                        p1().U() = (n2*v1p + (n1-n2)*v1)/n1;
-                        p2().U() = v2p;
-                    }
-
-                } // if - coalescence or not
-
-            } // if - collision
-        */
+        vector mr = m1*U1 + m2*U2;
+        vector v1p = (mr + m2*gf*vRel)/(m1+m2);
+        vector v2p = (mr - m1*gf*vRel)/(m1+m2);
+        
+        if (N1 < N2)
+        {
+            U1 = v1p;
+            U2 = (N1*v2p + (N2-N1)*U2)/N2;
+        }
+        else
+        {
+            U1 = (N2*v1p + (N1-N2)*U1)/N1;
+            U2 = v2p;
+        }
+        
+    } // if - coalescence or not
 
     return coalescence;
 }
