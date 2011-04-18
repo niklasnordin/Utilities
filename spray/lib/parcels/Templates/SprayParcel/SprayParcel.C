@@ -322,6 +322,7 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
         // add child parcel. most properties will be identical to the parent
         ParcelType* child = new ParcelType(td.cloud(), this->position(), cellI);
         scalar massDrop = rho*mathematicalConstant::pi*pow(dChild, 3.0)/6.0;
+	child->mass0() = massChild;
 	child->d() = dChild;
         child->rho() = this->rho();
         child->T() = this->T();
