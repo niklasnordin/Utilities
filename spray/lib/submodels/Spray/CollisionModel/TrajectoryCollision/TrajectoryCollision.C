@@ -52,6 +52,12 @@ Foam::TrajectoryCollision<CloudType>::~TrajectoryCollision()
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class CloudType>
+bool Foam::TrajectoryCollision<CloudType>::active() const
+{
+    return true;
+}
+
+template<class CloudType>
 bool Foam::TrajectoryCollision<CloudType>::update
 (
     const scalar& dt,
@@ -64,6 +70,7 @@ bool Foam::TrajectoryCollision<CloudType>::update
     scalar& rho1,
     scalar& T1,
     scalarField& Y1,
+    const scalar& sigma1,
     const label celli,
     const scalar voli,
     vector& pos2,
@@ -74,6 +81,7 @@ bool Foam::TrajectoryCollision<CloudType>::update
     scalar& rho2,
     scalar& T2,
     scalarField& Y2,
+    const scalar& sigma2,
     const label cellj,
     const scalar volj
 ) const
@@ -81,7 +89,7 @@ bool Foam::TrajectoryCollision<CloudType>::update
     bool coalescense = false;
 
     vector vRel = U1 - U2;
-    scalar magVRel = mag(vRel);
+    //    scalar magVRel = mag(vRel);
     
     vector p = pos2 - pos1;
     scalar dist = mag(p);
@@ -131,62 +139,69 @@ bool Foam::TrajectoryCollision<CloudType>::update
 
                 scalar xx = rndGen.scalar01();
 
-                if (d1 > d2)
+                // collision occur
+                if ((xx < collProb) && (m1 > VSMALL) && (m2 > VSMALL))
                 {
-                    coalescense = collideSorted
-                    (
-                        dt,
-                        rndGen,
-                        pos1,
-                        m1,
-                        d1,
-                        N1,
-                        U1,
-                        rho1,
-                        T1,
-                        Y1,
-                        celli,
-                        voli,
-                        pos2,
-                        m2,
-                        d2,
-                        N2,
-                        U2,
-                        rho2,
-                        T2,
-                        Y2,
-                        cellj,
-                        volj
-                    );
-                }
-                else
-                {
-                    coalescense = collideSorted
-                    (
-                        dt,
-                        rndGen,
-                        pos2,
-                        m2,
-                        d2,
-                        N2,
-                        U2,
-                        rho2,
-                        T2,
-                        Y2,
-                        cellj,
-                        volj,
-                        pos1,
-                        m1,
-                        d1,
-                        N1,
-                        U1,
-                        rho1,
-                        T1,
-                        Y1,
-                        celli,
-                        voli
-                    );
-
+                    if (d1 > d2)
+                    {
+                        coalescense = collideSorted
+                        (
+                            dt,
+                            rndGen,
+                            pos1,
+                            m1,
+                            d1,
+                            N1,
+                            U1,
+                            rho1,
+                            T1,
+                            Y1,
+                            sigma1,
+                            celli,
+                            voli,
+                            pos2,
+                            m2,
+                            d2,
+                            N2,
+                            U2,
+                            rho2,
+                            T2,
+                            Y2,
+                            sigma2,
+                            cellj,
+                            volj
+                        );
+                    }
+                    else
+                    {
+                        coalescense = collideSorted
+                        (
+                            dt,
+                            rndGen,
+                            pos2,
+                            m2,
+                            d2,
+                            N2,
+                            U2,
+                            rho2,
+                            T2,
+                            Y2,
+                            sigma2,
+                            cellj,
+                            volj,
+                            pos1,
+                            m1,
+                            d1,
+                            N1,
+                            U1,
+                            rho1,
+                            T1,
+                            Y1,
+                            sigma1,
+                            celli,
+                            voli
+                        );
+                    }
                 } // if ( d1 > d2 )
                 
             } // if - possible collision (alpha, beta) in timeinterval
@@ -212,6 +227,7 @@ bool Foam::TrajectoryCollision<CloudType>::collideSorted
     scalar& rho1,
     scalar& T1,
     scalarField& Y1,
+    const scalar& sigma1,
     const label celli,
     const scalar voli,
     vector& pos2,
@@ -222,82 +238,61 @@ bool Foam::TrajectoryCollision<CloudType>::collideSorted
     scalar& rho2,
     scalar& T2,
     scalarField& Y2,
+    const scalar& sigma2,
     const label cellj,
     const scalar volj
 ) const
 {
     bool coalescence = false;
-    /*
 
-            scalar dMin = pMin().d();
-            scalar dMax = pMax().d();
+    vector vRel = U1 - U2;
+    scalar magVRel = mag(vRel);
 
-            if (dMin > dMax)
-            {
-                dMin = pMax().d();
-                dMax = pMin().d();
-                pMin = p2;
-                pMax = p1;
-            }
+    scalar mdMin = m2/N2;
 
-            scalar rhoMax = spray_.fuels().rho(pc, pMax().T(), pMax().X());
-            scalar rhoMin = spray_.fuels().rho(pc, pMin().T(), pMin().X());
-            scalar mMax = pMax().m();
-            scalar mMin = pMin().m();
-            scalar nMax = pMax().N(rhoMax);
-            scalar nMin = pMin().N(rhoMin);
+    scalar mTot = m1 + m2;
 
-            scalar mdMin = mMin/nMin;
+    scalar gamma = d1/max(d2, 1.0e-12);
+    scalar f = gamma*gamma*gamma + 2.7*gamma - 2.4*gamma*gamma;
 
-            // collision occur
-            if ((xx < collProb) && (mMin > VSMALL) && (mMax > VSMALL))
-            {
-                scalar mTot = mMax + mMin;
+    vector momMax = m1*U1;
+    vector momMin = m2*U2;
 
-                scalar gamma = dMax/max(dMin, 1.0e-12);
-                scalar f = gamma*gamma*gamma + 2.7*gamma - 2.4*gamma*gamma;
+    // use mass-averaged temperature to calculate We number
+    scalar Tm = (T1*m1 + T2*m2)/mTot;
 
-                vector momMax = mMax*pMax().U();
-                vector momMin = mMin*pMin().U();
+    // and mass averaged fractions ...
+    //scalarField Yav((m1*Y1 + m2*Y2)/mTot;
 
-                // use mass-averaged temperature to calculate We number
-                scalar averageTemp = (pMax().T()*mMax + pMin().T()*mMin)/mTot;
-                // and mass averaged mole fractions ...
-                scalarField 
-                    Xav((pMax().m()*pMax().X()+pMin().m()*pMin().X())
-                   /(pMax().m() + pMin().m()));
+    // interpolate the averaged surface tension
+    scalar sigma = sigma1 + (sigma2 - sigma1)*(Tm - T1)/(T2 - T1);
 
-                scalar sigma = spray_.fuels().sigma(pc, averageTemp, Xav);
-                sigma = max(1.0e-6, sigma);
-                scalar rho = spray_.fuels().rho(pc, averageTemp, Xav);
+    sigma = max(1.0e-6, sigma);
+    scalar Vtot = m1/rho1 + m2/rho2;
+    scalar rho = mTot/Vtot;
 
-                scalar dMean = sqrt(dMin*dMax);
-                scalar WeColl = 
-                    max(1.0e-12, 0.5*rho*magVRel*magVRel*dMean/sigma);
+    scalar dMean = sqrt(d1*d2);
+    scalar WeColl = max(1.0e-12, 0.5*rho*magVRel*magVRel*dMean/sigma);
 
-                // coalescence only possible when parcels are close enoug
+    scalar coalesceProb = min(1.0, 2.4*f/WeColl);
+    
+    scalar prob = rndGen.scalar01();
 
-                scalar coalesceProb = min(1.0, 2.4*f/WeColl);
+    // Coalescence
+    if ( prob < coalesceProb && coalescence_) 
+    {
+        coalescense = true;
+        // How 'many' of the droplets coalesce
+        scalar nProb = prob*N2/N1;
 
-                scalar prob = rndGen_.scalar01();
+        // Conservation of mass, momentum and energy
+        scalar m2Org = m2;
+        m2 -= N1*nProb*mdMin;
 
-                // Coalescence
-                if ( prob < coalesceProb && coalescence_) 
-                {
-                    // How 'many' of the droplets coalesce
-                    scalar nProb = prob*nMin/nMax;
-
-                    // Conservation of mass, momentum and energy
-
-                    pMin().m() -= nMax*nProb*mdMin;
-
-                    scalar newMinMass = pMin().m();
-                    scalar newMaxMass = mMax + (mMin - newMinMass);
-                    pMax().m() = newMaxMass;
-
-                    pMax().T() = 
-                        (averageTemp*mTot - newMinMass*pMin().T())/newMaxMass;
-                    rhoMax = spray_.fuels().rho(pc, pMax().T(), pMax().X());
+        scalar newMaxMass = m1 + (m2Org - m2);
+        m1 = newMaxMass;
+        
+        T1 = (Tm*mTot - m2*T2)/m1;
 
                     pMax().d() = 
                         pow
@@ -368,8 +363,8 @@ bool Foam::TrajectoryCollision<CloudType>::collideSorted
                 } // if - coalescence or not
 
             } // if - collision
-
         */
+
     return coalescence;
 }
 

@@ -48,6 +48,12 @@ Foam::ORourkeCollision<CloudType>::~ORourkeCollision()
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class CloudType>
+bool Foam::ORourkeCollision<CloudType>::active() const
+{
+    return true;
+}
+
+template<class CloudType>
 bool Foam::ORourkeCollision<CloudType>::update
 (
     const scalar& dt,
@@ -60,6 +66,7 @@ bool Foam::ORourkeCollision<CloudType>::update
     scalar& rho1,
     scalar& T1,
     scalarField& Y1,
+    const scalar& sigma1,
     const label celli,
     const scalar voli,
     vector& pos2,
@@ -70,6 +77,7 @@ bool Foam::ORourkeCollision<CloudType>::update
     scalar& rho2,
     scalar& T2,
     scalarField& Y2,
+    const scalar& sigma2,
     const label cellj,
     const scalar volj
 ) const

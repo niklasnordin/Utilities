@@ -125,6 +125,8 @@ public:
 
     // Member Functions
 
+        virtual bool active() const = 0;
+
         virtual bool update
         (
             const scalar& dt,
@@ -133,10 +135,11 @@ public:
             scalar& m1,
             scalar& d1,
             scalar& N1,
-            vector& U,
+            vector& U1,
             scalar& rho1,
             scalar& T1,
             scalarField& Y1,
+            const scalar& sigma1,
             const label celli,
             const scalar voli,
             vector& pos2,
@@ -147,6 +150,7 @@ public:
             scalar& rho2,
             scalar& T2,
             scalarField& Y2,
+            const scalar& sigma2,
             const label cellj,
             const scalar volj
         ) const = 0;

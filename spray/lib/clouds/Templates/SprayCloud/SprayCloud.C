@@ -99,65 +99,76 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
         resetSourceTerms();
     }
     
-
-    label i = 0;
-    scalar dt = this->db().time().deltaTValue();
-    forAllIter(typename Cloud<ParcelType>, *this, iter)
+    if (collision().active())
     {
-        ParcelType& p = iter();
-        scalar Vi = this->mesh().V()[p.cell()];
-        label j = 0;
-        forAllIter(typename Cloud<ParcelType>, *this, jter)
+
+        label i = 0;
+        scalar dt = this->db().time().deltaTValue();
+        forAllIter(typename Cloud<ParcelType>, *this, iter)
         {
-            if (j > i)
+            ParcelType& p = iter();
+            scalar Vi = this->mesh().V()[p.cell()];
+            scalarField X1(this->composition().liquids().X(p.Y()));
+            scalar sigma1 = this->composition().liquids().sigma(p.pc(), p.T(), X1);
+            
+            label j = 0;
+            forAllIter(typename Cloud<ParcelType>, *this, jter)
             {
-                ParcelType& q = jter();
-                scalar Vj = this->mesh().V()[q.cell()];
-                bool updateRho = collision().update
-                (
-                    dt,
-                    this->rndGen(),
-                    p.position(),
-                    p.mass0(),
-                    p.d(),
-                    p.nParticle(),
-                    p.U(),
-                    p.rho(),
-                    p.T(),
-                    p.Y(),
-                    p.cell(),
-                    Vi,
-                    q.position(),
-                    q.mass0(),
-                    q.d(),
-                    q.nParticle(),
-                    q.U(),
-                    q.rho(),
-                    q.T(),
-                    q.Y(),
-                    q.cell(),
-                    Vj
-                );
-
-                // for coalescence we need to update the density
-                if (updateRho)
+                if (j > i)
                 {
+                    ParcelType& q = jter();
+                    scalar Vj = this->mesh().V()[q.cell()];
+                    scalarField X2(this->composition().liquids().X(q.Y()));
+                    scalar sigma2 = this->composition().liquids().sigma(q.pc(), q.T(), X2);
+                    bool updateRho = collision().update
+                    (
+                        dt,
+                        this->rndGen(),
+                        p.position(),
+                        p.mass0(),
+                        p.d(),
+                        p.nParticle(),
+                        p.U(),
+                        p.rho(),
+                        p.T(),
+                        p.Y(),
+                        sigma1,
+                        p.cell(),
+                        Vi,
+                        q.position(),
+                        q.mass0(),
+                        q.d(),
+                        q.nParticle(),
+                        q.U(),
+                        q.rho(),
+                        q.T(),
+                        q.Y(),
+                        sigma2,
+                        q.cell(),
+                        Vj
+                    );
+                    
+                    // for coalescence we need to update the density
+                    if (updateRho)
+                    {
+                    }
                 }
+                j++;
             }
-            j++;
+            
+            i++;
         }
-
-        i++;
-    }
-    // remove coalesced particles (diameter set to 0)
-    forAllIter(typename Cloud<ParcelType>, *this, iter)
-    {
-        ParcelType& p = iter();
-        if (p.mass0() < VSMALL)
+        // remove coalesced particles (diameter set to 0)
+        forAllIter(typename Cloud<ParcelType>, *this, iter)
         {
-            deleteParticle(p);
+            ParcelType& p = iter();
+            if (p.mass0() < VSMALL)
+            {
+                deleteParticle(p);
+            }
         }
     }
+
     Cloud<ParcelType>::move(td);
     this->injection().inject(td);
 }
