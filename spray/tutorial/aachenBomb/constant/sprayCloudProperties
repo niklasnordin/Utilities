@@ -173,6 +173,12 @@ ReitzDiwakarCoeffs
 
 solveOscillationEq     false;
 
-CollisionModel         none;
+CollisionModel         ORourke;
+
+
+ORourkeCoeffs
+{
+    coalescence        true;
+}
 
 // ************************************************************************* //

@@ -148,9 +148,26 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
                         Vj
                     );
                     
-                    // for coalescence we need to update the density
+                    // for coalescence we need to update the density and slightly correct
+                    // the statistical number of particles
                     if (updateRho)
                     {
+                        if (p.mass0() > VSMALL)
+                        {
+                            scalarField Xp(this->composition().liquids().X(p.Y()));
+                            p.rho() = this->composition().liquids().rho(p.pc(), p.T(), Xp);
+                            scalar md = p.rho()*mathematicalConstant::pi*pow(p.d(), 3.0)/6.0;
+                            p.nParticle() = p.mass0()/md;
+                        }
+
+                        if (q.mass0() > VSMALL)
+                        {
+                            scalarField Xq(this->composition().liquids().X(q.Y()));
+                            q.rho() = this->composition().liquids().rho(q.pc(), q.T(), Xq);
+                            scalar md = q.rho()*mathematicalConstant::pi*pow(q.d(), 3.0)/6.0;
+                            q.nParticle() = q.mass0()/md;
+                        }
+
                     }
                 }
                 j++;
