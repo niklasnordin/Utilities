@@ -341,6 +341,8 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
         child->tMom() = 1.0/(As*utc);
         child->Y() = this->Y();
         child->user() = 0.0;
+        child->setCellValues(td, dt, cellI);
+
 	td.cloud().addParticle(child);
     }
 }
