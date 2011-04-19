@@ -239,7 +239,6 @@ bool Foam::ORourkeCollision<CloudType>::collideSorted
         // Conservation of mass, momentum and energy
         scalar m2Org = m2;
         scalar dm = N1*nProb*mdMin;
-
         m2 -= dm;
         scalar V2 = mathematicalConstant::pi*pow(d2, 3.0)/6.0;
         N2 = m2/(rho2*V2);
@@ -249,14 +248,10 @@ bool Foam::ORourkeCollision<CloudType>::collideSorted
         T1 = (Tm*mTot - m2*T2)/m1;
 
         U1 =(momMax + (1.0 - m2/m2Org)*momMin)/m1;
+
         // update the liquid mass fractions
         Y1 = (m1Org*Y1 + dm*Y2)/m1;
-        Info << "dm = " << dm 
-            << ", m1o = " << m1Org
-            << ", m1 = " << m1
-            << ", m2o = " << m2Org
-            << ", m2 = " << m2
-            << endl; 
+
     }
     // Grazing collision (no coalescence)
     else

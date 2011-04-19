@@ -122,7 +122,7 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
                     scalarField X2(this->composition().liquids().X(q.Y()));
                     scalar sigma2 = this->composition().liquids().sigma(q.pc(), q.T(), X2);
                     scalar mq = q.mass()*q.nParticle();
-                    scalar mTot = mp + mq;
+
                     bool updateRho = collision().update
                     (
                         dt,
@@ -150,11 +150,6 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
                         q.cell(),
                         Vj
                     );
-                    scalar mTot2 = mp + mq;
-                    if (mag(mTot2-mTot) > 1.0e-28)
-                    {
-                        Info << "mass conservation violated, diff = " << mag(mTot-mTot2) << endl;
-                    }
 
                     // for coalescence we need to update the density and slightly correct
                     // the diameter cause of the temp/conc-change
