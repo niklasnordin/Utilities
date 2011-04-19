@@ -110,22 +110,25 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
             scalar Vi = this->mesh().V()[p.cell()];
             scalarField X1(this->composition().liquids().X(p.Y()));
             scalar sigma1 = this->composition().liquids().sigma(p.pc(), p.T(), X1);
-            
+
             label j = 0;
             forAllIter(typename Cloud<ParcelType>, *this, jter)
             {
                 if (j > i)
                 {
+                    scalar mp = p.mass()*p.nParticle();
                     ParcelType& q = jter();
                     scalar Vj = this->mesh().V()[q.cell()];
                     scalarField X2(this->composition().liquids().X(q.Y()));
                     scalar sigma2 = this->composition().liquids().sigma(q.pc(), q.T(), X2);
+                    scalar mq = q.mass()*q.nParticle();
+                    scalar mTot = mp + mq;
                     bool updateRho = collision().update
                     (
                         dt,
                         this->rndGen(),
                         p.position(),
-                        p.mass0(),
+                        mp,
                         p.d(),
                         p.nParticle(),
                         p.U(),
@@ -136,7 +139,7 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
                         p.cell(),
                         Vi,
                         q.position(),
-                        q.mass0(),
+                        mq,
                         q.d(),
                         q.nParticle(),
                         q.U(),
@@ -147,27 +150,32 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
                         q.cell(),
                         Vj
                     );
-                    
+                    scalar mTot2 = mp + mq;
+                    if (mag(mTot2-mTot) > 1.0e-28)
+                    {
+                        Info << "mass conservation violated, diff = " << mag(mTot-mTot2) << endl;
+                    }
+
                     // for coalescence we need to update the density and slightly correct
-                    // the statistical number of particles
+                    // the diameter cause of the temp/conc-change
                     if (updateRho)
                     {
-                        if (p.mass0() > VSMALL)
+                        if (mp > VSMALL)
                         {
                             scalarField Xp(this->composition().liquids().X(p.Y()));
                             p.rho() = this->composition().liquids().rho(p.pc(), p.T(), Xp);
                             p.cp() = this->composition().liquids().cp(p.pc(), p.T(), Xp);
-                            scalar md = p.rho()*mathematicalConstant::pi*pow(p.d(), 3.0)/6.0;
-                            p.nParticle() = p.mass0()/md;
+                            scalar rhs = 6.0*mp/(p.nParticle()*p.rho()*mathematicalConstant::pi);
+                            p.d() = pow(rhs, 1.0/3.0);
                         }
 
-                        if (q.mass0() > VSMALL)
+                        if (mq > VSMALL)
                         {
                             scalarField Xq(this->composition().liquids().X(q.Y()));
                             q.rho() = this->composition().liquids().rho(q.pc(), q.T(), Xq);
                             q.cp() = this->composition().liquids().cp(q.pc(), q.T(), Xq);
-                            scalar md = q.rho()*mathematicalConstant::pi*pow(q.d(), 3.0)/6.0;
-                            q.nParticle() = q.mass0()/md;
+                            scalar rhs = 6.0*mq/(q.nParticle()*q.rho()*mathematicalConstant::pi);
+                            q.d() = pow(rhs, 1.0/3.0);
                         }
 
                     }
@@ -181,7 +189,7 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
         forAllIter(typename Cloud<ParcelType>, *this, iter)
         {
             ParcelType& p = iter();
-            if (p.mass0() < VSMALL)
+            if (p.mass() < VSMALL)
             {
                 deleteParticle(p);
             }

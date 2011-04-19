@@ -288,6 +288,8 @@ bool Foam::TrajectoryCollision<CloudType>::collideSorted
         // Conservation of mass, momentum and energy
         scalar m2Org = m2;
         m2 -= N1*nProb*mdMin;
+        scalar V2 = mathematicalConstant::pi*pow(d2, 3.0)/6.0;
+        N2 = m2/(rho2*V2);
 
         scalar newMaxMass = m1 + (m2Org - m2);
         m1 = newMaxMass;
