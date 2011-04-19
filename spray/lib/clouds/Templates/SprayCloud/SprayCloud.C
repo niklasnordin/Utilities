@@ -156,6 +156,7 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
                         {
                             scalarField Xp(this->composition().liquids().X(p.Y()));
                             p.rho() = this->composition().liquids().rho(p.pc(), p.T(), Xp);
+                            p.cp() = this->composition().liquids().cp(p.pc(), p.T(), Xp);
                             scalar md = p.rho()*mathematicalConstant::pi*pow(p.d(), 3.0)/6.0;
                             p.nParticle() = p.mass0()/md;
                         }
@@ -164,6 +165,7 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
                         {
                             scalarField Xq(this->composition().liquids().X(q.Y()));
                             q.rho() = this->composition().liquids().rho(q.pc(), q.T(), Xq);
+                            q.cp() = this->composition().liquids().cp(q.pc(), q.T(), Xq);
                             scalar md = q.rho()*mathematicalConstant::pi*pow(q.d(), 3.0)/6.0;
                             q.nParticle() = q.mass0()/md;
                         }
