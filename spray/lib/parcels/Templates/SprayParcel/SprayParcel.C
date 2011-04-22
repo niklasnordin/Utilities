@@ -202,15 +202,19 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
     scalar rhoAv = this->pc_/(R*Tav);
 
     scalar soi = td.cloud().injection().timeStart();
-    scalar t1 = this->cloud().db().time().value() - soi;
-    scalar t0 = t1 - dt;
-
-    scalar massflowRate = rho*td.cloud().injection().volumeToInject(t0, t1)/dt;
+    scalar currentTime = this->cloud().db().time().value();
     const vector& pos = this->position();
     const vector& injectionPos = this->position0();
 
     // disregard the continous phase when calculating the relative velocity
+    // (in line with the deactivated coupled assumption)
     scalar Urel = mag(this->U());
+
+    scalar traveledTime = mag(pos - injectionPos)/Urel;
+    scalar t0 = max(0.0, currentTime - traveledTime - soi);
+    scalar t1 = min(t0 + dt, td.cloud().injection().timeEnd() - soi);
+    // this should be the massflow from when the parcel was injected
+    scalar massflowRate = rho*td.cloud().injection().volumeToInject(t0, t1)/dt;
 
     scalar chi = 0.0;
     if (td.cloud().atomization().calcChi())
