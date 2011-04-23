@@ -61,7 +61,14 @@ class TAB
 :
     public BreakupModel<CloudType>
 {
+public:
+    //- Enumeration for the SMD brekup calculation
+    enum SMDMethods
+    {
+        method1, method2
+    };
 
+private:
     // Private data
 
         dictionary coeffsDict_;
@@ -76,6 +83,8 @@ class TAB
         scalar Cmu_;
         scalar Comega_;
         scalar WeCrit_;
+        word SMDCalcMethod_;
+        SMDMethods SMDMethod_;
 
 public:
 

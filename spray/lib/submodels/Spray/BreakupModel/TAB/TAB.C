@@ -38,7 +38,8 @@ Foam::TAB<CloudType>::TAB
     coeffsDict_(dict.subDict(typeName + "Coeffs")),
     Cmu_(BreakupModel<CloudType>::TABCmu_),
     Comega_(BreakupModel<CloudType>::TABComega_),
-    WeCrit_(BreakupModel<CloudType>::TABWeCrit_)
+    WeCrit_(BreakupModel<CloudType>::TABWeCrit_),
+    SMDCalcMethod_(coeffsDict_.lookup("SMDCalculationMethod"))
 {
 
     // calculate the inverse function of the Rossin-Rammler Distribution
@@ -59,6 +60,20 @@ Foam::TAB<CloudType>::TAB
 	BreakupModel<CloudType>::solveOscillationEq_ = true;
     }
 
+    if (SMDCalcMethod_ == "method1")
+    {
+        SMDMethod_ = method1;
+    }
+    else if (SMDCalcMethod_ == "method2")
+    {
+        SMDMethod_ = method2;
+    }
+    else
+    {
+        SMDMethod_ = method2;
+        Info << "Warning: SMDCalculationMethod not set. Using method2" << endl;
+    }
+   
 }
 
 
@@ -183,17 +198,21 @@ bool Foam::TAB<CloudType>::update
                 );
                 
                 label n = 0;
-                bool found = false;
-                scalar random = rndGen.scalar01();
-                while (!found && (n<99))
+                scalar rNew = 0.0;
+                switch (SMDMethod_)
                 {
-                    if (rrd_[n]>random)
+                    case method1:
                     {
-                        found = true;
+                        #include "TABSMDCalcMethod1.H"
+                        break;
                     }
-                    n++;
+                    case method2:
+                    {
+                        #include "TABSMDCalcMethod2.H"
+                        break;
+                    }
                 }
-                scalar rNew = 0.04*n*rs;
+
                 if (rNew < r)
                 {
                     d = 2*rNew;
