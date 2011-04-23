@@ -62,6 +62,15 @@ class LISAAtomization
 :
     public AtomizationModel<CloudType>
 {
+
+public:
+
+    //- Enumeration for SMD calculations
+    enum SMDMethods
+    {
+        method1, method2
+    };
+
 private:
 
     // Private data
@@ -72,7 +81,9 @@ private:
         scalar Q_;
         scalar lisaExp_;
         vector injectorDirection_;
+        word SMDCalcMethod_;
 
+        SMDMethods SMDMethod_;
 
 public:
 

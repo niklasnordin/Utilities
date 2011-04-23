@@ -40,10 +40,26 @@ Foam::LISAAtomization<CloudType>::LISAAtomization
     cTau_(readScalar(coeffsDict_.lookup("cTau"))),
     Q_(readScalar(coeffsDict_.lookup("Q"))),
     lisaExp_(readScalar(coeffsDict_.lookup("lisaExp"))),
-    injectorDirection_(coeffsDict_.lookup("injectorDirection"))
+    injectorDirection_(coeffsDict_.lookup("injectorDirection")),
+    SMDCalcMethod_(coeffsDict_.lookup("SMDCalculationMethod"))
 {
     // NN. Would be good if this could be picked up from the injector
     injectorDirection_ /= mag(injectorDirection_);
+
+    if (SMDCalcMethod_ == "method1")
+    {
+        SMDMethod_ = method1;
+    }
+    else if (SMDCalcMethod_ == "method2")
+    {
+        SMDMethod_ = method2;
+    }
+    else
+    {
+        SMDMethod_ = method2;
+        Info << "Warning: SMDCalculationMethod not set. Using method2" << endl;
+    }
+   
 }
 
 
@@ -244,8 +260,19 @@ void Foam::LISAAtomization<CloudType>::update
     {
         scalar x = 0;
 
-        #include "LISASMDCalcMethod1.H"
-
+        switch (SMDMethod_)
+        {
+            case method1:
+            {
+                #include "LISASMDCalcMethod1.H"
+                break;
+            }
+            case method2:
+            {
+                #include "LISASMDCalcMethod2.H"
+                break;
+            }
+        }
         //  New droplet properties
         liquidCore = 0.0;
         d = x;
