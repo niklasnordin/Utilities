@@ -179,6 +179,9 @@ public:
     
             //- Return const-access to the average parcel mass
             inline const scalar& averageParcelMass() const;
+
+            //- Calculate the diameter Dij
+            scalar D(const label i, const label j) const;
 };
 
 

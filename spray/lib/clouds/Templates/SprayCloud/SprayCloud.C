@@ -295,6 +295,24 @@ void Foam::SprayCloud<ParcelType>::checkParcelProperties
 
 
 template<class ParcelType>
+Foam::scalar Foam::SprayCloud<ParcelType>::D(const label i, const label j) const
+{
+    scalar si = 0.0;
+    scalar sj = 0.0;
+    forAllConstIter(typename Cloud<ParcelType>, *this, iter)
+    {
+        const ParcelType& p = iter();
+        si += p.nParticle()*pow(p.d(), i);
+        sj += p.nParticle()*pow(p.d(), j);
+    }
+
+    reduce(si, sumOp<scalar>());
+    reduce(sj, sumOp<scalar>());
+    sj = max(sj, VSMALL);
+    return si/sj;
+}
+
+template<class ParcelType>
 void Foam::SprayCloud<ParcelType>::resetSourceTerms()
 {
     ReactingCloud<ParcelType>::resetSourceTerms();
@@ -322,6 +340,8 @@ template<class ParcelType>
 void Foam::SprayCloud<ParcelType>::info() const
 {
     ReactingCloud<ParcelType>::info();
+    scalar d32 = 1.0e+6*D(3,2);
+    Info << "    D32 (mu)                        = " << d32 << endl;
 }
 
 
