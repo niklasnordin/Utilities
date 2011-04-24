@@ -154,11 +154,12 @@ BlobsSheetAtomizationCoeffs
 
 LISACoeffs
 {
-    Cl                 0.5;
-    cTau               12.0;
-    Q                  1.0e-3;
-    lisaExp            0.27;
-    injectorDirection  ( 0 -1 0 );
+    Cl                    0.5;
+    cTau                  12.0;
+    Q                     1.0e-3;
+    lisaExp               0.27;
+    injectorDirection     ( 0 -1 0 );
+    SMDCalculationMethod  method2;
 }
 
 BreakupModel     ReitzDiwakar;

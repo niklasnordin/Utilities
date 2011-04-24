@@ -57,7 +57,8 @@ Foam::LISAAtomization<CloudType>::LISAAtomization
     else
     {
         SMDMethod_ = method2;
-        Info << "Warning: SMDCalculationMethod not set. Using method2" << endl;
+        Info << "Warning: SMDCalculationMethod " << SMDCalcMethod_ 
+            << " unknown. Options are ( method1 | method2 ). Using method2" << endl;
     }
    
 }
