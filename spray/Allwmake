@@ -1,5 +1,2 @@
-rm -fr lib/lnInclude
-wclean lib
-wclean solvers/dieselSprayFoam
 wmake libso lib
 wmake solvers/dieselSprayFoam

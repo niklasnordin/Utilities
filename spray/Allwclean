@@ -1,2 +1,3 @@
+rm -fr lib/lnInclude
 wclean lib
 wclean solvers/dieselSprayFoam

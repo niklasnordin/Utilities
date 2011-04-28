@@ -120,6 +120,8 @@ bool Foam::TAB<CloudType>::update
     scalar r2 = r*r;
     scalar r3 = r*r2;
 
+    scalar semiMass = nParticle*pow(d, 3);
+
     // inverse of characteristic viscous damping time
     scalar rtd = 0.5*Cmu_*mu/(rho*r2);
     
@@ -231,6 +233,9 @@ bool Foam::TAB<CloudType>::update
         y = 0;
         yDot = 0;
     }
+
+    // update the nParticle count to conserve mass
+    nParticle = semiMass/pow(d, 3);
 
     // Do not add child parcel
     return false;
