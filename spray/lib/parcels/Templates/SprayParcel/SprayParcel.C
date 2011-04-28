@@ -222,11 +222,6 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
 	chi = this->chi(td, X);
     }
 
-    if (td.cloud().breakup().solveOscillationEq())
-    {
-        solveTABEq(td, dt); 
-    }
-
     td.cloud().atomization().update
     (
         dt,
@@ -258,6 +253,11 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
     const label cellI
 )
 {
+
+    if (td.cloud().breakup().solveOscillationEq())
+    {
+        solveTABEq(td, dt); 
+    }
 
     // cell state info is updated in ReactingParcel calc
     const scalarField& Y(this->Y());
