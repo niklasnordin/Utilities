@@ -123,7 +123,7 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
                     scalar sigma2 = this->composition().liquids().sigma(q.pc(), q.T(), X2);
                     scalar mq = q.mass()*q.nParticle();
 
-                    bool updateRho = collision().update
+                    bool updateProperties = collision().update
                     (
                         dt,
                         this->rndGen(),
@@ -151,9 +151,9 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
                         Vj
                     );
 
-                    // for coalescence we need to update the density and slightly correct
-                    // the diameter cause of the temp/conc-change
-                    if (updateRho)
+                    // for coalescence we need to update the density and 
+                    // the diameter cause of the temp/conc/mass-change
+                    if (updateProperties)
                     {
                         if (mp > VSMALL)
                         {
