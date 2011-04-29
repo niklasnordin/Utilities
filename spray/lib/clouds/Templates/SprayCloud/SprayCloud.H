@@ -182,6 +182,10 @@ public:
 
             //- Calculate the diameter Dij
             scalar D(const label i, const label j) const;
+
+            //- Calculate the liquid penetration for prc % of the mass
+            scalar liquidPenetration(const scalar& prc) const;
+
 };
 
 
