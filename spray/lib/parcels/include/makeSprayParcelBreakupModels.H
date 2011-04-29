@@ -37,6 +37,7 @@ License
 #include "TAB.H"
 #include "ETAB.H"
 #include "SHF.H"
+#include "PilchErdman.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -67,6 +68,14 @@ License
     makeBreakupModelThermoType                                                \
     (                                                                         \
         NoBreakup,                                                            \
+        SprayCloud,                                                           \
+        ParcelType,                                                           \
+        ThermoType                                                            \
+    );                                                                        \
+                                                                              \
+    makeBreakupModelThermoType                                                \
+    (                                                                         \
+        PilchErdman,                                                            \
         SprayCloud,                                                           \
         ParcelType,                                                           \
         ThermoType                                                            \
