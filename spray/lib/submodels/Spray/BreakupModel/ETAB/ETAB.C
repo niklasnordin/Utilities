@@ -46,6 +46,15 @@ Foam::ETAB<CloudType>::ETAB
 {
     scalar k21 = k2_/k1_;
     AWe_ = (k21*sqrt(WeTransition_) - 1.0)/pow(WeTransition_, 4.0);
+
+    if (!BreakupModel<CloudType>::solveOscillationEq_)
+    {
+        Info << "Warning: solveOscillationEq is set to " << BreakupModel<CloudType>::solveOscillationEq_ 
+	     << endl
+	     << " Setting it to true in order for the ETAB model to work." << endl;
+	BreakupModel<CloudType>::solveOscillationEq_ = true;
+    }
+
 }
 
 
