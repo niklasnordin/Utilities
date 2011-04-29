@@ -321,6 +321,11 @@ Foam::scalar Foam::SprayCloud<ParcelType>::liquidPenetration(const scalar& prc) 
     scalar mTot = 0.0;
 
     label Np = this->size();
+    if (Np < 1)
+    {
+        return 0.0;
+    }
+
     // arrays containing the parcels mass and
     // distance from injector in ascending order
     scalarField mass(Np);
