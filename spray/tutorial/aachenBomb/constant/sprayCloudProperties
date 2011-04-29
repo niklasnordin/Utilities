@@ -118,17 +118,17 @@ LiquidEvaporationCoeffs
 ConeInjectionCoeffs
 {
     SOI               0.0;
-    massTotal         massTotal [1 0 0 0 0 0 0] 6.0e-6;
+    massTotal         massTotal [1 0 0 0 0 0 0] 1.0e-5;
     parcelBasisType   mass;
     duration          1.25e-3;
     position          ( 0 0.0995 0 );
     direction         ( 0 -1 0 );
-    parcelsPerSecond  1000000;
+    parcelsPerSecond  100000000;
     volumeFlowRate    constant 1.0;
     Umag              constant 300.0;
 
     thetaInner        constant 0.0;
-    thetaOuter        constant 20.0;
+    thetaOuter        constant 10.0;
 
     parcelPDF
     {
@@ -144,25 +144,27 @@ ConeInjectionCoeffs
 
 }
 
-AtomizationModel LISA;
+AtomizationModel       none;
+BreakupModel           PilchErdman;
+CollisionModel         none;
+
+solveOscillationEq     false;
 
 BlobsSheetAtomizationCoeffs
 {
-    B           1.0e-2;
+    B           1.0;
     angle       90.0;
 }
 
 LISACoeffs
 {
-    Cl                    0.5;
-    cTau                  12.0;
-    Q                     1.0e-3;
-    lisaExp               0.27;
-    injectorDirection     ( 0 -1 0 );
-    SMDCalculationMethod  method2;
+    Cl                 0.5;
+    cTau               12.0;
+    Q                  1.0e-3;
+    lisaExp            0.27;
+    injectorDirection  ( 0 -1 0 );
 }
 
-BreakupModel     ReitzDiwakar;
 
 ReitzDiwakarCoeffs
 {
@@ -172,14 +174,54 @@ ReitzDiwakarCoeffs
     Cs            10.0;
 }
 
-solveOscillationEq     false;
+TABCoeffs
+{
+    y0              0.0;
+    yDot0           0.0;
+    Cmu             10.0;
+    Comega          8.0;
+    WeCrit          12;
+    SMDCalculationMethod  method2;
+}
 
-CollisionModel         ORourke;
+ETABCoeffs
+{
+    Cmu             10.0;
+    Comega          8.0;
+    WeCrit          12;
+    k1              0.2;
+    k2              0.2;
+    WeTransition    100.0;
+}
 
+ReitzKHRTCoeffs
+{
+    B0              0.61;
+    B1              40;
+    Ctau            1;
+    CRT             0.1;
+    msLimit         0.03;
+    WeberLimit      6;
+}
+
+
+PilchErdmanCoeffs
+{
+    B1 0.375;
+    B2 0.236;
+}
+
+TrajectoryCoeffs
+{
+    coalescence on;
+    cSpace      1.0;
+    cTime       1.0;
+}
 
 ORourkeCoeffs
 {
-    coalescence        true;
+    coalescence    on;
 }
+
 
 // ************************************************************************* //
