@@ -123,8 +123,9 @@ bool Foam::PilchErdman<CloudType>::update
         scalar rho12 = pow(rhoc/rho, 0.5);
 
 	scalar Vd = Urmag*rho12*(B1_*taubBar * B2_*taubBar*taubBar);
-	scalar Vd1 = pow(1.0 - Vd/Urmag, -2.0);
-	scalar Ds = 2.0*Wec*sigma*Vd1/(rhoc*pow(Urmag, 2.0));
+	scalar Vd1 = pow(1.0 - Vd/Urmag, 2.0);
+	Vd1 = max(Vd1, SMALL);
+	scalar Ds = 2.0*Wec*sigma*Vd1/(Vd1*rhoc*pow(Urmag, 2.0));
 	scalar A = Urmag*rho12/d;
 
 	scalar taub = taubBar/A;
