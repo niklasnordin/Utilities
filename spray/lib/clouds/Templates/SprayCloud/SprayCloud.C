@@ -387,7 +387,7 @@ Foam::scalar Foam::SprayCloud<ParcelType>::liquidPenetration(const scalar& prc) 
                 i--;
                 mOffSum += mass[i];
             }
-            distance = dist[i] + (dist[i+1]-dist[i])*(mOff - mOffSum)/mass[i+1] ;
+            distance = dist[i+1] + (dist[i]-dist[i+1])*(mOffSum - mOff)/mass[i+1] ;
         }
 
     }
