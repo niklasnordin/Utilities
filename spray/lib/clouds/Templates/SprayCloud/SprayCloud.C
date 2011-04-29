@@ -106,17 +106,18 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
         scalar dt = this->db().time().deltaTValue();
         forAllIter(typename Cloud<ParcelType>, *this, iter)
         {
-            ParcelType& p = iter();
-            scalar Vi = this->mesh().V()[p.cell()];
-            scalarField X1(this->composition().liquids().X(p.Y()));
-            scalar sigma1 = this->composition().liquids().sigma(p.pc(), p.T(), X1);
 
             label j = 0;
             forAllIter(typename Cloud<ParcelType>, *this, jter)
             {
                 if (j > i)
                 {
+		    ParcelType& p = iter();
+		    scalar Vi = this->mesh().V()[p.cell()];
+		    scalarField X1(this->composition().liquids().X(p.Y()));
+		    scalar sigma1 = this->composition().liquids().sigma(p.pc(), p.T(), X1);
                     scalar mp = p.mass()*p.nParticle();
+
                     ParcelType& q = jter();
                     scalar Vj = this->mesh().V()[q.cell()];
                     scalarField X2(this->composition().liquids().X(q.Y()));
