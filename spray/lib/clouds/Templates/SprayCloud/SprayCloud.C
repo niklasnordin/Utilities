@@ -433,7 +433,7 @@ void Foam::SprayCloud<ParcelType>::info() const
     scalar pen = liquidPenetration(0.95);
 
     Info << "    D32 (mu)                        = " << d32 << endl;
-    Info << "    liquid penetration 95% mass (m) = " << pen << endl;
+    Info << "    Liquid penetration 95% mass (m) = " << pen << endl;
 }
 
 
