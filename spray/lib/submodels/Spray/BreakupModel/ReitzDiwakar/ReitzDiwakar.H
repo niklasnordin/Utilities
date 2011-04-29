@@ -27,6 +27,24 @@ Class
 Description
     secondary breakup model
 
+    @verbatim
+    Reitz, R.D.
+    "Modelling atomization processes in highpressure vaporizing sprays"
+    Atomization and Spray Technology 3 (1987), 309-337
+    @endverbatim
+
+    @verbatim
+    Reitz, R.D. and Diwakar, R.
+    "Effect of drop breakup on fuel sprays"
+    SAE Tech. paper series, 860469 (1986)
+    @endverbatim
+
+    @verbatim
+    Reitz, R.D. and Diwakar, R.
+    "Structure of high-pressure fuel sprays"
+    SAE Tech. paper series, 870598 (1987)
+    @endverbatim
+
 \*---------------------------------------------------------------------------*/
 
 #ifndef ReitzDiwakar_H
