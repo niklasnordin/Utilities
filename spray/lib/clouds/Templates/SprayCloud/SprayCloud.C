@@ -309,6 +309,7 @@ Foam::scalar Foam::SprayCloud<ParcelType>::D(const label i, const label j) const
     reduce(si, sumOp<scalar>());
     reduce(sj, sumOp<scalar>());
     sj = max(sj, VSMALL);
+
     return si/sj;
 }
 
@@ -321,85 +322,89 @@ Foam::scalar Foam::SprayCloud<ParcelType>::liquidPenetration(const scalar& prc) 
     scalar mTot = 0.0;
 
     label Np = this->size();
-    if (Np < 1)
-    {
-        return 0.0;
-    }
 
     // arrays containing the parcels mass and
     // distance from injector in ascending order
     scalarField mass(Np);
     scalarField dist(Np);
-    label n = 0;
 
-    // first arrange the parcels in ascending order
-    // the first parcel is closest to its injection position
-    // and the last one is most far away.
-    forAllConstIter(typename Cloud<ParcelType>, *this, iter)
+    if (Np > 0)
     {
-        const ParcelType& p = iter();
-	scalar mi = p.nParticle()*p.mass();
-	scalar di = mag(p.position() - p.position0());
-	mTot += mi;
+        label n = 0;
 
-	// insert at the last place
-	mass[n] = mi;
-	dist[n] = di;
-
-	label i = 0;
-	bool found = false;
-
-	// insert the parcel in the correct place
-	// and move the others 
-	while ( ( i < n ) && ( !found ) ) 
+	// first arrange the parcels in ascending order
+	// the first parcel is closest to its injection position
+	// and the last one is most far away.
+	forAllConstIter(typename Cloud<ParcelType>, *this, iter)
 	{
-	    if (di < dist[i])
+	    const ParcelType& p = iter();
+	    scalar mi = p.nParticle()*p.mass();
+	    scalar di = mag(p.position() - p.position0());
+	    mTot += mi;
+	    
+	    // insert at the last place
+	    mass[n] = mi;
+	    dist[n] = di;
+	    
+	    label i = 0;
+	    bool found = false;
+	    
+	    // insert the parcel in the correct place
+	    // and move the others 
+	    while ( ( i < n ) && ( !found ) ) 
 	    {
-	        found = true;
-		for(label j=n; j>i; j--)
+		if (di < dist[i])
 		{
-		    mass[j] = mass[j-1];
-		    dist[j] = dist[j-1];
+		    found = true;
+		    for(label j=n; j>i; j--)
+		    {
+			mass[j] = mass[j-1];
+			dist[j] = dist[j-1];
+		    }
+		    mass[i] = mi;
+		    dist[i] = di;
 		}
-		mass[i] = mi;
-		dist[i] = di;
+		i++;
 	    }
-	    i++;
+	    n++;
 	}
-	n++;
     }
 
     reduce(mTot, sumOp<scalar>());
 
-    scalar mLimit = prc*mTot;
-    scalar mOff = (1.0 - prc)*mTot;
-
-    if (Np > 1)
+    if (Np > 0)
     {
 
-        // 'prc' is large enough that the parcel most far
-        // away will be used, no need to loop...
-        if (mLimit > mTot - mass[Np-1])
-        {
-            distance = dist[Np-1];
-        }
-        else
-        {
-            scalar mOffSum = 0.0;
-            label i = Np;
+        scalar mLimit = prc*mTot;
+	scalar mOff = (1.0 - prc)*mTot;
 
-            while ((mOffSum < mOff) && (i>0))
-            {
-                i--;
-                mOffSum += mass[i];
-            }
-            distance = dist[i+1] + (dist[i]-dist[i+1])*(mOffSum - mOff)/mass[i+1] ;
-        }
-
-    }
-    else
-    {
-        distance = dist[0];
+	if (Np > 1)
+	{
+	    
+	    // 'prc' is large enough that the parcel most far
+	    // away will be used, no need to loop...
+	    if (mLimit > mTot - mass[Np-1])
+	    {
+		distance = dist[Np-1];
+	    }
+	    else
+	    {
+		scalar mOffSum = 0.0;
+		label i = Np;
+		
+		while ((mOffSum < mOff) && (i>0))
+		{
+		    i--;
+		    mOffSum += mass[i];
+		}
+		distance = dist[i+1] + (dist[i]-dist[i+1])*(mOffSum - mOff)/mass[i+1] ;
+	    }
+	    
+	}
+	else
+	{
+	    distance = dist[0];
+	}
     }
 
     reduce(distance, maxOp<scalar>());
