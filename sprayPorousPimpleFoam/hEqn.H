@@ -2,7 +2,7 @@
     fvScalarMatrix hsEqn
     (
         fvm::ddt(rho, hs)
-      + fvm::div(phi, hs)
+      + mvConvection->fvmDiv(phi, hs)
       - fvm::laplacian(turbulence->alphaEff(), hs)
      ==
         DpDt

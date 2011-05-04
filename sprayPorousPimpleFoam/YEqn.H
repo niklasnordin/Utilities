@@ -20,16 +20,26 @@ tmp<fv::convectionScheme<scalar> > mvConvection
         {
             volScalarField& Yi = Y[i];
 
-            solve
+            fvScalarMatrix YEqn
             (
                 fvm::ddt(rho, Yi)
               + mvConvection->fvmDiv(phi, Yi)
               - fvm::laplacian(turbulence->muEff(), Yi)
               ==
                 dieselSpray.evaporationSource(i)
-              + kappa*chemistry.RR(i),
-                mesh.solver("Yi")
+              + kappa*chemistry.RR(i)
             );
+
+            if (oCorr == nOuterCorr-1)
+            {
+                YEqn.relax();
+                YEqn.solve(mesh.solver("YiFinal"));
+            }
+            else
+            {
+                YEqn.relax();
+                YEqn.solve(mesh.solver("Yi"));
+            }
 
             Yi.max(0.0);
             Yt += Yi;
