@@ -128,6 +128,7 @@ int main(int argc, char *argv[])
 
 	Info << "max(U) = " << max(mag(U)).value() << endl;
 	Info << "p min/max = " << min(p).value() << ", " << max(p).value() << endl;
+	Info << "T min/max = " << min(T).value() << ", " << max(T).value() << endl;
 
         //runTime.write();
         if (runTime.write())
