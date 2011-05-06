@@ -112,10 +112,10 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
             {
                 if (j > i)
                 {
-		    ParcelType& p = iter();
-		    scalar Vi = this->mesh().V()[p.cell()];
-		    scalarField X1(this->composition().liquids().X(p.Y()));
-		    scalar sigma1 = this->composition().liquids().sigma(p.pc(), p.T(), X1);
+                    ParcelType& p = iter();
+                    scalar Vi = this->mesh().V()[p.cell()];
+                    scalarField X1(this->composition().liquids().X(p.Y()));
+                    scalar sigma1 = this->composition().liquids().sigma(p.pc(), p.T(), X1);
                     scalar mp = p.mass()*p.nParticle();
 
                     ParcelType& q = jter();
@@ -181,6 +181,7 @@ void Foam::SprayCloud<ParcelType>::evolveCloud()
             
             i++;
         }
+
         // remove coalesced particles (diameter set to 0)
         forAllIter(typename Cloud<ParcelType>, *this, iter)
         {
@@ -226,24 +227,24 @@ Foam::SprayCloud<ParcelType>::SprayCloud
     (
         AtomizationModel<SprayCloud<ParcelType> >::New
         (
-	     this->particleProperties(),
-	     *this
+            this->particleProperties(),
+            *this
         )
     ),
     breakupModel_
     (
         BreakupModel<SprayCloud<ParcelType> >::New
         (
-	     this->particleProperties(),
-	     *this
+            this->particleProperties(),
+            *this
         )
     ),
     collisionModel_
     (
         CollisionModel<SprayCloud<ParcelType> >::New
         (
-	     this->particleProperties(),
-	     *this
+            this->particleProperties(),
+            *this
         )
     )
 {
@@ -251,7 +252,8 @@ Foam::SprayCloud<ParcelType>::SprayCloud
     {
         ParcelType::readFields(*this);
     }
-    Info << "Average parcel mass: " << averageParcelMass_ << endl;
+
+    Info << "    Average parcel mass: " << averageParcelMass_ << endl;
 }
 
 
@@ -332,42 +334,42 @@ Foam::scalar Foam::SprayCloud<ParcelType>::liquidPenetration(const scalar& prc) 
     {
         label n = 0;
 
-	// first arrange the parcels in ascending order
-	// the first parcel is closest to its injection position
-	// and the last one is most far away.
-	forAllConstIter(typename Cloud<ParcelType>, *this, iter)
-	{
-	    const ParcelType& p = iter();
-	    scalar mi = p.nParticle()*p.mass();
-	    scalar di = mag(p.position() - p.position0());
-	    mTot += mi;
-	    
-	    // insert at the last place
-	    mass[n] = mi;
-	    dist[n] = di;
-	    
-	    label i = 0;
-	    bool found = false;
-	    
-	    // insert the parcel in the correct place
-	    // and move the others 
-	    while ( ( i < n ) && ( !found ) ) 
-	    {
-		if (di < dist[i])
-		{
-		    found = true;
-		    for(label j=n; j>i; j--)
-		    {
-			mass[j] = mass[j-1];
-			dist[j] = dist[j-1];
-		    }
-		    mass[i] = mi;
-		    dist[i] = di;
-		}
-		i++;
-	    }
-	    n++;
-	}
+        // first arrange the parcels in ascending order
+        // the first parcel is closest to its injection position
+        // and the last one is most far away.
+        forAllConstIter(typename Cloud<ParcelType>, *this, iter)
+        {
+            const ParcelType& p = iter();
+            scalar mi = p.nParticle()*p.mass();
+            scalar di = mag(p.position() - p.position0());
+            mTot += mi;
+        
+            // insert at the last place
+            mass[n] = mi;
+            dist[n] = di;
+        
+            label i = 0;
+            bool found = false;
+        
+            // insert the parcel in the correct place
+            // and move the others 
+            while ( ( i < n ) && ( !found ) ) 
+            {
+                if (di < dist[i])
+                {
+                    found = true;
+                    for(label j=n; j>i; j--)
+                    {
+                        mass[j] = mass[j-1];
+                        dist[j] = dist[j-1];
+                    }
+                    mass[i] = mi;
+                    dist[i] = di;
+                }
+                i++;
+            }
+            n++;
+        }
     }
 
     reduce(mTot, sumOp<scalar>());
@@ -376,35 +378,34 @@ Foam::scalar Foam::SprayCloud<ParcelType>::liquidPenetration(const scalar& prc) 
     {
 
         scalar mLimit = prc*mTot;
-	scalar mOff = (1.0 - prc)*mTot;
-
-	if (Np > 1)
-	{
-	    
-	    // 'prc' is large enough that the parcel most far
-	    // away will be used, no need to loop...
-	    if (mLimit > mTot - mass[Np-1])
-	    {
-		distance = dist[Np-1];
-	    }
-	    else
-	    {
-		scalar mOffSum = 0.0;
-		label i = Np;
-		
-		while ((mOffSum < mOff) && (i>0))
-		{
-		    i--;
-		    mOffSum += mass[i];
-		}
-		distance = dist[i+1] + (dist[i]-dist[i+1])*(mOffSum - mOff)/mass[i+1] ;
-	    }
-	    
-	}
-	else
-	{
-	    distance = dist[0];
-	}
+        scalar mOff = (1.0 - prc)*mTot;
+  
+        if (Np > 1)
+        {
+        
+            // 'prc' is large enough that the parcel most far
+            // away will be used, no need to loop...
+            if (mLimit > mTot - mass[Np-1])
+            {
+                distance = dist[Np-1];
+            }
+            else
+            {
+                scalar mOffSum = 0.0;
+                label i = Np;
+        
+                while ((mOffSum < mOff) && (i>0))
+                {
+                    i--;
+                    mOffSum += mass[i];
+                }
+                distance = dist[i+1] + (dist[i]-dist[i+1])*(mOffSum - mOff)/mass[i+1] ;
+            }
+        }
+        else
+        {
+            distance = dist[0];
+        }
     }
 
     reduce(distance, maxOp<scalar>());
