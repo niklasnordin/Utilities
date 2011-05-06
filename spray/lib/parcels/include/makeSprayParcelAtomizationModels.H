@@ -58,7 +58,7 @@ License
 #define makeSprayAtomizationModelThermoType(ParcelType, ThermoType)           \
                                                                               \
     makeAtomizationModel(SprayCloud<ParcelType<ThermoType> >);                \
-         								      \
+                                                                              \
     makeAtomizationModelThermoType                                            \
     (                                                                         \
         NoAtomization,                                                        \
@@ -73,7 +73,7 @@ License
         ParcelType,                                                           \
         ThermoType                                                            \
     );                                                                        \
-									      \
+                                                                              \
     makeAtomizationModelThermoType                                            \
     (                                                                         \
         LISAAtomization,                                                      \

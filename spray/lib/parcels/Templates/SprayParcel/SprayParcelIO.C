@@ -73,16 +73,16 @@ Foam::SprayParcel<ParcelType>::SprayParcel
         if (is.format() == IOstream::ASCII)
         {
             d0_ = readScalar(is);
-	    is >> position0_;
-	    liquidCore_ = readScalar(is);
-	    KHindex_ = readScalar(is);
-	    y_ = readScalar(is);
-	    yDot_ = readScalar(is);
-	    tc_ = readScalar(is);
-	    ms_ = readScalar(is);
-	    injector_ = readScalar(is);
-	    tMom_ = readScalar(is);
-	    user_ = readScalar(is);
+            is >> position0_;
+            liquidCore_ = readScalar(is);
+            KHindex_ = readScalar(is);
+            y_ = readScalar(is);
+            yDot_ = readScalar(is);
+            tc_ = readScalar(is);
+            ms_ = readScalar(is);
+            injector_ = readScalar(is);
+            tMom_ = readScalar(is);
+            user_ = readScalar(is);
         }
         else
         {
@@ -91,15 +91,15 @@ Foam::SprayParcel<ParcelType>::SprayParcel
                 reinterpret_cast<char*>(&d0_),
                 sizeof(d0_)
               + sizeof(position0_)
-	      + sizeof(liquidCore_)
-	      + sizeof(KHindex_)
-	      + sizeof(y_)
-	      + sizeof(yDot_)
-	      + sizeof(tc_)
-	      + sizeof(ms_)
-	      + sizeof(injector_)
-	      + sizeof(tMom_)
-	      + sizeof(user_)
+              + sizeof(liquidCore_)
+              + sizeof(KHindex_)
+              + sizeof(y_)
+              + sizeof(yDot_)
+              + sizeof(tc_)
+              + sizeof(ms_)
+              + sizeof(injector_)
+              + sizeof(tMom_)
+              + sizeof(user_)
             );
         }
     }
@@ -167,18 +167,18 @@ void Foam::SprayParcel<ParcelType>::readFields(Cloud<ParcelType>& cIn)
     forAllIter(typename Cloud<ParcelType>, c, iter)
     {
         SprayParcel<ParcelType>& p = iter();
-	p.d0_ = d0[i];
-	p.position0_ = position0[i];
-	p.liquidCore_ = liquidCore[i];
-	p.KHindex_ = KHindex[i];
-	p.y_ = y[i];
-	p.yDot_ = yDot[i];
-	p.tc_ = tc[i];
-	p.ms_ = ms[i];
-	p.injector_ = injector[i];
-	p.tMom_ = tMom[i];
-	p.user_ = user[i];
-	i++;
+        p.d0_ = d0[i];
+        p.position0_ = position0[i];
+        p.liquidCore_ = liquidCore[i];
+        p.KHindex_ = KHindex[i];
+        p.y_ = y[i];
+        p.yDot_ = yDot[i];
+        p.tc_ = tc[i];
+        p.ms_ = ms[i];
+        p.injector_ = injector[i];
+        p.tMom_ = tMom[i];
+        p.user_ = user[i];
+        i++;
     }
 }
 
@@ -212,18 +212,18 @@ void Foam::SprayParcel<ParcelType>::writeFields
     forAllConstIter(typename Cloud<ParcelType>, c, iter)
     {
         const SprayParcel<ParcelType>& p = iter();
-	d0[i] = p.d0_;
-	position0[i] = p.position0_;
-	liquidCore[i] = p.liquidCore_;
-	KHindex[i] = p.KHindex_;
-	y[i] = p.y_;
-	yDot[i] = p.yDot_;
-	tc[i] = p.tc_;
-	ms[i] = p.ms_;
-	injector[i] = p.injector_;
-	tMom[i] = p.tMom_;
-	user[i] = p.user_;
-	i++;
+        d0[i] = p.d0_;
+        position0[i] = p.position0_;
+        liquidCore[i] = p.liquidCore_;
+        KHindex[i] = p.KHindex_;
+        y[i] = p.y_;
+        yDot[i] = p.yDot_;
+        tc[i] = p.tc_;
+        ms[i] = p.ms_;
+        injector[i] = p.injector_;
+        tMom[i] = p.tMom_;
+        user[i] = p.user_;
+        i++;
     }
 
     d0.write();
@@ -252,25 +252,25 @@ Foam::Ostream& Foam::operator<<
     if (os.format() == IOstream::ASCII)
     {
         os  << static_cast<const ReactingParcel<ParcelType>&>(p)
-	    << token::SPACE << p.d0()
-	    << token::SPACE << p.position0()
-	    << token::SPACE << p.liquidCore()
-	    << token::SPACE << p.KHindex()
-	    << token::SPACE << p.y()
-	    << token::SPACE << p.yDot()
-	    << token::SPACE << p.tc()
-	    << token::SPACE << p.ms()
-	    << token::SPACE << p.injector()
-	    << token::SPACE << p.tMom()
-	    << token::SPACE << p.user();
+        << token::SPACE << p.d0()
+        << token::SPACE << p.position0()
+        << token::SPACE << p.liquidCore()
+        << token::SPACE << p.KHindex()
+        << token::SPACE << p.y()
+        << token::SPACE << p.yDot()
+        << token::SPACE << p.tc()
+        << token::SPACE << p.ms()
+        << token::SPACE << p.injector()
+        << token::SPACE << p.tMom()
+        << token::SPACE << p.user();
     }
     else
     {
         os  << static_cast<const ReactingParcel<ParcelType>&>(p);
-	os.write
-	(
+    os.write
+    (
             reinterpret_cast<const char*>(&p.d0_),
-	    sizeof(p.d0()) + sizeof(p.position0()) + sizeof(p.liquidCore()) + sizeof(p.KHindex())
+            sizeof(p.d0()) + sizeof(p.position0()) + sizeof(p.liquidCore()) + sizeof(p.KHindex())
           + sizeof(p.y()) + sizeof(p.yDot()) + sizeof(p.tc()) + sizeof(p.ms())
           + sizeof(p.injector()) + sizeof(p.tMom()) + sizeof(p.user())
         );

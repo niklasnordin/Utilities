@@ -37,28 +37,28 @@ License
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#define makeSprayPatchInteractionModels(ParcelType)                        \
+#define makeSprayPatchInteractionModels(ParcelType)                           \
                                                                               \
-    makeSprayPatchInteractionModelThermoType                               \
+    makeSprayPatchInteractionModelThermoType                                  \
     (                                                                         \
         ParcelType,                                                           \
         constGasThermoPhysics                                                 \
     );                                                                        \
                                                                               \
-    makeSprayPatchInteractionModelThermoType                               \
+    makeSprayPatchInteractionModelThermoType                                  \
     (                                                                         \
         ParcelType,                                                           \
         gasThermoPhysics                                                      \
     );                                                                        \
                                                                               \
-    makeSprayPatchInteractionModelThermoType                               \
+    makeSprayPatchInteractionModelThermoType                                  \
     (                                                                         \
         ParcelType,                                                           \
         icoPoly8ThermoPhysics                                                 \
     );
 
 
-#define makeSprayPatchInteractionModelThermoType(ParcelType, ThermoType)   \
+#define makeSprayPatchInteractionModelThermoType(ParcelType, ThermoType)      \
                                                                               \
     makePatchInteractionModel(KinematicCloud<ParcelType<ThermoType> >);       \
                                                                               \
@@ -71,7 +71,7 @@ License
     );                                                                        \
     makePatchInteractionModelThermoType                                       \
     (                                                                         \
-        Rebound,                                                     \
+        Rebound,                                                              \
         KinematicCloud,                                                       \
         ParcelType,                                                           \
         ThermoType                                                            \

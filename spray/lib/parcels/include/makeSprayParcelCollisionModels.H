@@ -58,7 +58,7 @@ License
 #define makeSprayCollisionModelThermoType(ParcelType, ThermoType)             \
                                                                               \
     makeCollisionModel(SprayCloud<ParcelType<ThermoType> >);                  \
-         								      \
+                                                                              \
     makeCollisionModelThermoType                                              \
     (                                                                         \
         NoCollision,                                                          \
@@ -66,7 +66,7 @@ License
         ParcelType,                                                           \
         ThermoType                                                            \
     );                                                                        \
-         								      \
+                                                                              \
     makeCollisionModelThermoType                                              \
     (                                                                         \
         ORourkeCollision,                                                     \
@@ -74,7 +74,7 @@ License
         ParcelType,                                                           \
         ThermoType                                                            \
     );                                                                        \
-         								      \
+                                                                              \
     makeCollisionModelThermoType                                              \
     (                                                                         \
         TrajectoryCollision,                                                  \

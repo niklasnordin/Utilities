@@ -37,28 +37,28 @@ License
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#define makeSprayDispersionModels(ParcelType)                              \
+#define makeSprayDispersionModels(ParcelType)                                 \
                                                                               \
-    makeSprayDispersionModelThermoType                                     \
+    makeSprayDispersionModelThermoType                                        \
     (                                                                         \
         ParcelType,                                                           \
         constGasThermoPhysics                                                 \
     );                                                                        \
                                                                               \
-    makeSprayDispersionModelThermoType                                     \
+    makeSprayDispersionModelThermoType                                        \
     (                                                                         \
         ParcelType,                                                           \
         gasThermoPhysics                                                      \
     );                                                                        \
                                                                               \
-    makeSprayDispersionModelThermoType                                     \
+    makeSprayDispersionModelThermoType                                        \
     (                                                                         \
         ParcelType,                                                           \
         icoPoly8ThermoPhysics                                                 \
     );
 
 
-#define makeSprayDispersionModelThermoType(ParcelType, ThermoType)         \
+#define makeSprayDispersionModelThermoType(ParcelType, ThermoType)            \
                                                                               \
     makeDispersionModel(KinematicCloud<ParcelType<ThermoType> >);             \
                                                                               \

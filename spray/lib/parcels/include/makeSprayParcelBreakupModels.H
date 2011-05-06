@@ -64,7 +64,7 @@ License
 #define makeSprayBreakupModelThermoType(ParcelType, ThermoType)               \
                                                                               \
     makeBreakupModel(SprayCloud<ParcelType<ThermoType> >);                    \
-         								      \
+                                                                              \
     makeBreakupModelThermoType                                                \
     (                                                                         \
         NoBreakup,                                                            \
@@ -75,7 +75,7 @@ License
                                                                               \
     makeBreakupModelThermoType                                                \
     (                                                                         \
-        PilchErdman,                                                            \
+        PilchErdman,                                                          \
         SprayCloud,                                                           \
         ParcelType,                                                           \
         ThermoType                                                            \
@@ -104,7 +104,7 @@ License
         ParcelType,                                                           \
         ThermoType                                                            \
     );                                                                        \
-         								      \
+                                                                              \
     makeBreakupModelThermoType                                                \
     (                                                                         \
         ReitzKHRT,                                                            \
@@ -112,7 +112,7 @@ License
         ParcelType,                                                           \
         ThermoType                                                            \
     );                                                                        \
-         								      \
+                                                                              \
     makeBreakupModelThermoType                                                \
     (                                                                         \
         ReitzDiwakar,                                                         \

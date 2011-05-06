@@ -125,9 +125,9 @@ void Foam::SprayParcel<ParcelType>::calc
     {
         // liquid core parcels should not interact with the gas
         if (td.cloud().coupled())
-	{
-	    td.cloud().coupled() = false;
-	}
+        {
+            td.cloud().coupled() = false;
+        }
     }
 
     // store the parcel properties
@@ -219,7 +219,7 @@ void Foam::SprayParcel<ParcelType>::calcAtomization
     scalar chi = 0.0;
     if (td.cloud().atomization().calcChi())
     {
-	chi = this->chi(td, X);
+    chi = this->chi(td, X);
     }
 
     td.cloud().atomization().update
@@ -326,8 +326,8 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
         // add child parcel. most properties will be identical to the parent
         ParcelType* child = new ParcelType(td.cloud(), this->position(), cellI);
         scalar massDrop = rho*mathematicalConstant::pi*pow(dChild, 3.0)/6.0;
-	child->mass0() = massChild;
-	child->d() = dChild;
+        child->mass0() = massChild;
+        child->d() = dChild;
         child->rho() = this->rho();
         child->T() = this->T();
         child->cp() = this->cp();
@@ -339,7 +339,7 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
         child->KHindex() = 1.0;
         child->y() = td.cloud().breakup().y0();
         child->yDot() = td.cloud().breakup().yDot0();
-	child->tc() = -GREAT;
+        child->tc() = -GREAT;
         child->ms() = 0.0;
         child->injector() = this->injector();
         child->tMom() = 1.0/(As*utc);
@@ -347,7 +347,7 @@ void Foam::SprayParcel<ParcelType>::calcBreakup
         child->user() = 0.0;
         child->setCellValues(td, dt, cellI);
 
-	td.cloud().addParticle(child);
+        td.cloud().addParticle(child);
     }
 }
 

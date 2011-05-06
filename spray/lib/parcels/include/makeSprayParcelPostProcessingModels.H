@@ -36,28 +36,28 @@ License
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#define makeSprayPostProcessingModels(ParcelType)                          \
+#define makeSprayPostProcessingModels(ParcelType)                             \
                                                                               \
-    makeSprayPostProcessingModelThermoType                                 \
+    makeSprayPostProcessingModelThermoType                                    \
     (                                                                         \
         ParcelType,                                                           \
         constGasThermoPhysics                                                 \
     );                                                                        \
                                                                               \
-    makeSprayPostProcessingModelThermoType                                 \
+    makeSprayPostProcessingModelThermoType                                    \
     (                                                                         \
         ParcelType,                                                           \
         gasThermoPhysics                                                      \
     );                                                                        \
                                                                               \
-    makeSprayPostProcessingModelThermoType                                 \
+    makeSprayPostProcessingModelThermoType                                    \
     (                                                                         \
         ParcelType,                                                           \
         icoPoly8ThermoPhysics                                                 \
     );
 
 
-#define makeSprayPostProcessingModelThermoType(ParcelType, ThermoType)     \
+#define makeSprayPostProcessingModelThermoType(ParcelType, ThermoType)        \
                                                                               \
     makePostProcessingModel(KinematicCloud<ParcelType<ThermoType> >);         \
                                                                               \

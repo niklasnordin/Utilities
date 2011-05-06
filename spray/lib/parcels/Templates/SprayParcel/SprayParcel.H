@@ -194,16 +194,16 @@ public:
             const scalar d0,
             const vector& U0,
             const scalarField& Y0,
-	    const scalar& dInit,
-	    const scalar& liquidCore,
-	    const scalar& KHindex,
-	    const scalar& y,
-	    const scalar& yDot,
-	    const scalar& tc,
-	    const scalar& ms,
-	    const scalar& injector,
-	    const scalar& tMom,
-	    const scalar& user,
+            const scalar& dInit,
+            const scalar& liquidCore,
+            const scalar& KHindex,
+            const scalar& y,
+            const scalar& yDot,
+            const scalar& tc,
+            const scalar& ms,
+            const scalar& injector,
+            const scalar& tMom,
+            const scalar& user,
             const constantProperties& constProps
         );
 
@@ -363,7 +363,7 @@ public:
             scalar chi
             (
                 TrackData& td,
-       	        const scalarField& X
+                   const scalarField& X
             ) const;
 
 

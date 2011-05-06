@@ -55,7 +55,7 @@ License
     );
 
 
-#define makeSprayDragModelThermoType(ParcelType, ThermoType)                   \
+#define makeSprayDragModelThermoType(ParcelType, ThermoType)                  \
                                                                               \
     makeDragModel(KinematicCloud<ParcelType<ThermoType> >);                   \
                                                                               \
