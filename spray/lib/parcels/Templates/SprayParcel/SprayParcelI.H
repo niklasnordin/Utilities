@@ -31,7 +31,23 @@ inline Foam::SprayParcel<ParcelType>::constantProperties::constantProperties
     const dictionary& parentDict
 )
 :
-      ReactingParcel<ParcelType>::constantProperties(parentDict)
+    ReactingParcel<ParcelType>::constantProperties
+    (
+        parentDict,
+        dimensionedScalar((parentDict.subDict("constantProperties")).lookup("rhoMin")).value(),
+        1000.0, // rho0 bypassed
+        dimensionedScalar((parentDict.subDict("constantProperties")).lookup("minParticleMass")).value(),
+        dimensionedScalar((parentDict.subDict("constantProperties")).lookup("T0")).value(),
+        dimensionedScalar((parentDict.subDict("constantProperties")).lookup("TMin")).value(),
+        4000.0, // cp0 bypassed
+        dimensionedScalar((parentDict.subDict("constantProperties")).lookup("epsilon0")).value(),
+        dimensionedScalar((parentDict.subDict("constantProperties")).lookup("f0")).value(),
+        dimensionedScalar((parentDict.subDict("constantProperties")).lookup("Pr")).value(),
+        dimensionedScalar((parentDict.subDict("constantProperties")).lookup("pMin")).value(),
+        false, // constant volume
+        dimensionedScalar((parentDict.subDict("constantProperties")).lookup("Tvap")).value(),
+        dimensionedScalar((parentDict.subDict("constantProperties")).lookup("Tbp")).value()
+    )
 {
 
 }
