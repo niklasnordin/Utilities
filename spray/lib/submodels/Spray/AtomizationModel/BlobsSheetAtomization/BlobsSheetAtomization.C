@@ -91,7 +91,7 @@ void Foam::BlobsSheetAtomization<CloudType>::update
 
     scalar pWalk = mag(pos - injectionPos);
 
-    if ( (pWalk > lBU) && (liquidCore > 0.5) )
+    if ( pWalk > lBU )
     {
         liquidCore = 0.0;
     }

@@ -274,6 +274,7 @@ void Foam::LISAAtomization<CloudType>::update
                 break;
             }
         }
+
         //  New droplet properties
         liquidCore = 0.0;
         d = x;
