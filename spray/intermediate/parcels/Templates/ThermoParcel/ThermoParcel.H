@@ -108,6 +108,9 @@ public:
         constantProperties
         (
             const dictionary& parentDict,
+            const scalar& rhoMin,
+            const scalar& rho0,
+            const scalar& minParticleMass,
             const scalar& T0,
             const scalar& Tmin,
             const scalar& cp0,

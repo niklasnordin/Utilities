@@ -42,13 +42,34 @@ template<class ParcelType>
 inline Foam::ReactingParcel<ParcelType>::constantProperties::constantProperties
 (
     const dictionary& parentDict,
+    const scalar& rhoMin,
+    const scalar& rho0,
+    const scalar& minParticleMass,
+    const scalar& T0,
+    const scalar& Tmin,
+    const scalar& cp0,
+    const scalar& epsilon0,
+    const scalar& f0,
+    const scalar& Pr,
     const scalar& pMin,
     const bool& constantVolume,
     const scalar& Tvap,
     const scalar& Tbp
 )
 :
-    ThermoParcel<ParcelType>::constantProperties(parentDict),
+    ThermoParcel<ParcelType>::constantProperties
+    (
+        parentDict,
+        rhoMin,
+        rho0,
+        minParticleMass,
+        T0,
+        Tmin,
+        cp0,
+        epsilon0,
+        f0,
+        Pr
+    ),
     pMin_(pMin),
     constantVolume_(constantVolume),
     Tvap_(Tvap),

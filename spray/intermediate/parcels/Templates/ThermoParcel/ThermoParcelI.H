@@ -44,6 +44,9 @@ template<class ParcelType>
 inline Foam::ThermoParcel<ParcelType>::constantProperties::constantProperties
 (
     const dictionary& parentDict,
+    const scalar& rhoMin,
+    const scalar& rho0,
+    const scalar& minParticleMass,
     const scalar& T0,
     const scalar& Tmin,
     const scalar& cp0,
@@ -52,7 +55,13 @@ inline Foam::ThermoParcel<ParcelType>::constantProperties::constantProperties
     const scalar& Pr
 )
 :
-    KinematicParcel<ParcelType>::constantProperties(parentDict),
+    KinematicParcel<ParcelType>::constantProperties
+    (
+        parentDict, 
+        rhoMin,
+        rho0,
+        minParticleMass
+    ),
     T0_(T0),
     TMin_(Tmin),
     cp0_(cp0),
