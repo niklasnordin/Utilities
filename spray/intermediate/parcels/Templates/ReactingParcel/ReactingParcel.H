@@ -99,6 +99,15 @@ public:
         //- Constructor
         constantProperties(const dictionary& parentDict);
 
+        constantProperties
+        (
+            const dictionary& parentDict,
+            const scalar& pMin,
+            const bool& constantVolume,
+            const scalar& Tvap,
+            const scalar& Tbp
+        );
+
         // Access
 
             //- Return const access to the minimum pressure

@@ -42,6 +42,21 @@ inline Foam::KinematicParcel<ParcelType>::constantProperties::constantProperties
     )
 {}
 
+template <class ParcelType>
+inline Foam::KinematicParcel<ParcelType>::constantProperties::constantProperties
+(
+    const dictionary& parentDict,
+    const scalar& rhoMin,
+    const scalar& rho0,
+    const scalar& minParticleMass
+)
+:
+    dict_(parentDict.subDict("constantProperties")),
+    rhoMin_(rhoMin),
+    rho0_(rho0),
+    minParticleMass_(minParticleMass)
+{}
+
 
 template <class ParcelType>
 inline Foam::KinematicParcel<ParcelType>::trackData::trackData

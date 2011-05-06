@@ -102,6 +102,14 @@ public:
         //- Constructor
         constantProperties(const dictionary& parentDict);
 
+        constantProperties
+        (
+            const dictionary& parentDict,
+            const scalar& rhoMin,
+            const scalar& rho0,
+            const scalar& minParticleMass
+        );
+
         // Member functions
 
             //- Return const access to the constant properties dictionary

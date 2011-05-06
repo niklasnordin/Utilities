@@ -40,6 +40,27 @@ inline Foam::ThermoParcel<ParcelType>::constantProperties::constantProperties
     Pr_(dimensionedScalar(this->dict().lookup("Pr")).value())
 {}
 
+template<class ParcelType>
+inline Foam::ThermoParcel<ParcelType>::constantProperties::constantProperties
+(
+    const dictionary& parentDict,
+    const scalar& T0,
+    const scalar& Tmin,
+    const scalar& cp0,
+    const scalar& epsilon0,
+    const scalar& f0,
+    const scalar& Pr
+)
+:
+    KinematicParcel<ParcelType>::constantProperties(parentDict),
+    T0_(T0),
+    TMin_(Tmin),
+    cp0_(cp0),
+    epsilon0_(epsilon0),
+    f0_(f0),
+    Pr_(Pr)
+{}
+
 
 template<class ParcelType>
 inline Foam::ThermoParcel<ParcelType>::trackData::trackData

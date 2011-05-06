@@ -105,6 +105,17 @@ public:
         // Constructors
         constantProperties(const dictionary& parentDict);
 
+        constantProperties
+        (
+            const dictionary& parentDict,
+            const scalar& T0,
+            const scalar& Tmin,
+            const scalar& cp0,
+            const scalar& epsilon0,
+            const scalar& f0,
+            const scalar& Pr
+        );
+
         // Member functions
 
             // Access

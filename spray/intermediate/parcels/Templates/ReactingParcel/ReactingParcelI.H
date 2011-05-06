@@ -38,6 +38,23 @@ inline Foam::ReactingParcel<ParcelType>::constantProperties::constantProperties
     Tbp_(dimensionedScalar(this->dict().lookup("Tbp")).value())
 {}
 
+template<class ParcelType>
+inline Foam::ReactingParcel<ParcelType>::constantProperties::constantProperties
+(
+    const dictionary& parentDict,
+    const scalar& pMin,
+    const bool& constantVolume,
+    const scalar& Tvap,
+    const scalar& Tbp
+)
+:
+    ThermoParcel<ParcelType>::constantProperties(parentDict),
+    pMin_(pMin),
+    constantVolume_(constantVolume),
+    Tvap_(Tvap),
+    Tbp_(Tbp)
+{}
+
 
 template<class ParcelType>
 inline Foam::ReactingParcel<ParcelType>::trackData::trackData
