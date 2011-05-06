@@ -50,9 +50,9 @@ Foam::ETAB<CloudType>::ETAB
     if (!BreakupModel<CloudType>::solveOscillationEq_)
     {
         Info << "Warning: solveOscillationEq is set to " << BreakupModel<CloudType>::solveOscillationEq_ 
-	     << endl
-	     << " Setting it to true in order for the ETAB model to work." << endl;
-	BreakupModel<CloudType>::solveOscillationEq_ = true;
+             << endl
+             << " Setting it to true in order for the ETAB model to work." << endl;
+        BreakupModel<CloudType>::solveOscillationEq_ = true;
     }
 
 }

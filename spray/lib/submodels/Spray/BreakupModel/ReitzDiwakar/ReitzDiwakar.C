@@ -102,8 +102,8 @@ bool Foam::ReitzDiwakar<CloudType>::update
         {
             scalar dStrip = pow(2.0*Cstrip_*sigma, 2.0)/
             (
-	        rhoc*pow(Urmag, 3.0)*muc
-	    );
+                rhoc*pow(Urmag, 3.0)*muc
+            );
 
             scalar tauStrip = Cs_*d*sqrt(rho/rhoc)/Urmag;
             scalar fraction = dt/tauStrip;

@@ -55,9 +55,9 @@ Foam::TAB<CloudType>::TAB
     if (!BreakupModel<CloudType>::solveOscillationEq_)
     {
         Info << "Warning: solveOscillationEq is set to " << BreakupModel<CloudType>::solveOscillationEq_ 
-	     << endl
-	     << " Setting it to true in order for the TAB model to work." << endl;
-	BreakupModel<CloudType>::solveOscillationEq_ = true;
+            << endl
+            << " Setting it to true in order for the TAB model to work." << endl;
+        BreakupModel<CloudType>::solveOscillationEq_ = true;
     }
 
     if (SMDCalcMethod_ == "method1")
@@ -71,7 +71,7 @@ Foam::TAB<CloudType>::TAB
     else
     {
         SMDMethod_ = method2;
-        Info << "Warning: SMDCalculationMethod not set. Using method2" << endl;
+        Info << "Warning: SMDCalculationMethod unknown. Options are ( method1 | method2 ). Using method2" << endl;
     }
    
 }

@@ -98,44 +98,44 @@ bool Foam::PilchErdman<CloudType>::update
       
         // We > 1335, wave crest stripping
         scalar taubBar = 5.5;
-	
-	if (We > 175.0)
-	{
-	    // sheet stripping
-	    taubBar = 0.766*pow(2.0*We - 12.0, 0.25);
-	}
-	else if (We > 22.0)
-	{
-	    // Bag-and-stamen breakup
-	    taubBar = 14.1*pow(2.0*We - 12.0, -0.25);
-	}
-	else if (We > 9.0)
-	{
-	    // Bag breakup
-	    taubBar = 2.45*pow(2.0*We - 12.0, 0.25);
-	}
-	else if (We > 6.0)
-	{
-	    // Vibrational breakup
-	    taubBar = 6.0*pow(2.0*We - 12.0, -0.25);
-	}
+    
+        if (We > 175.0)
+        {
+            // sheet stripping
+            taubBar = 0.766*pow(2.0*We - 12.0, 0.25);
+        }
+        else if (We > 22.0)
+        {
+            // Bag-and-stamen breakup
+            taubBar = 14.1*pow(2.0*We - 12.0, -0.25);
+        }
+        else if (We > 9.0)
+        {
+            // Bag breakup
+            taubBar = 2.45*pow(2.0*We - 12.0, 0.25);
+        }
+        else if (We > 6.0)
+        {
+            // Vibrational breakup
+            taubBar = 6.0*pow(2.0*We - 12.0, -0.25);
+        }
 
         scalar rho12 = pow(rhoc/rho, 0.5);
 
-	scalar Vd = Urmag*rho12*(B1_*taubBar * B2_*taubBar*taubBar);
-	scalar Vd1 = pow(1.0 - Vd/Urmag, 2.0);
-	Vd1 = max(Vd1, SMALL);
-	scalar Ds = 2.0*Wec*sigma*Vd1/(Vd1*rhoc*pow(Urmag, 2.0));
-	scalar A = Urmag*rho12/d;
-
-	scalar taub = taubBar/A;
-
-	scalar frac = dt/taub;
-
-	// update the droplet diameter according to the rate eq. (implicitly)
-	d = (d + frac*Ds)/(1.0 + frac);
-
-	// correct the number of particles to conserve mass
+        scalar Vd = Urmag*rho12*(B1_*taubBar * B2_*taubBar*taubBar);
+        scalar Vd1 = pow(1.0 - Vd/Urmag, 2.0);
+        Vd1 = max(Vd1, SMALL);
+        scalar Ds = 2.0*Wec*sigma*Vd1/(Vd1*rhoc*pow(Urmag, 2.0));
+        scalar A = Urmag*rho12/d;
+        
+        scalar taub = taubBar/A;
+        
+        scalar frac = dt/taub;
+        
+        // update the droplet diameter according to the rate eq. (implicitly)
+        d = (d + frac*Ds)/(1.0 + frac);
+        
+        // correct the number of particles to conserve mass
         nParticle = semiMass/pow(d, 3);
     }
 

@@ -142,8 +142,8 @@ bool Foam::ReitzKHRT<CloudType>::update
     if ((tc > 0) || (lambdaRT < d) )
     {
         tc += dt;
-	scalar multiplier = d/lambdaRT;
-	d = cbrt(d3/multiplier);
+        scalar multiplier = d/lambdaRT;
+        d = cbrt(d3/multiplier);
     }
 
     // characteristic RT breakup time
@@ -170,7 +170,7 @@ bool Foam::ReitzKHRT<CloudType>::update
             d = (fraction*dc + d)/(1.0 + fraction);
 
             //scalar ms0 = rho*pow3(dc)*mathematicalConstant::pi/6.0;
-	    scalar ms0 = mass0*(1.0 - pow(d/d0,3.0));
+            scalar ms0 = mass0*(1.0 - pow(d/d0,3.0));
             ms += ms0;
 
             if (ms/averageParcelMass > msLimit_)
@@ -180,38 +180,38 @@ bool Foam::ReitzKHRT<CloudType>::update
                 // 2. Correct evaluation of the number of child droplets and the diameter of parcel droplets after breaukp
                 //   Solution of cubic equation for the diameter of the parent drops after breakup, see Eq. 18 in Patterson & Reitz, SAE 980131
                 bool br3 = true;
-       	        scalar ae3 = 1.;
-		scalar be3 = -dc;
-		scalar ce3 = 0.;
-		scalar de3 = d*d*(dc-d);
-		scalar qe3 = pow3(be3/(3.0*ae3)) - be3*ce3/(6.0*ae3*ae3) + de3/(2.0*ae3);
-		scalar pe3 = (3.0*ae3*ce3 - be3*be3)/(9.0*ae3*ae3);
-		scalar D3 = qe3*qe3 + pe3*pe3*pe3;
-
-		if (D3 < 0) br3 = false;
-
-       	        if (br3) 
-		{
+                scalar ae3 = 1.;
+                scalar be3 = -dc;
+                scalar ce3 = 0.;
+                scalar de3 = d*d*(dc-d);
+                scalar qe3 = pow3(be3/(3.0*ae3)) - be3*ce3/(6.0*ae3*ae3) + de3/(2.0*ae3);
+                scalar pe3 = (3.0*ae3*ce3 - be3*be3)/(9.0*ae3*ae3);
+                scalar D3 = qe3*qe3 + pe3*pe3*pe3;
+                
+                if (D3 < 0) br3 = false;
+                
+                if (br3) 
+                {
                     D3 = sqrt(D3);
-		    scalar ue3 = cbrt(-qe3+D3);	
-		    scalar ve3 = cbrt(-qe3-D3);
-		    scalar dParenDrops = ue3 + ve3 - be3/3.;
-		    scalar mc = nParticle*(pow3(d)-pow3(dParenDrops));
-		    scalar nChildDrops = mc/pow3(dc);
-
-		    if (nChildDrops >= nParticle)
-		    {
-		        addParcel = true;
-			d = dParenDrops;
-			ms = 0.0;
-			dChild = dc;
-			massChild = mc*rhopi6;
-
-			// reduce the parent mass by reducing nParticle
-			mass -= massChild;
-
-		    }
-		}
+                    scalar ue3 = cbrt(-qe3+D3);    
+                    scalar ve3 = cbrt(-qe3-D3);
+                    scalar dParenDrops = ue3 + ve3 - be3/3.;
+                    scalar mc = nParticle*(pow3(d)-pow3(dParenDrops));
+                    scalar nChildDrops = mc/pow3(dc);
+                    
+                    if (nChildDrops >= nParticle)
+                    {
+                        addParcel = true;
+                        d = dParenDrops;
+                        ms = 0.0;
+                        dChild = dc;
+                        massChild = mc*rhopi6;
+                        
+                        // reduce the parent mass by reducing nParticle
+                        mass -= massChild;
+                        
+                    }
+                }
             }
         }
     }
@@ -221,11 +221,11 @@ bool Foam::ReitzKHRT<CloudType>::update
         //  3. Case of larger drops after breakup (Reitz, Atomization & Spray Technology 3 (1987) 309-337, p.322)
         //     pIndKH() should be introduced
 
-	scalar lengthScale = min(lambdaKH, 2.0*mathematicalConstant::pi*Urmag/omegaKH);
-	scalar diameterLargerDrop = cbrt(1.5*d*d*lengthScale);
-	d = diameterLargerDrop;
+        scalar lengthScale = min(lambdaKH, 2.0*mathematicalConstant::pi*Urmag/omegaKH);
+        scalar diameterLargerDrop = cbrt(1.5*d*d*lengthScale);
+        d = diameterLargerDrop;
         ms = 0.0;
-	KHindex = 1.0;
+        KHindex = 1.0;
     }
 
     // correct the number of parcels in parent 
