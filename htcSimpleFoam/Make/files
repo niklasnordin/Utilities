@@ -1,0 +1,3 @@
+htcSimpleFoam.C
+
+EXE = $(FOAM_APPBIN)/htcSimpleFoam
