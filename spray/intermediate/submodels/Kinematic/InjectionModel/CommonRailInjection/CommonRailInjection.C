@@ -130,6 +130,18 @@ Foam::CommonRailInjection<CloudType>::CommonRailInjection
     normal_(vector::zero)
 {
 
+    if (innerNozzleDiameter_ >= outerNozzleDiameter_)
+    {
+        FatalErrorIn
+        (
+            "Foam::CommonRailInjection<CloudType>::CommonRailInjection"
+            "("
+                "..."
+            ")"
+        )<< "innerNozzleDiameter >= outerNozzleDiameter" << nl
+         << exit(FatalError); 
+    }
+
     word injectionMethodType = this->coeffDict().lookup("injectionMethod");
 
     if (injectionMethodType == "disc")
@@ -153,6 +165,7 @@ Foam::CommonRailInjection<CloudType>::CommonRailInjection
         )<< "injectionMethodType must be either 'point' or 'disc'" << nl
          << exit(FatalError);
     }
+
     // Normalise direction vector
     direction_ /= mag(direction_);
 
@@ -267,6 +280,7 @@ void Foam::CommonRailInjection<CloudType>::setProperties
     coneAngle *= deg2Rad;
     scalar alpha = sin(coneAngle);
     scalar dcorr = cos(coneAngle);
+    // moved to setPositionAndCell
     //scalar beta = mathematicalConstant::twoPi*this->owner().rndGen().scalar01();
     //vector normal = alpha*(tanVec1_*cos(beta) + tanVec2_*sin(beta));
     vector normal = alpha*normal_;

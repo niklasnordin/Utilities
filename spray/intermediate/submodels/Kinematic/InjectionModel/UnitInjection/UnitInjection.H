@@ -71,7 +71,10 @@ class UnitInjection
     // Private data
 
         //- Nozzle diameter [m]
-        const scalar nozzleDiameter_;
+        const scalar outerNozzleDiameter_;
+
+        //- Nozzle diameter [m]
+        const scalar innerNozzleDiameter_;
 
         //- Injection duration [s]
         const scalar duration_;
@@ -112,6 +115,8 @@ class UnitInjection
             //- Second tangential vector
             vector tanVec2_;
 
+            //- injection vector orthogonal to direction
+            vector normal_;
 
 protected:
 

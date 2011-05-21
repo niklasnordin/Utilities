@@ -75,7 +75,8 @@ Foam::UnitInjection<CloudType>::UnitInjection
 )
 :
     InjectionModel<CloudType>(dict, owner, typeName),
-    nozzleDiameter_(readScalar(this->coeffDict().lookup("nozzleDiameter"))),
+    outerNozzleDiameter_(readScalar(this->coeffDict().lookup("outerNozzleDiameter"))),
+    innerNozzleDiameter_(readScalar(this->coeffDict().lookup("innerNozzleDiameter"))),
     duration_(readScalar(this->coeffDict().lookup("duration"))),
     position_(this->coeffDict().lookup("position")),
     injectorCell_(-1),
@@ -125,10 +126,45 @@ Foam::UnitInjection<CloudType>::UnitInjection
         )
     ),
     tanVec1_(vector::zero),
-    tanVec2_(vector::zero)
+    tanVec2_(vector::zero),
+    normal_(vector::zero)
 {
 
+    if (innerNozzleDiameter_ >= outerNozzleDiameter_)
+    {
+        FatalErrorIn
+        (
+            "Foam::UnitInjection<CloudType>::UnitInjection"
+            "("
+                "..."
+            ")"
+        )<< "innerNozzleDiameter >= outerNozzleDiameter" << nl
+         << exit(FatalError); 
+    }
+
     word injectionMethodType = this->coeffDict().lookup("injectionMethod");
+
+    if (injectionMethodType == "disc")
+    {
+        this->injectionMethod_ = InjectionModel<CloudType>::imDisc;
+    }
+    else if (injectionMethodType == "point")
+    {
+        this->injectionMethod_ = InjectionModel<CloudType>::imPoint;
+    }
+    else
+    {
+        FatalErrorIn
+        (
+            "Foam::InjectionModel<CloudType>::InjectionModel"
+            "("
+                "const dictionary&, "
+                "CloudType&, "
+                "const word&"
+            ")"
+        )<< "injectionMethodType must be either 'point' or 'disc'" << nl
+         << exit(FatalError);
+    }
 
     // Normalise direction vector
     direction_ /= mag(direction_);
@@ -189,8 +225,38 @@ void Foam::UnitInjection<CloudType>::setPositionAndCell
     label& cellOwner
 )
 {
-    position = position_;
+    scalar beta = mathematicalConstant::twoPi*this->owner().rndGen().scalar01();
+    normal_ = tanVec1_*cos(beta) + tanVec2_*sin(beta);
+
+    switch (InjectionModel<CloudType>::injectionMethod_)
+    {
+        case InjectionModel<CloudType>::imPoint:
+	{
+            position = position_;
+            break;
+	}
+        case InjectionModel<CloudType>::imDisc:
+	{
+            scalar frac = this->owner().rndGen().scalar01();
+	    scalar r = 0.5*(innerNozzleDiameter_ + frac*(outerNozzleDiameter_ - innerNozzleDiameter_));
+            position = position_ + r*normal_;
+            break;
+	}
+        default:
+        {
+            FatalErrorIn
+            (
+                "void Foam::CommonRailInjection<CloudType>::setPositionAndCell"
+                "("
+                    "..."
+                ")"
+            )<< "Unknown injectionMethod type" << nl
+             << exit(FatalError);
+        }
+    }
+    this->findCellAtPosition(injectorCell_, position);
     cellOwner = injectorCell_;
+
 }
 
 
@@ -215,14 +281,17 @@ void Foam::UnitInjection<CloudType>::setProperties
     coneAngle *= deg2Rad;
     scalar alpha = sin(coneAngle);
     scalar dcorr = cos(coneAngle);
-    scalar beta = mathematicalConstant::twoPi*this->owner().rndGen().scalar01();
-
-    vector normal = alpha*(tanVec1_*cos(beta) + tanVec2_*sin(beta));
+    // moved to setPositionAndCell
+    //scalar beta = mathematicalConstant::twoPi*this->owner().rndGen().scalar01();
+    //vector normal = alpha*(tanVec1_*cos(beta) + tanVec2_*sin(beta));
+    vector normal = alpha*normal_;
     vector dirVec = dcorr*direction_;
     dirVec += normal;
     dirVec /= mag(dirVec);
 
-    scalar A = 0.25*mathematicalConstant::pi*nozzleDiameter_*nozzleDiameter_;
+    scalar Aout = 0.25*mathematicalConstant::pi*outerNozzleDiameter_*outerNozzleDiameter_;
+    scalar Ain = 0.25*mathematicalConstant::pi*innerNozzleDiameter_*innerNozzleDiameter_;
+    scalar A = Aout - Ain;
     scalar massFlowRate = this->massTotal()*volumeFlowRate_().value(t)/this->volumeTotal();
 
     scalar Umag = massFlowRate/(parcel.rho()*Cd_().value(t)*A);
