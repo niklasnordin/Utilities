@@ -365,7 +365,7 @@ void Foam::ReactingParcel<ParcelType>::calc
             td.cloud().UTrans()[cellI] += np0*mass1*U1;
             td.cloud().hsTrans()[cellI] +=
                 np0*mass1*td.cloud().composition().H(0, Y_, pc_, T1);
-        td.cloud().addToMassPhaseChange(np0*mass1);
+            td.cloud().addToMassPhaseChange(np0*mass1);
 
         }
     }
