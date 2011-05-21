@@ -37,6 +37,7 @@ License
 #include "ManualInjection.H"
 #include "NoInjection.H"
 #include "PatchInjection.H"
+#include "UnitInjection.H"
 //#include "ReactingLookupTableInjection.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -101,10 +102,16 @@ License
         ParcelType,                                                           \
         ThermoType                                                            \
     );                                                                        \
-                                                                              \
     makeInjectionModelThermoType                                              \
     (                                                                         \
         PatchInjection,                                                       \
+        KinematicCloud,                                                       \
+        ParcelType,                                                           \
+        ThermoType                                                            \
+    );                                                                        \
+    makeInjectionModelThermoType                                              \
+    (                                                                         \
+        UnitInjection,                                                        \
         KinematicCloud,                                                       \
         ParcelType,                                                           \
         ThermoType                                                            \

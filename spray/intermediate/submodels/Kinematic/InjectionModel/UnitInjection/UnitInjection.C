@@ -219,7 +219,9 @@ void Foam::UnitInjection<CloudType>::setProperties
     dirVec /= mag(dirVec);
 
     scalar A = 0.25*mathematicalConstant::pi*nozzleDiameter_*nozzleDiameter_;
-    scalar Umag = volumeFlowRate_().value(t)/(Cd_().value(t)*A);
+    scalar massFlowRate = this->massTotal()*volumeFlowRate_().value(t)/this->volumeTotal();
+
+    scalar Umag = massFlowRate/(parcel.rho()*Cd_().value(t)*A);
     parcel.U() = Umag*dirVec;
 
     // set particle diameter

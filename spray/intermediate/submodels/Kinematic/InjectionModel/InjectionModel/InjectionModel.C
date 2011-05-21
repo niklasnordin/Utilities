@@ -405,11 +405,12 @@ void Foam::InjectionModel<CloudType>::inject(TrackData& td)
                 // Create a new parcel
                 parcelType* pPtr = new parcelType(td.cloud(), pos, cellI);
 
-                // Assign new parcel properties in injection model
-                setProperties(parcelI, newParcels, timeInj, *pPtr);
-
+		// move checkParcelProperties before setProperties
                 // Check new parcel properties
                 td.cloud().checkParcelProperties(*pPtr, dt, fullyDescribed());
+
+                // Assign new parcel properties in injection model
+                setProperties(parcelI, newParcels, timeInj, *pPtr);
 
                 // Apply correction to velocity for 2-D cases
                 meshTools::constrainDirection
