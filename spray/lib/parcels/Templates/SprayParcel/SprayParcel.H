@@ -363,7 +363,7 @@ public:
             scalar chi
             (
                 TrackData& td,
-                   const scalarField& X
+                const scalarField& X
             ) const;
 
 

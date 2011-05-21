@@ -356,7 +356,6 @@ template<class TrackData>
 void Foam::InjectionModel<CloudType>::inject(TrackData& td)
 {
 
-
     if (!active())
     {
         return;

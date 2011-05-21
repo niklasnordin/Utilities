@@ -38,6 +38,7 @@ License
 #include "NoInjection.H"
 #include "PatchInjection.H"
 #include "UnitInjection.H"
+#include "CommonRailInjection.H"
 //#include "ReactingLookupTableInjection.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -105,6 +106,13 @@ License
     makeInjectionModelThermoType                                              \
     (                                                                         \
         PatchInjection,                                                       \
+        KinematicCloud,                                                       \
+        ParcelType,                                                           \
+        ThermoType                                                            \
+    );                                                                        \
+    makeInjectionModelThermoType                                              \
+    (                                                                         \
+        CommonRailInjection,                                                  \
         KinematicCloud,                                                       \
         ParcelType,                                                           \
         ThermoType                                                            \
