@@ -63,9 +63,6 @@ class SprayCloud
 {
 private:
 
-    //- Averaged ambient domain pressure
-  //        scalar pAmbient_;
-
     //- Average parcel mass
         scalar averageParcelMass_;
 
@@ -174,9 +171,6 @@ public:
             inline const CollisionModel<SprayCloud<ParcelType> >& 
                 collision() const;
 
-            //- Return const-access to the ambient pressure
-  //            inline const scalar& pAmbient() const;
-    
             //- Return const-access to the average parcel mass
             inline const scalar& averageParcelMass() const;
 

@@ -33,8 +33,6 @@ template<class ParcelType>
 void Foam::SprayCloud<ParcelType>::preEvolve()
 {
     ReactingCloud<ParcelType>::preEvolve();
-    
-    //pAmbient_ = this->carrierThermo().p().average().value();
 }
 
 
@@ -220,7 +218,6 @@ Foam::SprayCloud<ParcelType>::SprayCloud
 :
     ReactingCloud<ParcelType>(cloudName, rho, U, g, thermo, false),
     sprayCloud(),
-    //    pAmbient_(0.0),
     averageParcelMass_(this->injection().averageParcelMass()),
     constProps_(this->particleProperties()),
     atomizationModel_
