@@ -406,7 +406,7 @@ void Foam::InjectionModel<CloudType>::inject(TrackData& td)
                 // Create a new parcel
                 parcelType* pPtr = new parcelType(td.cloud(), pos, cellI);
 
-		// move checkParcelProperties before setProperties
+        // move checkParcelProperties before setProperties
                 // Check new parcel properties
                 td.cloud().checkParcelProperties(*pPtr, dt, fullyDescribed());
 
@@ -431,17 +431,17 @@ void Foam::InjectionModel<CloudType>::inject(TrackData& td)
                         pPtr->rho()
                     );
 
-		bool keep = pPtr->move(td);
+        bool keep = pPtr->move(td);
 
                 // Add the new parcel
-		if (keep)
-		{
-		    td.cloud().addParticle(pPtr);
-		}
-		else
-		{
-		    delete(pPtr);
-		}
+        if (keep)
+        {
+            td.cloud().addParticle(pPtr);
+        }
+        else
+        {
+            delete(pPtr);
+        }
                 massAdded += pPtr->nParticle()*pPtr->mass();
                 parcelsAdded++;
             }

@@ -231,17 +231,17 @@ void Foam::UnitInjection<CloudType>::setPositionAndCell
     switch (InjectionModel<CloudType>::injectionMethod_)
     {
         case InjectionModel<CloudType>::imPoint:
-	{
+        {
             position = position_;
             break;
-	}
+        }
         case InjectionModel<CloudType>::imDisc:
-	{
+        {
             scalar frac = this->owner().rndGen().scalar01();
-	    scalar r = 0.5*(innerNozzleDiameter_ + frac*(outerNozzleDiameter_ - innerNozzleDiameter_));
+            scalar r = 0.5*(innerNozzleDiameter_ + frac*(outerNozzleDiameter_ - innerNozzleDiameter_));
             position = position_ + r*normal_;
             break;
-	}
+        }
         default:
         {
             FatalErrorIn
