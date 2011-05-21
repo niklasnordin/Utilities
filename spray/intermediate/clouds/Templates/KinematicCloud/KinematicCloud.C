@@ -40,6 +40,7 @@ void Foam::KinematicCloud<ParcelType>::preEvolve()
 {
     this->dispersion().cacheFields(true);
     forces_.cacheFields(true);
+    pAmbient_ = 0.0;
 }
 
 
@@ -143,6 +144,7 @@ Foam::KinematicCloud<ParcelType>::KinematicCloud
     U_(U),
     mu_(mu),
     g_(g),
+    pAmbient_(0.0),
     forces_(mesh_, particleProperties_, g_.value()),
     interpolationSchemes_(particleProperties_.subDict("interpolationSchemes")),
     dispersionModel_

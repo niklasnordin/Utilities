@@ -114,6 +114,17 @@ Foam::KinematicCloud<ParcelType>::g() const
     return g_;
 }
 
+template<class ParcelType>
+inline Foam::scalar& Foam::KinematicCloud<ParcelType>::pAmbient()
+{
+    return pAmbient_;
+}
+
+template<class ParcelType>
+inline const Foam::scalar& Foam::KinematicCloud<ParcelType>::pAmbient() const
+{
+    return pAmbient_;
+}
 
 template<class ParcelType>
 inline const Foam::particleForces&

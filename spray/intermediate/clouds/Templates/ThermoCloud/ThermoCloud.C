@@ -35,6 +35,7 @@ template<class ParcelType>
 void Foam::ThermoCloud<ParcelType>::preEvolve()
 {
     KinematicCloud<ParcelType>::preEvolve();
+    this->pAmbient() = this->carrierThermo().p().average().value();
 }
 
 

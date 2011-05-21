@@ -154,6 +154,7 @@ void Foam::ManualInjection<CloudType>::setProperties
     const label parcelI,
     const label,
     const scalar,
+    const scalar,
     typename CloudType::parcelType& parcel
 )
 {

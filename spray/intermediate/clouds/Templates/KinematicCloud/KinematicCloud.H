@@ -144,6 +144,8 @@ protected:
             //- Gravity
             const dimensionedVector& g_;
 
+        //- Averaged ambient domain pressure
+            scalar pAmbient_;
 
         //- Optional particle forces
         particleForces forces_;
@@ -277,6 +279,12 @@ public:
                 //- Gravity
                 inline const dimensionedVector& g() const;
 
+
+            //- Return const-access to the ambient pressure
+            inline const scalar& pAmbient() const;
+
+            //- Return reference to the ambient pressure
+            inline scalar& pAmbient();
 
             //- Optional particle forces
             inline const particleForces& forces() const;

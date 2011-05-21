@@ -197,6 +197,7 @@ void Foam::CommonRailInjection<CloudType>::setProperties
     const label parcelI,
     const label,
     const scalar time,
+    const scalar pressure,
     typename CloudType::parcelType& parcel
 )
 {
@@ -218,7 +219,7 @@ void Foam::CommonRailInjection<CloudType>::setProperties
     dirVec += normal;
     dirVec /= mag(dirVec);
 
-    scalar Umag = ::sqrt(2.0*(Pinj_().value(t) - 1.0e+5)/parcel.rho());
+    scalar Umag = ::sqrt(2.0*(Pinj_().value(t) - pressure)/parcel.rho());
 
     parcel.U() = Umag*dirVec;
 

@@ -51,13 +51,13 @@ Foam::SprayCloud<ParcelType>::collision() const
 {
     return collisionModel_;
 }
-
+/*
 template<class ParcelType>
 inline const Foam::scalar& Foam::SprayCloud<ParcelType>::pAmbient() const
 {
     return pAmbient_;
 }
-
+*/
 template<class ParcelType>
 inline const Foam::scalar& Foam::SprayCloud<ParcelType>::averageParcelMass() const
 {

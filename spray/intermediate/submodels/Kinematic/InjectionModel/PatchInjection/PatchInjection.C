@@ -187,6 +187,7 @@ void Foam::PatchInjection<CloudType>::setProperties
     const label,
     const label,
     const scalar,
+    const scalar pressure,
     typename CloudType::parcelType& parcel
 )
 {

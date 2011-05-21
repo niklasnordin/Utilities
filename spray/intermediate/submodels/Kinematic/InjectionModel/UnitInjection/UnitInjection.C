@@ -197,6 +197,7 @@ void Foam::UnitInjection<CloudType>::setProperties
     const label parcelI,
     const label,
     const scalar time,
+    const scalar pressure,
     typename CloudType::parcelType& parcel
 )
 {

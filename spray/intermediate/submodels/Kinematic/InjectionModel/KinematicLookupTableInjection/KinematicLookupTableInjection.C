@@ -158,6 +158,7 @@ void Foam::KinematicLookupTableInjection<CloudType>::setProperties
     const label parcelI,
     const label nParcels,
     const scalar,
+    const scalar pressure,
     typename CloudType::parcelType& parcel
 )
 {
