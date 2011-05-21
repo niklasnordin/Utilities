@@ -127,6 +127,9 @@ Foam::UnitInjection<CloudType>::UnitInjection
     tanVec1_(vector::zero),
     tanVec2_(vector::zero)
 {
+
+    word injectionMethodType = this->coeffDict().lookup("injectionMethod");
+
     // Normalise direction vector
     direction_ /= mag(direction_);
 

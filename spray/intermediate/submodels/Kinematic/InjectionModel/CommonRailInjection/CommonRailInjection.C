@@ -75,7 +75,8 @@ Foam::CommonRailInjection<CloudType>::CommonRailInjection
 )
 :
     InjectionModel<CloudType>(dict, owner, typeName),
-    nozzleDiameter_(readScalar(this->coeffDict().lookup("nozzleDiameter"))),
+    outerNozzleDiameter_(readScalar(this->coeffDict().lookup("outerNozzleDiameter"))),
+    innerNozzleDiameter_(readScalar(this->coeffDict().lookup("innerNozzleDiameter"))),
     duration_(readScalar(this->coeffDict().lookup("duration"))),
     position_(this->coeffDict().lookup("position")),
     injectorCell_(-1),
@@ -125,8 +126,33 @@ Foam::CommonRailInjection<CloudType>::CommonRailInjection
         )
     ),
     tanVec1_(vector::zero),
-    tanVec2_(vector::zero)
+    tanVec2_(vector::zero),
+    normal_(vector::zero)
 {
+
+    word injectionMethodType = this->coeffDict().lookup("injectionMethod");
+
+    if (injectionMethodType == "disc")
+    {
+        this->injectionMethod_ = InjectionModel<CloudType>::imDisc;
+    }
+    else if (injectionMethodType == "point")
+    {
+        this->injectionMethod_ = InjectionModel<CloudType>::imPoint;
+    }
+    else
+    {
+        FatalErrorIn
+        (
+            "Foam::InjectionModel<CloudType>::InjectionModel"
+            "("
+                "const dictionary&, "
+                "CloudType&, "
+                "const word&"
+            ")"
+        )<< "injectionMethodType must be either 'point' or 'disc'" << nl
+         << exit(FatalError);
+    }
     // Normalise direction vector
     direction_ /= mag(direction_);
 
@@ -149,7 +175,7 @@ Foam::CommonRailInjection<CloudType>::CommonRailInjection
     this->volumeTotal_ = volumeFlowRate_().integrate(0.0, duration_);
 
     // Set/cache the injector cell
-    this->findCellAtPosition(injectorCell_, position_);
+    //this->findCellAtPosition(injectorCell_, position_);
 }
 
 
@@ -186,7 +212,36 @@ void Foam::CommonRailInjection<CloudType>::setPositionAndCell
     label& cellOwner
 )
 {
-    position = position_;
+    scalar beta = mathematicalConstant::twoPi*this->owner().rndGen().scalar01();
+    normal_ = tanVec1_*cos(beta) + tanVec2_*sin(beta);
+
+    switch (InjectionModel<CloudType>::injectionMethod_)
+    {
+        case InjectionModel<CloudType>::imPoint:
+	{
+            position = position_;
+            break;
+	}
+        case InjectionModel<CloudType>::imDisc:
+	{
+            scalar frac = this->owner().rndGen().scalar01();
+	    scalar r = 0.5*(innerNozzleDiameter_ + frac*(outerNozzleDiameter_ - innerNozzleDiameter_));
+            position = position_ + r*normal_;
+            break;
+	}
+        default:
+        {
+            FatalErrorIn
+            (
+                "void Foam::CommonRailInjection<CloudType>::setPositionAndCell"
+                "("
+                    "..."
+                ")"
+            )<< "Unknown injectionMethod type" << nl
+             << exit(FatalError);
+        }
+    }
+    this->findCellAtPosition(injectorCell_, position);
     cellOwner = injectorCell_;
 }
 
@@ -212,9 +267,9 @@ void Foam::CommonRailInjection<CloudType>::setProperties
     coneAngle *= deg2Rad;
     scalar alpha = sin(coneAngle);
     scalar dcorr = cos(coneAngle);
-    scalar beta = mathematicalConstant::twoPi*this->owner().rndGen().scalar01();
-
-    vector normal = alpha*(tanVec1_*cos(beta) + tanVec2_*sin(beta));
+    //scalar beta = mathematicalConstant::twoPi*this->owner().rndGen().scalar01();
+    //vector normal = alpha*(tanVec1_*cos(beta) + tanVec2_*sin(beta));
+    vector normal = alpha*normal_;
     vector dirVec = dcorr*direction_;
     dirVec += normal;
     dirVec /= mag(dirVec);

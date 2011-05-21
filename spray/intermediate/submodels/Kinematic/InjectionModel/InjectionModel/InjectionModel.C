@@ -275,6 +275,7 @@ Foam::InjectionModel<CloudType>::InjectionModel(CloudType& owner)
     nInjections_(0),
     parcelsAddedTotal_(0),
     parcelBasis_(pbNumber),
+    injectionMethod_(imPoint),
     time0_(0.0),
     timeStep0_(0.0)
 {
@@ -300,6 +301,7 @@ Foam::InjectionModel<CloudType>::InjectionModel
     nInjections_(0),
     parcelsAddedTotal_(0),
     parcelBasis_(pbNumber),
+    injectionMethod_(imPoint),
     time0_(owner.db().time().value()),
     timeStep0_(0.0)
 {

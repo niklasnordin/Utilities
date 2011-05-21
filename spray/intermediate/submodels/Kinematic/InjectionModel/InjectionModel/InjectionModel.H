@@ -76,6 +76,11 @@ public:
             pbMass
         };
 
+        enum injectionMethod
+        {
+            imPoint,
+            imDisc
+        };
 
 private:
 
@@ -136,6 +141,9 @@ protected:
 
             //- Parcel basis enumeration
             parcelBasis parcelBasis_;
+
+        //- point/disc injection method
+            injectionMethod injectionMethod_;
 
             //- Continuous phase time at start of injection time step [s]
             scalar time0_;
