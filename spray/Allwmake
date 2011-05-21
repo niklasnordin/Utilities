@@ -1,2 +1,2 @@
-wmake libso lib
+wmake libso spray
 wmake solvers/dieselSprayFoam

@@ -1,3 +1,3 @@
-rm -fr lib/lnInclude
-wclean lib
+rm -fr spray/lnInclude
+wclean spray
 wclean solvers/dieselSprayFoam
