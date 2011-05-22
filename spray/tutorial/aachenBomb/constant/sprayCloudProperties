@@ -58,8 +58,8 @@ DispersionModel     none;
 
 DragModel           SphereDrag;
 
-InjectionModel      CommonRailInjection;
-//InjectionModel      none;
+//InjectionModel      CommonRailInjection;
+InjectionModel      MultiHoleInjection;
 
 PatchInteractionModel StandardWallInteraction;
 
@@ -145,7 +145,8 @@ UnitInjectionCoeffs
     SOI               0.0;
     massTotal         massTotal [1 0 0 0 0 0 0] 6.0e-6;
     parcelBasisType   mass;
-    nozzleDiameter    1.9e-4;
+    outerNozzleDiameter    1.9e-4;
+    innerNozzleDiameter    0;
     duration          1.25e-3;
     position          ( 0 0.0995 0 );
     direction         ( 0 -1 0 );
@@ -195,6 +196,49 @@ CommonRailInjectionCoeffs
 
         uniformPDF
         {
+            minValue  1.0e-4;
+            maxValue  1.1e-4;
+        }
+
+    }
+
+}
+
+MultiHoleInjectionCoeffs
+{
+    SOI                    0.0;
+    massTotal              massTotal [1 0 0 0 0 0 0] 6.0e-6;
+    parcelBasisType        mass;
+    nozzleDiameter         1.9e-4;
+    duration               1.25e-3;
+
+    centerPosition         ( 0 0.0995 0 );
+    nozzleTipDiameter      0.01;
+    xyAngle                0.0;
+    zAngle                 -180.0;
+    nHoles                 5;
+    umbrellaAngle          90.0;
+    angleSpacing
+    (
+       0.0
+       120.0
+       120.0
+       100.0
+       140.0
+    );
+    parcelsPerSecond       100000000;
+    volumeFlowRate         constant 1.0;
+    Cd                     constant 0.85;
+
+    thetaInner             constant 0.0;
+    thetaOuter             constant 10.0;
+
+    parcelPDF
+    {
+        pdfType       uniform;
+
+	uniformPDF
+	{
             minValue  1.0e-4;
             maxValue  1.1e-4;
         }
