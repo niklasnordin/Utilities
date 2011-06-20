@@ -22,21 +22,25 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Application
-    rhoPorousSimpleFoam
+    rhoPorousMRFPimpleFoam
 
 Description
-    Steady-state solver for turbulent flow of compressible fluids with
-    RANS turbulence modelling, implicit or explicit porosity treatment
-    and MRF for HVAC and similar applications.
+    Transient solver for laminar or turbulent flow of compressible fluids
+    with support for porous media and MRF for HVAC and similar applications.
+
+    Uses the flexible PIMPLE (PISO-SIMPLE) solution for time-resolved and
+    pseudo-transient simulations.
 
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
 #include "basicPsiThermo.H"
 #include "RASModel.H"
+#include "turbulenceModel.H"
+#include "bound.H"
 #include "MRFZones.H"
-#include "thermalPorousZones.H"
-#include "simpleControl.H"
+#include "porousZones.H"
+#include "pimpleControl.H"
 #include "wallFvPatch.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -50,27 +54,48 @@ int main(int argc, char *argv[])
     #include "createZones.H"
     #include "initContinuityErrs.H"
 
-    simpleControl simple(mesh);
+    pimpleControl pimple(mesh);
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     Info<< "\nStarting time loop\n" << endl;
 
-    while (simple.loop())
+    while (runTime.run())
     {
+        #include "readTimeControls.H"
+        #include "compressibleCourantNo.H"
+        #include "setDeltaT.H"
+
+        runTime++;
+
         Info<< "Time = " << runTime.timeName() << nl << endl;
 
-        p.storePrevIter();
-        rho.storePrevIter();
+        #include "rhoEqn.H"
 
-        // Pressure-velocity SIMPLE corrector
+        // --- Pressure-velocity PIMPLE corrector loop
+        for (pimple.start(); pimple.loop(); pimple++)
         {
+            if (pimple.nOuterCorr() != 1)
+            {
+                p.storePrevIter();
+                rho.storePrevIter();
+            }
+
             #include "UEqn.H"
             #include "hEqn.H"
-            #include "pEqn.H"
+
+            // --- PISO loop
+            for (int corr=0; corr<pimple.nCorr(); corr++)
+            {
+                #include "pEqn.H"
+            }
+
+            if (pimple.turbCorr())
+            {
+                turbulence->correct();
+            }
         }
 
-        turbulence->correct();
 
         #include "calcHTC.H"
 	pTot = p + 0.5*rho*(U&U);
@@ -78,6 +103,7 @@ int main(int argc, char *argv[])
 	Info << "...p min/max = " << min(p).value() << ", " << max(p).value() << endl;
 	Info << "...T min/max = " << min(T).value() << ", " << max(T).value() << endl;
 	Info << "...max(U) = " << max(mag(U)).value() << endl;
+
         runTime.write();
 
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
