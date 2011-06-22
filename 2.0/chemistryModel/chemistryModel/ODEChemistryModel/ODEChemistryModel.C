@@ -812,9 +812,9 @@ Foam::scalar Foam::ODEChemistryModel<CompType, ThermoType>::solve
         scalar hi = hs[celli] + hc[celli];
 
         //const scalar pi = this->thermo().p()[celli];
-        scalar pi = p[celli];
+        scalar& pi = p[celli];
         //scalar Ti = this->thermo().T()[celli];
-        scalar Ti = T[celli];
+        scalar& Ti = T[celli];
 
         scalarField c(nSpecie_, 0.0);
         scalarField c0(nSpecie_, 0.0);
