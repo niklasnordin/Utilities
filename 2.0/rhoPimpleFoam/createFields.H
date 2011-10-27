@@ -45,6 +45,21 @@
     );
 
 
+    volScalarField magGradU
+    (
+        IOobject
+        (
+            "magGradU",
+            runTime.timeName(),
+            mesh,
+            IOobject::NO_READ,
+            IOobject::AUTO_WRITE
+        ),
+        mesh,
+        dimensionedScalar("zero", dimensionSet(0,1,-2,0,0), 0.0),
+        BCTypes
+    );
+
     volVectorField Up
     (
         IOobject
@@ -67,7 +82,7 @@
             "Uav",
             runTime.timeName(),
             mesh,
-            IOobject::MUST_READ,
+            IOobject::READ_IF_PRESENT,
             IOobject::AUTO_WRITE
         ),
         mesh,

@@ -16,4 +16,11 @@ if (time > startAveraging )
 
 Up = U - Uav;
 
+const polyBoundaryMesh& patches = mesh.boundaryMesh();
+forAll(patches, i)
+{
+    magGradU.boundaryField()[i] = mag(U.boundaryField()[i].snGrad());
+}
+ 
+
 }
