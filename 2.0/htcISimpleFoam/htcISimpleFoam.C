@@ -67,6 +67,8 @@ int main(int argc, char *argv[])
         #include "calcHTC.H"
 	pTot = p + 0.5*(U&U);
 
+	Info << "...p min/max = " << min(p).value() << ", " << max(p).value() << endl;
+        Info << "...max(U)    = " << max(mag(U)).value() << endl;
         runTime.write();
 
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"

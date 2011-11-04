@@ -240,3 +240,18 @@
         dimensionedScalar("zero", dimensionSet(0,0,0,0,0), 0.0),
 	htcBCTypes
     );
+
+    volScalarField addMix
+    (
+        IOobject
+        (
+            "addMix",
+            runTime.timeName(),
+            mesh,
+            IOobject::READ_IF_PRESENT,
+            IOobject::AUTO_WRITE
+        ),
+        mesh,
+        dimensionedScalar("zero", dimensionSet(0,0,0,0,0), 0.0),
+	htcBCTypes
+    );
