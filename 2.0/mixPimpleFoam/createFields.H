@@ -242,6 +242,14 @@
         mesh
     );
 
+
+    wordList htcBCTypes
+    (
+        U.boundaryField().size(),
+        zeroGradientFvPatchScalarField::typeName
+    );
+
+
     volScalarField mix
     (
         IOobject
