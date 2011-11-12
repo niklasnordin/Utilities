@@ -1,8 +1,8 @@
 
     fvScalarMatrix v1Eqn
     (
-        fvm::div(phi, v1)
-      - fvm::Sp(fvc::div(phi), v1)
+        fvm::ddt(rho, v1)
+      + fvm::div(phi, v1)
       - fvm::laplacian(turbulence->muEff(), v1)
     );
 
@@ -11,8 +11,8 @@
 
     fvScalarMatrix v2Eqn
     (
-        fvm::div(phi, v2)
-      - fvm::Sp(fvc::div(phi), v2)
+        fvm::ddt(rho, v2)
+      + fvm::div(phi, v2)
       - fvm::laplacian(turbulence->muEff(), v2)
     );
 
@@ -21,8 +21,8 @@
 
     fvScalarMatrix v3Eqn
     (
-        fvm::div(phi, v3)
-      - fvm::Sp(fvc::div(phi), v3)
+        fvm::ddt(rho, v3)
+      + fvm::div(phi, v3)
       - fvm::laplacian(turbulence->muEff(), v3)
     );
 
@@ -31,8 +31,8 @@
 
     fvScalarMatrix v4Eqn
     (
-        fvm::div(phi, v4)
-      - fvm::Sp(fvc::div(phi), v4)
+        fvm::ddt(rho, v4)
+      + fvm::div(phi, v4)
       - fvm::laplacian(turbulence->muEff(), v4)
     );
 
@@ -41,8 +41,8 @@
 
     fvScalarMatrix v5Eqn
     (
-        fvm::div(phi, v5)
-      - fvm::Sp(fvc::div(phi), v5)
+        fvm::ddt(rho, v5)
+      + fvm::div(phi, v5)
       - fvm::laplacian(turbulence->muEff(), v5)
     );
 
@@ -51,8 +51,8 @@
 
     fvScalarMatrix v6Eqn
     (
-        fvm::div(phi, v6)
-      - fvm::Sp(fvc::div(phi), v6)
+        fvm::ddt(rho, v6)
+      + fvm::div(phi, v6)
       - fvm::laplacian(turbulence->muEff(), v6)
     );
 
@@ -61,8 +61,8 @@
 
     fvScalarMatrix v7Eqn
     (
-        fvm::div(phi, v7)
-      - fvm::Sp(fvc::div(phi), v7)
+        fvm::ddt(rho, v7)
+      + fvm::div(phi, v7)
       - fvm::laplacian(turbulence->muEff(), v7)
     );
 
@@ -71,8 +71,8 @@
 
     fvScalarMatrix v8Eqn
     (
-        fvm::div(phi, v8)
-      - fvm::Sp(fvc::div(phi), v8)
+        fvm::ddt(rho, v8)
+      + fvm::div(phi, v8)
       - fvm::laplacian(turbulence->muEff(), v8)
     );
 

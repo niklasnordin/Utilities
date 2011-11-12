@@ -93,8 +93,8 @@ int main(int argc, char *argv[])
         Info << "min/max p = " << min(p).value() << ", " << max(p).value() << endl;
         Info << "min/max T = " << min(T).value() << ", " << max(T).value() << endl;
 
-        #include "calcAverage.H"
         #include "passiveScalars.H"
+        #include "calcAverage.H"
 
 	pTot = p + 0.5*rho*(U&U);
 
