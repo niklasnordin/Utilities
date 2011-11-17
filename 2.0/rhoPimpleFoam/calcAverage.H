@@ -14,7 +14,10 @@ if (time > startAveraging )
     }
 }
 
+dimensionedScalar Usmall("Usmall", Uav.dimensions(), SMALL);
+
 Up = U - Uav;
+Uproc = mag(Up)/(mag(Uav)+Usmall);
 
 const polyBoundaryMesh& patches = mesh.boundaryMesh();
 forAll(patches, i)

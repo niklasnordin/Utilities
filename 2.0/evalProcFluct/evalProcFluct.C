@@ -59,6 +59,7 @@ void Foam::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
     {
         volVectorField Uav(Uavheader, mesh);
         volVectorField Up(Upheader, mesh);
+	dimensionedScalar Usmall("Usmall", Uav.dimensions(), SMALL);
 
         autoPtr<volScalarField> UprocPtr;
 
@@ -72,7 +73,7 @@ void Foam::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
 		    runTime.timeName(),
 		    mesh
 		),
-		mag(Up)/(mag(Uav))
+		mag(Up)/(mag(Uav) + Usmall)
 	    )
 	);
 

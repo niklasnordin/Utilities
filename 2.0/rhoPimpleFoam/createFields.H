@@ -75,6 +75,21 @@
         BCTypes
     );
 
+    volScalarField Uproc
+    (
+        IOobject
+        (
+            "Uproc",
+            runTime.timeName(),
+            mesh,
+            IOobject::READ_IF_PRESENT,
+            IOobject::AUTO_WRITE
+        ),
+        mesh,
+        dimensionedScalar("zero", dimensionSet(0,0,0,0,0), 0.0),
+        BCTypes
+    );
+
     volVectorField Uav
     (
         IOobject
