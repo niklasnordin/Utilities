@@ -43,7 +43,7 @@ void Foam::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
        runTime.path()/("Udev_" + runTime.timeName() + ".dat")
     );
 
-    bool writeResults = !args.optionFound("noWrite");
+    //bool writeResults = !args.optionFound("noWrite");
 
     vector normal(-1, 0, 0);
     IOobject Uheader
@@ -72,24 +72,44 @@ void Foam::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
 	vector Uav = vector::zero;
 	scalar vol = 0.0;
 	scalar Udev = 0.0;
+	scalar torque = 0.0;
+	vector center = vector::zero;
+
         forAll(cells, i)
         {
 	    label celli = cells[i];
 	    scalar voli = mesh.V()[celli];
-	    Uav += U[celli]*voli;
+	    vector C = mesh.C()[celli];
 	    vol += voli;
-	    scalar Udevi = mag(U[celli] - ((U[celli] & normal)*normal));
+	    center += C*voli;
+        }
+	reduce(center, sumOp<vector>());
+	reduce(vol, sumOp<scalar>());
+	center /= vol;
 
+        forAll(cells, i)
+        {
+	    label celli = cells[i];
+	    scalar voli = mesh.V()[celli];
+	    vector C = mesh.C()[celli];
+	    Uav += U[celli]*voli;
+	    vector Utau = U[celli] - ((U[celli] & normal)*normal);
+	    scalar Udevi = mag(Utau);
 	    Udev += Udevi*voli;
+	    vector radie = C - center;
+	    vector torqi = Utau ^ radie;
+	    torque += mag(torqi)*voli;
         }
 	reduce(Uav, sumOp<vector>());
-	reduce(vol, sumOp<scalar>());
 	reduce(Udev, sumOp<scalar>());
+	reduce(torque, sumOp<scalar>());
 
 	Uav /= vol;
 	Udev /= vol;
-	Info << "Udev = " << Udev << ", Uav = " << Uav << endl;
-	logSummaryFile << Udev << endl;
+	torque /= vol;
+
+	Info << "Udev = " << Udev << ", Uav = " << Uav << ", torque = " << torque << endl;
+	logSummaryFile << Udev << " " << torque << endl;
     }
 
     Info<< "\nEnd\n" << endl;
