@@ -1,0 +1,2 @@
+DEPENDENCIES = \
+externalWallHeatFluxTemperature/externalWallHeatFluxTemperatureFvPatchScalarField.dep
