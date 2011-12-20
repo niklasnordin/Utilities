@@ -1,3 +1,0 @@
-dieselSprayFoam.C
-
-EXE = $(FOAM_APPBIN)/dieselSprayFoam

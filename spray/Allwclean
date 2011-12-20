@@ -1,3 +1,0 @@
-rm -fr spray/lnInclude
-wclean spray
-wclean solvers/dieselSprayFoam

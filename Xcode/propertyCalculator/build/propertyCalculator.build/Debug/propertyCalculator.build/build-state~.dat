@@ -1,196 +1,0 @@
-TpropertyCalculator
-v7
-r0
-t315427524.079657
-cCheck dependencies
-cProcessInfoPlistFile /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/Info.plist propertyCalculator-Info.plist
-cCopyStringsFile /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/Resources/English.lproj/InfoPlist.strings English.lproj/InfoPlist.strings
-cCompileXIB /Users/niklasnordin/Documents/CoreData/propertyCalculator/English.lproj/MainMenu.xib
-cProcessPCH /var/folders/E5/E5xKOlm9HUCU2fKJUiHIek+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/propertyCalculator_Prefix-brxdxbfsfstwdmejvpliwinxeuur/propertyCalculator_Prefix.pch.gch propertyCalculator_Prefix.pch normal x86_64 objective-c com.apple.compilers.gcc.4_2
-cCompileC build/propertyCalculator.build/Debug/propertyCalculator.build/Objects-normal/x86_64/main.o /Users/niklasnordin/Documents/CoreData/propertyCalculator/main.m normal x86_64 objective-c com.apple.compilers.gcc.4_2
-cCompileC build/propertyCalculator.build/Debug/propertyCalculator.build/Objects-normal/x86_64/propertyCalculatorAppDelegate.o /Users/niklasnordin/Documents/CoreData/propertyCalculator/propertyCalculatorAppDelegate.m normal x86_64 objective-c com.apple.compilers.gcc.4_2
-cLd /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/MacOS/propertyCalculator normal x86_64
-cTouch /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app
-
-N/Developer/SDKs/MacOSX10.6.sdk
-c000000004CAA740B00000000000000EE
-t1286239243
-s238
-
-N/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h
-c0000000040C4AA6800000000000001E5
-t1086630504
-s485
-
-N/System/Library/Frameworks/Cocoa.framework/Cocoa
-c000000004A1F2D63000000000000A5E0
-t1243557219
-s42464
-
-N/Users/niklasnordin/Documents/CoreData/propertyCalculator/English.lproj/InfoPlist.strings
-c000000004D1CD25A000000000000002D
-t1293734490
-s45
-
-N/Users/niklasnordin/Documents/CoreData/propertyCalculator/English.lproj/MainMenu.xib
-c000000004D1CD25A000000000002BBE4
-t1293734490
-s179172
-
-N/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app
-t1293734724
-s102
-
-N/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/Info.plist
-t1293734720
-s919
-
-N/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/MacOS/propertyCalculator
-t1293734724
-s14808
-
-N/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/PkgInfo
-t1293734720
-s8
-
-N/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/Resources/English.lproj/InfoPlist.strings
-t1293734720
-s92
-
-N/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/Resources/English.lproj/MainMenu.nib
-t1293734721
-s34548
-
-N/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/Objects-normal/x86_64/main.o
-t1293734723
-s5024
-
-N/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/Objects-normal/x86_64/propertyCalculator.LinkFileList
-c000000004D1CD3400000000000000143
-t1293734720
-s323
-
-N/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/Objects-normal/x86_64/propertyCalculatorAppDelegate.o
-t1293734723
-s21416
-
-N/Users/niklasnordin/Documents/CoreData/propertyCalculator/main.m
-c000000004D1CD25A0000000000000101
-t1293734490
-s257
-i<Cocoa/Cocoa.h>
-
-N/Users/niklasnordin/Documents/CoreData/propertyCalculator/propertyCalculatorAppDelegate.h
-c000000004D1CD25A0000000000000155
-t1293734490
-s341
-i<Cocoa/Cocoa.h>
-
-N/Users/niklasnordin/Documents/CoreData/propertyCalculator/propertyCalculatorAppDelegate.m
-c000000004D1CD25A0000000000000195
-t1293734490
-s405
-i"propertyCalculatorAppDelegate.h"
-
-N/Users/niklasnordin/Documents/CoreData/propertyCalculator/propertyCalculator_Prefix.pch
-c000000004D1CD25A00000000000000A7
-t1293734490
-s167
-i<Cocoa/Cocoa.h>
-
-N/var/folders/E5/E5xKOlm9HUCU2fKJUiHIek+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/propertyCalculator_Prefix-brxdxbfsfstwdmejvpliwinxeuur/propertyCalculator_Prefix.pch.gch
-t1293734723
-s54306576
-
-NpropertyCalculator-Info.plist
-c000000004D1CD25A00000000000003EA
-t1293734490
-s1002
-
-CCheck dependencies
-r0
-lSLF07#2@18"Check dependencies315427520#315427520#0(0"0(0#1#0"8616192064#0"0#
-
-CCompileC build/propertyCalculator.build/Debug/propertyCalculator.build/Objects-normal/x86_64/main.o /Users/niklasnordin/Documents/CoreData/propertyCalculator/main.m normal x86_64 objective-c com.apple.compilers.gcc.4_2
-s315427523.652680
-e315427523.806149
-r1
-xCompileC
-xbuild/propertyCalculator.build/Debug/propertyCalculator.build/Objects-normal/x86_64/main.o
-x/Users/niklasnordin/Documents/CoreData/propertyCalculator/main.m
-xnormal
-xx86_64
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@72"Compile /Users/niklasnordin/Documents/CoreData/propertyCalculator/main.m315427523#315427523#0(0"0(0#0#64"/Users/niklasnordin/Documents/CoreData/propertyCalculator/main.m8618875328#1879"    cd /Users/niklasnordin/Documents/CoreData/propertyCalculator    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x objective-c -arch x86_64 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/propertyCalculator-generated-files.hmap -I/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/propertyCalculator-own-target-headers.hmap -I/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/propertyCalculator-all-target-headers.hmap -iquote /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/propertyCalculator-project-headers.hmap -F/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug -I/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/include -I/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/DerivedSources/x86_64 -I/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/DerivedSources -include /var/folders/E5/E5xKOlm9HUCU2fKJUiHIek+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/propertyCalculator_Prefix-brxdxbfsfstwdmejvpliwinxeuur/propertyCalculator_Prefix.pch -c /Users/niklasnordin/Documents/CoreData/propertyCalculator/main.m -o /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/Objects-normal/x86_64/main.o0#
-
-CCompileC build/propertyCalculator.build/Debug/propertyCalculator.build/Objects-normal/x86_64/propertyCalculatorAppDelegate.o /Users/niklasnordin/Documents/CoreData/propertyCalculator/propertyCalculatorAppDelegate.m normal x86_64 objective-c com.apple.compilers.gcc.4_2
-s315427523.654035
-e315427523.815534
-r1
-xCompileC
-xbuild/propertyCalculator.build/Debug/propertyCalculator.build/Objects-normal/x86_64/propertyCalculatorAppDelegate.o
-x/Users/niklasnordin/Documents/CoreData/propertyCalculator/propertyCalculatorAppDelegate.m
-xnormal
-xx86_64
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@97"Compile /Users/niklasnordin/Documents/CoreData/propertyCalculator/propertyCalculatorAppDelegate.m315427523#315427523#0(0"0(0#0#89"/Users/niklasnordin/Documents/CoreData/propertyCalculator/propertyCalculatorAppDelegate.m8618692192#1929"    cd /Users/niklasnordin/Documents/CoreData/propertyCalculator    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x objective-c -arch x86_64 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/propertyCalculator-generated-files.hmap -I/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/propertyCalculator-own-target-headers.hmap -I/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/propertyCalculator-all-target-headers.hmap -iquote /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/propertyCalculator-project-headers.hmap -F/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug -I/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/include -I/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/DerivedSources/x86_64 -I/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/DerivedSources -include /var/folders/E5/E5xKOlm9HUCU2fKJUiHIek+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/propertyCalculator_Prefix-brxdxbfsfstwdmejvpliwinxeuur/propertyCalculator_Prefix.pch -c /Users/niklasnordin/Documents/CoreData/propertyCalculator/propertyCalculatorAppDelegate.m -o /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/Objects-normal/x86_64/propertyCalculatorAppDelegate.o0#
-
-CCompileXIB /Users/niklasnordin/Documents/CoreData/propertyCalculator/English.lproj/MainMenu.xib
-s315427520.754549
-e315427521.043512
-r1
-xCompileXIB
-x/Users/niklasnordin/Documents/CoreData/propertyCalculator/English.lproj/MainMenu.xib
-lSLF07#2@37"CompileXIB English.lproj/MainMenu.xib315427520#315427521#0(0"0(0#0#84"/Users/niklasnordin/Documents/CoreData/propertyCalculator/English.lproj/MainMenu.xib8615208320#432"    cd /Users/niklasnordin/Documents/CoreData/propertyCalculator    /Developer/usr/bin/ibtool --errors --warnings --notices --output-format human-readable-text --compile /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/Resources/English.lproj/MainMenu.nib /Users/niklasnordin/Documents/CoreData/propertyCalculator/English.lproj/MainMenu.xib --sdk /Developer/SDKs/MacOSX10.6.sdk0#
-
-CCopyStringsFile /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/Resources/English.lproj/InfoPlist.strings English.lproj/InfoPlist.strings
-s315427520.753554
-e315427520.986477
-r1
-xCopyStringsFile
-x/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/Resources/English.lproj/InfoPlist.strings
-xEnglish.lproj/InfoPlist.strings
-lSLF07#2@36"Copy English.lproj/InfoPlist.strings315427520#315427520#0(0"0(0#0#89"/Users/niklasnordin/Documents/CoreData/propertyCalculator/English.lproj/InfoPlist.strings8618612384#414"    cd /Users/niklasnordin/Documents/CoreData/propertyCalculator    setenv ICONV /usr/bin/iconv    /Developer/Library/Xcode/Plug-ins/CoreBuildTasks.xcplugin/Contents/Resources/copystrings --validate --inputencoding utf-8 --outputencoding UTF-16 English.lproj/InfoPlist.strings --outdir /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/Resources/English.lproj0#
-
-CLd /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/MacOS/propertyCalculator normal x86_64
-s315427523.815612
-e315427524.076304
-r1
-xLd
-x/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/MacOS/propertyCalculator
-xnormal
-xx86_64
-lSLF07#2@131"Link /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/MacOS/propertyCalculator315427523#315427524#0(0"0(0#0#0"8617052224#692"    cd /Users/niklasnordin/Documents/CoreData/propertyCalculator    setenv MACOSX_DEPLOYMENT_TARGET 10.6    /Developer/usr/bin/gcc-4.2 -arch x86_64 -isysroot /Developer/SDKs/MacOSX10.6.sdk -L/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug -F/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug -filelist /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/Objects-normal/x86_64/propertyCalculator.LinkFileList -mmacosx-version-min=10.6 -framework Cocoa -o /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/MacOS/propertyCalculator0#
-
-CProcessInfoPlistFile /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/Info.plist propertyCalculator-Info.plist
-s315427520.744724
-e315427520.753483
-r1
-xProcessInfoPlistFile
-x/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/Info.plist
-xpropertyCalculator-Info.plist
-lSLF07#2@37"Process propertyCalculator-Info.plist315427520#315427520#0(0"0(0#0#87"/Users/niklasnordin/Documents/CoreData/propertyCalculator/propertyCalculator-Info.plist8618893408#400"    cd /Users/niklasnordin/Documents/CoreData/propertyCalculator    builtin-infoPlistUtility propertyCalculator-Info.plist -genpkginfo /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/PkgInfo -expandbuildsettings -platform macosx -o /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app/Contents/Info.plist0#
-
-CProcessPCH /var/folders/E5/E5xKOlm9HUCU2fKJUiHIek+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/propertyCalculator_Prefix-brxdxbfsfstwdmejvpliwinxeuur/propertyCalculator_Prefix.pch.gch propertyCalculator_Prefix.pch normal x86_64 objective-c com.apple.compilers.gcc.4_2
-s315427521.043619
-e315427523.652450
-r1
-xProcessPCH
-x/var/folders/E5/E5xKOlm9HUCU2fKJUiHIek+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/propertyCalculator_Prefix-brxdxbfsfstwdmejvpliwinxeuur/propertyCalculator_Prefix.pch.gch
-xpropertyCalculator_Prefix.pch
-xnormal
-xx86_64
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@40"Precompile propertyCalculator_Prefix.pch315427521#315427523#0(0"0(0#0#87"/Users/niklasnordin/Documents/CoreData/propertyCalculator/propertyCalculator_Prefix.pch8616307904#1755"    cd /Users/niklasnordin/Documents/CoreData/propertyCalculator    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x objective-c-header -arch x86_64 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/propertyCalculator-generated-files.hmap -I/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/propertyCalculator-own-target-headers.hmap -I/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/propertyCalculator-all-target-headers.hmap -iquote /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/propertyCalculator-project-headers.hmap -F/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug -I/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/include -I/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/DerivedSources/x86_64 -I/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/propertyCalculator.build/Debug/propertyCalculator.build/DerivedSources -c /Users/niklasnordin/Documents/CoreData/propertyCalculator/propertyCalculator_Prefix.pch -o /var/folders/E5/E5xKOlm9HUCU2fKJUiHIek+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/propertyCalculator_Prefix-brxdxbfsfstwdmejvpliwinxeuur/propertyCalculator_Prefix.pch.gch0#
-
-CTouch /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app
-s315427524.076407
-e315427524.079540
-r1
-xTouch
-x/Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app
-lSLF07#2@98"Touch /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app315427524#315427524#0(0"0(0#0#0"8614298720#180"    cd /Users/niklasnordin/Documents/CoreData/propertyCalculator    /usr/bin/touch -c /Users/niklasnordin/Documents/CoreData/propertyCalculator/build/Debug/propertyCalculator.app0#
-

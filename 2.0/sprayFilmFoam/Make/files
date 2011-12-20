@@ -1,3 +1,0 @@
-sprayFilmFoam.C
-
-EXE = $(FOAM_APPBIN)/sprayFilmFoam
