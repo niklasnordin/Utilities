@@ -1,3 +1,0 @@
-evalFlow.C
-
-EXE = $(FOAM_APPBIN)/evalFlow
