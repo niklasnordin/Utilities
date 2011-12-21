@@ -1,4 +1,0 @@
-
-evalFluctForHB.C
-
-EXE = $(FOAM_APPBIN)/evalFluctForHB

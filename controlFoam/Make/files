@@ -1,4 +1,0 @@
-dictControl/dictControl.C
-controlFoam.C
-
-EXE = $(FOAM_APPBIN)/controlFoam

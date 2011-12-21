@@ -1,3 +1,0 @@
-htcPorousMRFSimpleFoam.C
-
-EXE = $(FOAM_APPBIN)/htcPorousMRFSimpleFoam

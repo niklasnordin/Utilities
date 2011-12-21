@@ -1,3 +1,0 @@
-dieselPimpleFoam.C
-
-EXE = $(FOAM_APPBIN)/dieselPimpleFoam

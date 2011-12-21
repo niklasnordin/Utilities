@@ -1,3 +1,0 @@
-sprayPorousPimpleFoam.C
-
-EXE = $(FOAM_APPBIN)/sprayPorousPimpleFoam
