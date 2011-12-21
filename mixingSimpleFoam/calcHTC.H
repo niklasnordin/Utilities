@@ -1,6 +1,6 @@
 // RAS
 {
-    const compressible::RASModel& rasModel = U.db().lookupObject<compressible::RASModel>("RASProperties");
+  //    const compressible::RASModel& rasModel = U.db().lookupObject<compressible::RASModel>("RASProperties");
     scalar Pr = 1.0;
     scalar sigma_t = 1.0;
     scalar Cmu = 0.09;
@@ -15,13 +15,11 @@
     {
         if (isA<wallFvPatch>(mesh.boundary()[i]))
         {
-            //const scalarField& Tw = T.boundaryField()[i];
 	    scalarField Tp = T.boundaryField()[i].patchInternalField();
             const scalarField& rhop = rho.boundaryField()[i];
-            //const scalarField& Ap = mesh.magSf().boundaryField()[i];
-	    scalarField kp = rasModel.k()().boundaryField()[i].patchInternalField();
+	    scalarField kp = turbulence->k()().boundaryField()[i].patchInternalField();
 
-            scalarField yp = rasModel.yPlus(i, Cmu);
+            scalarField yp = turbulence->yPlus(i, Cmu);
 	    scalarField Cpp = thermo.Cp(Tp, i);
 
             scalarField Tstar = Cmu4*(log(E*yp)/K + Y);

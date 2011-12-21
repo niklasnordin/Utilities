@@ -89,5 +89,8 @@
     volScalarField c7=fr*v7*(1.0-v7);
     volScalarField c8=fr*v8*(1.0-v8);
     mix = c1*c2*c3*c4*c5*c6*c7*c8;
+    addMix = c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8;
 
-    Info << "max(mix) = " << max(mix).value() << endl;
+    Info << "max(mix) = " << max(mix).value() 
+    << ", max(addMix) = " << max(addMix).value()
+    << endl;
