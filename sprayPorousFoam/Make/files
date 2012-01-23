@@ -1,0 +1,3 @@
+sprayPorousFoam.C
+
+EXE = $(FOAM_APPBIN)/sprayPorousFoam
