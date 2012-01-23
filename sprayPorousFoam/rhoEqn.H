@@ -31,7 +31,6 @@ Description
 
 {
 
-  Info << rho << endl;
     fvScalarMatrix rhoEqn
     (
         fvm::ddt(rho)
