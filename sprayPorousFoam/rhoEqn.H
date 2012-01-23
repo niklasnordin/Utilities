@@ -34,8 +34,8 @@ Description
     (
         fvm::ddt(rho)
       + fvc::div(phi)
-      ==
-        parcels.Srho(rho)
+	//      ==
+	//        parcels.Srho(rho)
 	//      + sources(rho)
     );
 
