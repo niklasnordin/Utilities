@@ -36,10 +36,10 @@ Description
       + fvc::div(phi)
       ==
         parcels.Srho(rho)
-      + sources(rho)
+	//      + sources(rho)
     );
 
-    sources.constrain(rhoEqn);
+    //    sources.constrain(rhoEqn);
 
     rhoEqn.solve();
 }

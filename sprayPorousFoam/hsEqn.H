@@ -9,7 +9,7 @@
       + parcels.Sh(hs)
       + radiation->Shs(thermo)
       + combustion->Sh()
-      + sources(rho, hs)
+	//      + sources(rho, hs)
     );
 
     if (pressureWorkTimeDerivative)
@@ -19,7 +19,7 @@
 
     hsEqn.relax();
 
-    sources.constrain(hsEqn);
+    //    sources.constrain(hsEqn);
 
     hsEqn.solve();
 

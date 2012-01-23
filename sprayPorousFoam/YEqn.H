@@ -32,12 +32,12 @@ if (solveSpecies)
               ==
                 parcels.SYi(i, Yi)
               + combustion->R(Yi)
-              + sources(rho, Yi)
+		//              + sources(rho, Yi)
             );
 
             YiEqn.relax();
 
-            sources.constrain(YiEqn);
+	    //            sources.constrain(YiEqn);
 
             YiEqn.solve(mesh.solver("Yi"));
 

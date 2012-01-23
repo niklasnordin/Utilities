@@ -29,7 +29,7 @@
       + fvc::div(phi)
      ==
         parcels.Srho()
-      + sources(psi, p, rho.name())
+	//      + sources(psi, p, rho.name())
     );
 
 
@@ -41,7 +41,7 @@
           - fvm::laplacian(rho*rAU, p)
         );
 
-        sources.constrain(pDDtEqn, rho.name());
+	//        sources.constrain(pDDtEqn, rho.name());
 
         pEqn.solve(mesh.solver(p.select(pimple.finalInnerIter())));
 
