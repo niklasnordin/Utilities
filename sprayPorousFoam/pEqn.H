@@ -3,7 +3,7 @@
 
     // Thermodynamic density needs to be updated by psi*d(p) after the
     // pressure solution - done in 2 parts. Part 1:
-    thermo.rho() -= psi*p;
+    //thermo.rho() -= psi*p;
 
     volScalarField rAU(1.0/UEqn.A());
     U = rAU*UEqn.H();
@@ -52,7 +52,7 @@
     }
 
     // Second part of thermodynamic density update
-    thermo.rho() += psi*p;
+    //thermo.rho() += psi*p;
 
     #include "rhoEqn.H"
     #include "compressibleContinuityErrs.H"

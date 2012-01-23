@@ -42,7 +42,7 @@ Description
 #include "fvCFD.H"
 #include "turbulenceModel.H"
 #include "basicSprayCloud.H"
-#include "rhoChemistryCombustionModel.H"
+#include "psiChemistryCombustionModel.H"
 #include "radiationModel.H"
 #include "porousZones.H"
 #include "IObasicSourceList.H"
