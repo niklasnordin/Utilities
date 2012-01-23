@@ -30,12 +30,14 @@ Description
 \*---------------------------------------------------------------------------*/
 
 {
+
+  Info << rho << endl;
     fvScalarMatrix rhoEqn
     (
         fvm::ddt(rho)
       + fvc::div(phi)
-	//      ==
-	//        parcels.Srho(rho)
+      ==
+        parcels.Srho(rho)
 	//      + sources(rho)
     );
 
