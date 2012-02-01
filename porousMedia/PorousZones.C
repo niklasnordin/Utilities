@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2004-2010 OpenCFD Ltd.
+    \\  /    A nd           | Copyright (C) 2011 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -131,6 +131,21 @@ void Foam::PorousZones<ZoneType>::addResistance(fvVectorMatrix& UEqn) const
     forAll(*this, i)
     {
         this->operator[](i).addResistance(UEqn);
+    }
+}
+
+
+template<class ZoneType>
+void Foam::PorousZones<ZoneType>::addResistance
+(
+    fvVectorMatrix& UEqn,
+    const volScalarField& rho,
+    const volScalarField& mu
+) const
+{
+    forAll(*this, i)
+    {
+        this->operator[](i).addResistance(UEqn, rho, mu);
     }
 }
 

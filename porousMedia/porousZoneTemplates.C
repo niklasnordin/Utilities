@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2004-2010 OpenCFD Ltd.
+    \\  /    A nd           | Copyright (C) 2011 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -93,8 +93,8 @@ void Foam::porousZone::addViscousInertialResistance
 
         forAll(cells, i)
         {
-	  //const tensor dragCoeff = mu[cells[i]]*D
-	  //+ (rho[cells[i]]*mag(U[cells[i]]))*F;
+	    //const tensor dragCoeff = mu[cells[i]]*D
+	    //    + (rho[cells[i]]*mag(U[cells[i]]))*F;
 	    const tensor dragCoeff = mu[cells[i]]*::pow(T[cells[i]], DTExp_)*D + (::pow(T[cells[i]], FTExp_)*rho[cells[i]]*mag(U[cells[i]]))*F;
 
             const scalar isoDragCoeff = tr(dragCoeff);
@@ -150,7 +150,7 @@ void Foam::porousZone::addViscousInertialResistance
 
         forAll(cells, i)
         {
-	    //AU[cells[i]] += mu[cells[i]]*D + (rho[cells[i]]*mag(U[cells[i]]))*F;
+	  //AU[cells[i]] += mu[cells[i]]*D + (rho[cells[i]]*mag(U[cells[i]]))*F;
 	    AU[cells[i]] += ::pow(T[cells[i]], DTExp_)*mu[cells[i]]*D + (::pow(T[cells[i]], FTExp_)*rho[cells[i]]*mag(U[cells[i]]))*F;
         }
     }

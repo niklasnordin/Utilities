@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2004-2011 OpenCFD Ltd.
+    \\  /    A nd           | Copyright (C) 2011 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -154,7 +154,6 @@ class porousZone
         //- Forchheimer coefficient
         dimensionedTensor F_;
 
-
         // temperature exponents for the Darcy and Forchheimer terms
         scalar DTExp_;
         scalar FTExp_;
@@ -168,6 +167,7 @@ class porousZone
         scalar b1_;
         scalar b2_;
         scalar b3_;
+
 
     // Private Member Functions
 
@@ -358,6 +358,15 @@ public:
         //- Add the viscous and inertial resistance force contribution
         //  to the momentum equation
         void addResistance(fvVectorMatrix& UEqn) const;
+
+        //- Add the viscous and inertial resistance force contribution
+        //  to the momentum equation giving rho and mu.
+        void addResistance
+        (
+            fvVectorMatrix& UEqn,
+            const volScalarField& rho,
+            const volScalarField& mu
+        ) const;
 
         //- Add the viscous and inertial resistance force contribution
         //  to the tensorial diagonal.

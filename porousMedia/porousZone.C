@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2004-2011 OpenCFD Ltd.
+    \\  /    A nd           | Copyright (C) 2011 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -291,11 +291,9 @@ Foam::porousZone::porousZone
     }
 
     scalar eps = 1.0 - phi_;
-
-    //scalar ac = ((a3_*phi_ + a2_)*phi_ + a1_)*phi_ + a0_;
-    //scalar bc = ((b3_*phi_ + b2_)*phi_ + b1_)*phi_ + b0_;
     scalar ac = ((a3_*eps + a2_)*eps + a1_)*eps + a0_;
     scalar bc = ((b3_*eps + b2_)*eps + b1_)*eps + b0_;
+
     D_ *= max(ac, 0.0);
     F_ *= max(bc, 0.0);
 
@@ -406,6 +404,53 @@ void Foam::porousZone::addResistance(fvVectorMatrix& UEqn) const
     }
 }
 
+
+void Foam::porousZone::addResistance
+(
+    fvVectorMatrix& UEqn,
+    const volScalarField& rho,
+    const volScalarField& mu
+) const
+{
+    if (cellZoneIds_.empty())
+    {
+        return;
+    }
+
+    const scalarField& V = mesh_.V();
+    scalarField& Udiag = UEqn.diag();
+    vectorField& Usource = UEqn.source();
+    const vectorField& U = UEqn.psi();
+
+    if (C0_ > VSMALL)
+    {
+        addPowerLawResistance
+        (
+            Udiag,
+            V,
+            rho,
+            U
+        );
+    }
+
+    const tensor& D = D_.value();
+    const tensor& F = F_.value();
+
+    if (magSqr(D) > VSMALL || magSqr(F) > VSMALL)
+    {
+        const volScalarField& T = mesh_.lookupObject<volScalarField>("T");
+        addViscousInertialResistance
+        (
+            Udiag,
+            Usource,
+            V,
+            rho,
+	    T,
+            mu,
+            U
+        );
+    }
+}
 
 void Foam::porousZone::addResistance
 (
@@ -539,13 +584,6 @@ void Foam::porousZone::writeDict(Ostream& os, bool subDict) const
     if (const dictionary* dictPtr = dict_.subDictPtr("Darcy"))
     {
         os  << indent << "Darcy";
-        dictPtr->write(os);
-    }
-
-    // Darcy-Forchheimer coefficients with temperature dependence
-    if (const dictionary* dictPtr = dict_.subDictPtr("DarcyPERS"))
-    {
-        os  << indent << "DarcyPERS";
         dictPtr->write(os);
     }
 
