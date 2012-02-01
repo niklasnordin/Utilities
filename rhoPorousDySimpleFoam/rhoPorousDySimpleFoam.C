@@ -32,6 +32,7 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
+#include "dynamicFvMesh.H"
 #include "basicPsiThermo.H"
 #include "RASModel.H"
 #include "MRFZones.H"
@@ -44,7 +45,7 @@ int main(int argc, char *argv[])
 {
     #include "setRootCase.H"
     #include "createTime.H"
-    #include "createMesh.H"
+    #include "createDynamicFvMesh.H"
 
     simpleControl simple(mesh);
 
