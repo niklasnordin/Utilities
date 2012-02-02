@@ -33,6 +33,7 @@ Description
 
 #include "fvCFD.H"
 #include "dynamicFvMesh.H"
+#include "dynamicRefineFvMesh.H"
 #include "basicPsiThermo.H"
 #include "RASModel.H"
 #include "MRFZones.H"
@@ -57,9 +58,57 @@ int main(int argc, char *argv[])
 
     Info<< "\nStarting time loop\n" << endl;
 
+    bool hasChanged = false;
+
     while (simple.loop())
     {
         Info<< "Time = " << runTime.timeName() << nl << endl;
+
+        // Indicators for refinement. Note: before runTime++
+        // only for postprocessing reasons.
+        tmp<volScalarField> tmagGradU = mag(fvc::grad(mag(U)));
+        volScalarField normalisedGradU
+        (
+            "normalisedGradU",
+            tmagGradU()/max(tmagGradU())
+        );
+        normalisedGradU.writeOpt() = IOobject::AUTO_WRITE;
+        tmagGradU.clear();
+
+        {
+            // Make the fluxes absolute
+            fvc::makeAbsolute(phi, rho, U);
+
+            // Test : disable refinement for some cells
+            PackedBoolList& protectedCell =
+                refCast<dynamicRefineFvMesh>(mesh).protectedCell();
+
+            if (protectedCell.empty())
+            {
+                protectedCell.setSize(mesh.nCells());
+                protectedCell = 0;
+            }
+
+            // Flux estimate for introduced faces.
+            volVectorField rhoU("rhoU", rho*U);
+
+            // Do any mesh changes
+            bool meshChanged = mesh.update();
+
+
+            if (meshChanged)
+            {
+                hasChanged = true;
+            }
+
+            if (runTime.write() && hasChanged)
+            {
+                hasChanged = false;
+            }
+
+            // Make the fluxes relative to the mesh motion
+            fvc::makeRelative(phi, rho, U);
+        }
 
         // Pressure-velocity SIMPLE corrector
         {
