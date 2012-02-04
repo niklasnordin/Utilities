@@ -59,6 +59,7 @@ int main(int argc, char *argv[])
     Info<< "\nStarting time loop\n" << endl;
 
     bool hasChanged = false;
+    dimensionedScalar Usmall("small", dimensionSet(0,0,-1,0,0,0,0), SMALL);
 
     while (simple.loop())
     {
@@ -70,7 +71,7 @@ int main(int argc, char *argv[])
         volScalarField normalisedGradU
         (
             "normalisedGradU",
-            tmagGradU()/max(tmagGradU())
+            tmagGradU()/(max(tmagGradU()) + Usmall)
         );
         normalisedGradU.writeOpt() = IOobject::AUTO_WRITE;
         tmagGradU.clear();
