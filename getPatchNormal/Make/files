@@ -1,0 +1,3 @@
+getPatchNormal.C
+
+EXE = $(FOAM_APPBIN)/getPatchNormal
