@@ -50,6 +50,7 @@ int main(int argc, char *argv[])
     pimpleControl pimple(mesh);
 
     #include "createFields.H"
+    #include "createPassives.H"
     #include "initContinuityErrs.H"
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -85,6 +86,14 @@ int main(int argc, char *argv[])
                 turbulence->correct();
             }
         }
+
+        Info << "max U = " << max(mag(U)).value() << endl;
+        Info << "min/max p = " << min(p).value() << ", " << max(p).value() << endl;
+        Info << "min/max T = " << min(T).value() << ", " << max(T).value() << endl;
+
+        #include "passiveScalars.H"
+
+        pTot = p + 0.5*rho*(U&U);
 
         runTime.write();
 

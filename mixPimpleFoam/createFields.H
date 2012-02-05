@@ -8,6 +8,7 @@
 
     volScalarField& p = thermo.p();
     volScalarField& h = thermo.h();
+    const volScalarField& T = thermo.T();
     const volScalarField& psi = thermo.psi();
 
     volScalarField rho
