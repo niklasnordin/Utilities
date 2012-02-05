@@ -1,0 +1,3 @@
+mixPimpleFoam.C
+
+EXE = $(FOAM_APPBIN)/mixPimpleFoam
