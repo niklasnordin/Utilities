@@ -73,6 +73,7 @@ int main(int argc, char *argv[])
             "normalisedGradU",
             tmagGradU()/(max(tmagGradU()) + Usmall)
         );
+	Info << "normalisedGradU min/max = " << min(normalisedGradU).value() << ", " << max(normalisedGradU).value() << endl;
         normalisedGradU.writeOpt() = IOobject::AUTO_WRITE;
         tmagGradU.clear();
 
