@@ -68,13 +68,13 @@ int main(int argc, char *argv[])
         // Indicators for refinement. Note: before runTime++
         // only for postprocessing reasons.
         tmp<volScalarField> tmagGradU = mag(fvc::grad(mag(U)));
-        volScalarField normalisedGradU
+        volScalarField gradU
         (
-            "normalisedGradU",
-            tmagGradU()/(max(tmagGradU()) + Usmall)
+            "gradU",
+            tmagGradU()
         );
-	Info << "normalisedGradU min/max = " << min(normalisedGradU).value() << ", " << max(normalisedGradU).value() << endl;
-        normalisedGradU.writeOpt() = IOobject::AUTO_WRITE;
+	Info << "gradU min/max = " << min(gradU).value() << ", " << max(gradU).value() << endl;
+        gradU.writeOpt() = IOobject::AUTO_WRITE;
         tmagGradU.clear();
 
         {
