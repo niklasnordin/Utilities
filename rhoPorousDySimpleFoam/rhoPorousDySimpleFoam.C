@@ -73,7 +73,8 @@ int main(int argc, char *argv[])
 	const volScalarField& k = turbulence->k();
 
 	volScalarField epsilon = turbulence->epsilon() + epsSmall;
-	volScalarField lt = 0.09*pow(k, 1.5)/epsilon;
+	volScalarField lt = ("lt", 0.09*pow(k, 1.5)/epsilon);
+
 	lt.writeOpt() = IOobject::AUTO_WRITE;
         tmp<volScalarField> tscaleQ = mag(lt);
 
