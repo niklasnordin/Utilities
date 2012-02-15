@@ -75,8 +75,11 @@ int main(int argc, char *argv[])
 	volScalarField epsilon = turbulence->epsilon() + epsSmall;
 	volScalarField lt("lt", 0.09*pow(k, 1.5)/epsilon);
 
+	volScalarField le("le", lt);
+	le.internalField() = length;
+
 	lt.writeOpt() = IOobject::AUTO_WRITE;
-        tmp<volScalarField> tscaleQ = mag(lt);
+        tmp<volScalarField> tscaleQ = mag(le/lt);
 
         volScalarField scaleQ
         (
@@ -84,10 +87,6 @@ int main(int argc, char *argv[])
             tscaleQ()
         );
 
-	forAll(scaleQ, i)
-	{
-            scaleQ[i] = length[i]/lt[i];
-	}
 	Info << "scaleQ min/max = " << min(scaleQ).value() << ", " << max(scaleQ).value() << endl;
         scaleQ.writeOpt() = IOobject::AUTO_WRITE;
         tscaleQ.clear();
