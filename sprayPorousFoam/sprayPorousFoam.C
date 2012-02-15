@@ -108,6 +108,8 @@ int main(int argc, char *argv[])
             }
         }
 
+#       include "calcWallDistances.H"
+
         rho = thermo.rho();
 	pTot = p + 0.5*rho*(U&U);
         runTime.write();

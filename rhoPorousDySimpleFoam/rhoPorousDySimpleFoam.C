@@ -67,15 +67,26 @@ int main(int argc, char *argv[])
 
         // Indicators for refinement. Note: before runTime++
         // only for postprocessing reasons.
-        tmp<volScalarField> tmagGradU = mag(fvc::grad(mag(U)));
-        volScalarField gradU
+	const scalarField& V = mesh.V();
+	const scalarField& length = pow(V, 1.0/3.0);
+	const volScalarField& k = turbulence->k();
+	const volScalarField& epsilon = turbulence->epsilon();
+	volScalarField lt = 0.09*pow(k, 1.5)/epsilon;
+
+        tmp<volScalarField> tscaleQ = mag(lt);
+
+        volScalarField scaleQ
         (
-            "gradU",
-            tmagGradU()
+            "scaleQ",
+            tscaleQ()
         );
-	Info << "gradU min/max = " << min(gradU).value() << ", " << max(gradU).value() << endl;
-        gradU.writeOpt() = IOobject::AUTO_WRITE;
-        tmagGradU.clear();
+	forAll(scaleQ, i)
+	{
+	  scaleQ[i] = lt[i]/length[i];
+	}
+	Info << "scaleQ min/max = " << min(scaleQ).value() << ", " << max(scaleQ).value() << endl;
+        scaleQ.writeOpt() = IOobject::AUTO_WRITE;
+        tscaleQ.clear();
 
         {
             // Make the fluxes absolute
@@ -96,7 +107,6 @@ int main(int argc, char *argv[])
 
             // Do any mesh changes
             bool meshChanged = mesh.update();
-
 
             if (meshChanged)
             {
