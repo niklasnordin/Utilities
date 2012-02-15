@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
 
 	forAll(scaleQ, i)
 	{
-	  scaleQ[i] = lt[i]/(length[i]+ SMALL);
+	  scaleQ[i] = length[i]/(lt[i] + SMALL);
 	}
 	Info << "scaleQ min/max = " << min(scaleQ).value() << ", " << max(scaleQ).value() << endl;
         scaleQ.writeOpt() = IOobject::AUTO_WRITE;
