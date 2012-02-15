@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
 	const scalarField& V = mesh.V();
 	const scalarField& length = pow(V, 1.0/3.0);
 	const volScalarField& k = turbulence->k();
-	const volScalarField& epsilon = turbulence->epsilon();
+	const volScalarField& epsilon = turbulence->epsilon() + VSMALL;
 	volScalarField lt = 0.09*pow(k, 1.5)/epsilon;
 
         tmp<volScalarField> tscaleQ = mag(lt);
