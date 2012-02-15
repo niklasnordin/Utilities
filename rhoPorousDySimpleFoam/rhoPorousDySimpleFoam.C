@@ -69,12 +69,11 @@ int main(int argc, char *argv[])
         // Indicators for refinement. Note: before runTime++
         // only for postprocessing reasons.
 	const scalarField& V = mesh.V();
-	const scalarField& length = pow(V, 1.0/3.0);
+	scalarField length = pow(V, 1.0/3.0);
 	const volScalarField& k = turbulence->k();
 
-	const volScalarField& epsilon = turbulence->epsilon() + epsSmall;
+	volScalarField epsilon = turbulence->epsilon() + epsSmall;
 	volScalarField lt = 0.09*pow(k, 1.5)/epsilon;
-
         tmp<volScalarField> tscaleQ = mag(lt);
 
         volScalarField scaleQ
@@ -82,9 +81,10 @@ int main(int argc, char *argv[])
             "scaleQ",
             tscaleQ()
         );
+
 	forAll(scaleQ, i)
 	{
-	  scaleQ[i] = lt[i]/length[i];
+	  scaleQ[i] = lt[i]/(length[i]+ SMALL);
 	}
 	Info << "scaleQ min/max = " << min(scaleQ).value() << ", " << max(scaleQ).value() << endl;
         scaleQ.writeOpt() = IOobject::AUTO_WRITE;
