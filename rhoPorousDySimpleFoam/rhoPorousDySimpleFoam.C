@@ -108,8 +108,12 @@ int main(int argc, char *argv[])
             // Flux estimate for introduced faces.
             volVectorField rhoU("rhoU", rho*U);
 
+	    bool meshChanged = false;
             // Do any mesh changes
-            bool meshChanged = mesh.update();
+	    if (runTime.value() > nStartRefine)
+	    {
+		meshChanged = mesh.update();
+	    }
 
             if (meshChanged)
             {

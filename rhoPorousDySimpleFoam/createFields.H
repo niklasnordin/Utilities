@@ -46,6 +46,7 @@
 
     dimensionedScalar rhoMax(simple.dict().lookup("rhoMax"));
     dimensionedScalar rhoMin(simple.dict().lookup("rhoMin"));
+    label nStartRefine(readLabel(simple.dict().lookup("nStartRefine")));
 
     Info<< "Creating turbulence model\n" << endl;
     autoPtr<compressible::RASModel> turbulence
