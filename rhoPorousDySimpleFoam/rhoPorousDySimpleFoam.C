@@ -60,6 +60,7 @@ int main(int argc, char *argv[])
 
     bool hasChanged = false;
     dimensionedScalar Usmall("small", dimensionSet(0,0,-1,0,0,0,0), SMALL);
+    dimensionedScalar epsSmall("small", dimensionSet(0,2,-3,0,0,0,0), SMALL);
 
     while (simple.loop())
     {
@@ -70,7 +71,8 @@ int main(int argc, char *argv[])
 	const scalarField& V = mesh.V();
 	const scalarField& length = pow(V, 1.0/3.0);
 	const volScalarField& k = turbulence->k();
-	const volScalarField& epsilon = turbulence->epsilon() + VSMALL;
+
+	const volScalarField& epsilon = turbulence->epsilon() + epsSmall;
 	volScalarField lt = 0.09*pow(k, 1.5)/epsilon;
 
         tmp<volScalarField> tscaleQ = mag(lt);
