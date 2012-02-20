@@ -1,0 +1,3 @@
+NOxPimpleFoam.C
+
+EXE = $(FOAM_APPBIN)/NOxPimpleFoam
