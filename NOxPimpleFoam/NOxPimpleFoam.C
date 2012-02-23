@@ -59,7 +59,8 @@ int main(int argc, char *argv[])
     cachedRandom rndGen(label(0), -1);
 
     Info<< "\nStarting time loop\n" << endl;
-
+    scalar dtInlet = 1.0+10;
+    label prevIndex = -1;
     while (runTime.run())
     {
         #include "readTimeControls.H"

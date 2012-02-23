@@ -1,5 +1,16 @@
+
+dtInlet += runTime.deltaT().value();
+
+if (dtInlet > 1.0e-3)
+{
+    dtInlet = 0.0;
     label nInlets = 8;
     label nInlet = nInlets*rndGen.sample01<scalar>();
+    while (nInlet == prevIndex)
+    {
+        nInlet = nInlets*rndGen.sample01<scalar>();
+    }
+    prevIndex = nInlet;
 
     for(label i=0; i<nInlets; i++)
     {
@@ -25,6 +36,7 @@
 	    NOx.boundaryField()[patchID] == 0.0;
 	}
     }
+}
 
     fvScalarMatrix NOxEqn
     (
