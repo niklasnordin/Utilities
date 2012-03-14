@@ -20,11 +20,44 @@ public:
 
     //constructor
     Vector();
+    Vector
+    (
+        const scalar& x,
+	const scalar& y,
+	const scalar& z
+    );
 
     //destructor
     ~Vector();
 
     //access functions
+    inline const scalar& x() const 
+    {
+        return x_;
+    }
+
+    inline const scalar& y() const
+    {
+        return y_;
+    }
+
+    inline const scalar& z() const
+    {
+        return z_;
+    }
+
+    //operators
+
+    double operator&(const Vector& v) const;
+    Vector operator+(const Vector& v) const;
+    Vector operator-(const Vector& v) const;
+    Vector operator*(const scalar& a) const;
+
+    friend ostream& operator<<(ostream& os, const Vector& v)
+    {
+        os << v.x() << " " << v.y() << " " << v.z();
+        return os;
+    }
 };
 
 #endif

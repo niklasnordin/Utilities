@@ -18,3 +18,6 @@ $(LIBNAME): $(OBJS)
 
 clean:
 	rm -f $(OBJS) $(LIBNAME)
+
+Matrix.C:	Matrix.H Vector.H
+Vector.C:	Vector.H
