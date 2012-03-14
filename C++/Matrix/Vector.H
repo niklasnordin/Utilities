@@ -53,6 +53,11 @@ public:
     Vector operator-(const Vector& v) const;
     Vector operator*(const scalar& a) const;
 
+    friend Vector operator*(const scalar& a, const Vector& v)
+    {
+        return Vector(a*v.x(), a*v.y(), a*v.z());
+    }
+
     friend ostream& operator<<(ostream& os, const Vector& v)
     {
         os << v.x() << " " << v.y() << " " << v.z();

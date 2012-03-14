@@ -22,7 +22,7 @@ Vector::~Vector()
 
 double Vector::operator&(const Vector& v) const
 {
-    return x_*v.x() +y_*v.y() + z_*v.z();
+    return x_*v.x() + y_*v.y() + z_*v.z();
 }
 
 Vector Vector::operator+(const Vector& v) const
@@ -32,7 +32,7 @@ Vector Vector::operator+(const Vector& v) const
 
 Vector Vector::operator-(const Vector& v) const
 {
-  return Vector(x_-v.x(), y_-v.y(), z_-v.z());
+    return Vector(x_-v.x(), y_-v.y(), z_-v.z());
 }
 
 Vector Vector::operator*(const scalar& a) const
