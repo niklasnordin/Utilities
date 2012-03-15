@@ -59,6 +59,11 @@ public:
         return sqrt( *this & *this );
     }
 
+    friend double mag(const Vector& v)
+    {
+        return v.mag();
+    }
+
     // cross product
     const Vector operator^(const Vector& b) const
     {
@@ -290,7 +295,8 @@ int main(int argc, char* argv[])
     // find the top point of the cone
     Vector xTop(0, 0, 0);
     int num = 0;
-    int skip = 60;
+    int skip = pow(10.0*nLines, 0.3333);
+    cout << "skip = " << skip << endl;
     for (int i=0; i<nLines-1; i += skip)
     {
         if (area[i] > SMALL)
@@ -321,6 +327,44 @@ int main(int argc, char* argv[])
 	    }
 	}
     }
+
+    Vector xTopGuess = xTop;
+    xTop = Vector(0.0, 0.0, 0.0);
+    num = 0;
+
+    for (int i=0; i<nLines-1; i += skip)
+    {
+        double disti = mag(xc[i] - xTopGuess);
+        if (area[i] > SMALL && disti > dMin && disti < dMax)
+        {
+
+	    for (int j=i+1; j<nLines; j += skip)
+            {
+                double distj = mag(xc[j] - xTopGuess);
+                if (area[j] > SMALL && distj > dMin && distj < dMax)
+       	        {
+       	            for (int k=0; k<nLines; k += skip)
+       	            {
+       	                double distk = mag(xc[k] - xTopGuess);
+			if ( (area[k] > SMALL) && ( k != i) && (k != j) && (distk > dMin) && (distk < dMax))
+       	                {
+			    Matrix m(n[i], n[j], n[k]);
+			    if (m.det() > 1.0e-4)
+			      {
+				Matrix mInv = m.inverse();
+				Vector rhs(xc[i] & n[i], xc[j] & n[j], xc[k] & n[k]);
+				Vector xt = mInv&rhs;
+				Vector diff = xTop - xt;
+				xTop = num*xTop + xt;
+				num++;
+				xTop = xTop/num;
+			      }
+			  }
+		      }
+		  }
+	      }
+	  }
+      }
 
     // find the axis of rotation
     Vector z(0, 0, 0);
@@ -476,7 +520,7 @@ int main(int argc, char* argv[])
     {
         cout << "a = " << angleBin[i] << ", flux = " << flux[i] 
 	     << ", area = " << slitArea[i] 
-	     << ", averageFlux = " << flux[i]/slitArea[i]
+	     << ", average velocity = " << flux[i]/slitArea[i]
 	     << endl;
 	oFile << angleBin[i] << " " << -flux[i] << endl;
     }
