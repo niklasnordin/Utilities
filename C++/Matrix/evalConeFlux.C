@@ -8,6 +8,7 @@
 using namespace std;
 
 #define SMALL 1.0e-15
+#define pi 3.14159265358979323
 
 class Vector
 {
@@ -202,21 +203,24 @@ public:
 int main(int argc, char* argv[]) 
 {
 
-    if (argc < 4)
+    if (argc < 6)
     {
 	cout << "wrong number of arguments!" << endl;
-	cout << argv[0] << " <input filename> <nIntervals phi> <nIntervals> <output filename>" << endl;
+	cout << argv[0] << " <input filename> <delta phi max> <nIntervals> <min dist> <max dist> <output filename>" << endl;
 	return 0;
     }
 
     // read the command line arguments
     char* inputFileName(argv[1]);
-    int nPhi = atoi(argv[2]);
+    // maximum angle between different bins
+    int dPhi = atof(argv[2]);
     int nZ = atoi(argv[3]);
-    char* outputFileName(argv[4]);
+    double dMin = atof(argv[4]); // 0.02
+    double dMax = atof(argv[5]); // 0.08
+    char* outputFileName(argv[6]);
     
     vector<Vector> x1(0), x2(0), x3(0), u(0), xc(0), n(0);
-    vector<double> area(0);
+    vector<double> area(0), phi(0), dist(0), angleBin(0);
 
     // try to open the input file
     ifstream iFile(inputFileName);
@@ -282,13 +286,8 @@ int main(int argc, char* argv[])
 	    n[i] = -1.0*n[i];
 	}
     }
-    /*
-    Matrix mm(n[1], n[10], n[100]);
-    Matrix mInv = mm.inverse();
-    Matrix mT = mm.transpose();
-    Matrix id = mm * mInv;
-    */
 
+    // find the top point of the cone
     Vector xTop(0, 0, 0);
     int num = 0;
     int skip = 60;
@@ -323,7 +322,164 @@ int main(int argc, char* argv[])
 	}
     }
 
+    // find the axis of rotation
+    Vector z(0, 0, 0);
+    for (int i=0; i<nLines; i++)
+    {
+        Vector di = xc[i] - xTop;
+	
+        if ( (area[i] > SMALL) && (di.mag() > dMin) && (di.mag() < dMax) )
+	{
+	    z = z + n[i]*area[i];
+	}
+    }
+    z = z/-z.mag();
+
     cout << "xTop = " << xTop << endl;
+    cout << "z = " << z << endl;
     cout << "nCombinations = " << num << endl;
+
+    // choose two vectors perpendicular to z
+    Vector x(0, 1, 0);
+    Vector y;
+    double xz = x & z;
+    if (xz > 1.0e-4)
+    {
+        // this vector is good enough, remove the z component
+        x = x - (xz*z);
+	x = x/x.mag();
+	y = z ^ x;
+    }
+    else
+    {
+        // if (0,1,0) is not good enough, this will be
+        x = Vector(0, 0, 1);
+        x = x - (xz*z);
+	x = x/x.mag();
+	y = z ^ x;
+    }
+    cout << "0 deg is at direction x = ";
+    cout << x << endl;
+    cout << "90 deg is at direction y = ";
+    cout << y << endl;
+
+    // transform the points to the local coordinate system and calculate the 'angle'
+    for (int i=0; i<nLines; i++)
+    {
+        Vector lox = xc[i] - xTop;
+	double xLoc = lox & x;
+	double yLoc = lox & y;
+	dist.push_back(lox & z);
+	double alpha = atan(yLoc/xLoc)*180.0/pi;
+	if (xLoc < 0) alpha += 180.0;
+	if (alpha < 0) alpha += 360.0;
+	phi.push_back(alpha);
+
+    }
+    
+    ofstream stlFile("geometry.stl");
+    stlFile << "solid geometry" << endl;
+    stlFile << "  color 0.5 0 0.5" << endl;
+    for (int i=0; i<nLines; i++)
+    {
+        if (dist[i] > dMin && dist[i] < dMax)
+	{	  
+            stlFile << "  facet normal " << n[i] << endl;
+	    stlFile << "    outer loop" << endl;
+	    stlFile << "      vertex " << x1[i] << endl;
+	    stlFile << "      vertex " << x2[i] << endl;
+	    stlFile << "      vertex " << x3[i] << endl;
+	    stlFile << "    endloop" << endl;
+	    stlFile << "  endfacet" << endl;
+
+	    bool needNewBin = true;
+	    int n = angleBin.size();
+	    for (int j=0; j<n; j++)
+	    {
+	        double d1 = fabs(phi[i] - angleBin[j]);
+	        double d2 = fabs(360.0+phi[i] - angleBin[j]);
+		double diff = min(d1, d2);
+		if (diff < dPhi)
+		{
+		    needNewBin = false;
+		}
+	    }
+
+	    if (needNewBin)
+	    {
+	        angleBin.push_back(phi[i]);
+	    }
+	}
+    }
+    stlFile << "endsolid geometry" << endl;
+
+    cout << "number of slits = " << angleBin.size() << endl;
+
+    double alphaMin = 1.0e+10;
+    for (int i=0; i<angleBin.size(); i++)
+    {
+        alphaMin = min(angleBin[i], alphaMin);
+    }
+
+    // find the offset angle
+    double aOffset = 0.0;
+    int counter = 0;
+    for (int i=0; i<nLines; i++)
+    {
+        if (dist[i] > dMin && dist[i] < dMax)
+	{	  
+	    double d1 = fabs(phi[i] - alphaMin);
+	    double d2 = fabs(360.0+phi[i] - alphaMin);
+	    double diff = min(d1, d2);
+	    if (diff < dPhi)
+	    {
+		counter++;
+		aOffset += phi[i];
+	    }
+	}
+    }
+
+    // recalculate the angles to have them in ordered fashion
+    aOffset /= counter;
+    //cout << "alpha offset = " << aOffset << endl;
+    for (int i=0; i<angleBin.size(); i++)
+    {
+        angleBin[i] = i*360.0/angleBin.size() + aOffset;
+    }
+
+    double flux[angleBin.size()], slitArea[angleBin.size()];
+
+    // calculate the volume flux thru each slit
+    for (int i=0; i<nLines; i++)
+    {
+        if (dist[i] > dMin && dist[i] < dMax)
+	{
+	    double fluxi = area[i]*(u[i] & n[i]);
+	    
+	    for(int j=0; j<angleBin.size(); j++)
+	    {
+		double d1 = fabs(phi[i] - angleBin[j]);
+		double d2 = fabs(360.0+phi[i] - angleBin[j]);
+		double diff = min(d1, d2);
+		if (diff < dPhi)
+		{
+		    flux[j] += fluxi;
+		    slitArea[j] += fabs(area[i]);
+		}
+	    }
+	}
+    }
+
+    ofstream oFile(outputFileName);
+
+    for(int i=0; i<angleBin.size(); i++)
+    {
+        cout << "a = " << angleBin[i] << ", flux = " << flux[i] 
+	     << ", area = " << slitArea[i] 
+	     << ", averageFlux = " << flux[i]/slitArea[i]
+	     << endl;
+	oFile << angleBin[i] << " " << -flux[i] << endl;
+    }
+
     return 0;
 }
