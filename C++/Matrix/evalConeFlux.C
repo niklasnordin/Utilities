@@ -218,7 +218,7 @@ int main(int argc, char* argv[])
     // read the command line arguments
     char* inputFileName(argv[1]);
     // maximum angle between different bins
-    int dPhi = atof(argv[2]);
+    double dPhi = atof(argv[2]);
     int nZ = atoi(argv[3]);
     double dMin = atof(argv[4]); // 0.02
     double dMax = atof(argv[5]); // 0.08
@@ -295,7 +295,7 @@ int main(int argc, char* argv[])
     // find the top point of the cone
     Vector xTop(0, 0, 0);
     int num = 0;
-    int skip = pow(10.0*nLines, 0.3333);
+    int skip = (int)pow(10.0*nLines, 0.3333);
     cout << "skip = " << skip << endl;
     for (int i=0; i<nLines-1; i += skip)
     {
@@ -486,12 +486,15 @@ int main(int argc, char* argv[])
     // recalculate the angles to have them in ordered fashion
     aOffset /= counter;
     //cout << "alpha offset = " << aOffset << endl;
+
+    double flux[angleBin.size()], slitArea[angleBin.size()];
     for (int i=0; i<angleBin.size(); i++)
     {
         angleBin[i] = i*360.0/angleBin.size() + aOffset;
+	flux[i] = 0.0;
+	slitArea[i] = 0.0;
     }
 
-    double flux[angleBin.size()], slitArea[angleBin.size()];
 
     // calculate the volume flux thru each slit
     for (int i=0; i<nLines; i++)
