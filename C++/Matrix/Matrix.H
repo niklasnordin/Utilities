@@ -39,6 +39,8 @@ public:
     // operators
     const Vector operator&(const Vector& b) const;
     const Matrix operator*(const Matrix& m) const;
+    const Matrix operator+(const Matrix& m) const;
+    const Matrix operator-(const Matrix& m) const;
 
     friend ostream& operator<<(ostream& os, const Matrix& v)
     {

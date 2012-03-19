@@ -84,3 +84,19 @@ const Matrix Matrix::operator*(const Matrix& m) const
     return Matrix(a,b,c);
 }
 
+const Matrix Matrix::operator+(const Matrix& m) const
+{
+    Vector a = x_ + m.x();
+    Vector b = y_ + m.y();
+    Vector c = z_ + m.z();
+    return Matrix(a,b,c);
+}
+
+const Matrix Matrix::operator-(const Matrix& m) const
+{
+    Vector a = x_ - m.x();
+    Vector b = y_ - m.y();
+    Vector c = z_ - m.z();
+    return Matrix(a,b,c);
+}
+
