@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -18,8 +19,11 @@ private:
 
 public:
 
-    //constructor
+    //constructors
+    // null-constructor
     Vector();
+
+    // construct from components
     Vector
     (
         const scalar& x,
@@ -27,35 +31,41 @@ public:
 	const scalar& z
     );
 
-    //destructor
+    // construct from stream
+    Vector(ifstream& is);
+
+    // destructor
     ~Vector();
 
-    //access functions
-    inline const scalar& x() const 
-    {
-        return x_;
-    }
-
-    inline const scalar& y() const
-    {
-        return y_;
-    }
-
-    inline const scalar& z() const
-    {
-        return z_;
-    }
+    // access functions
+    inline const double& x() const { return x_; }
+    inline const double& y() const { return y_; }
+    inline const double& z() const { return z_; }
 
     //operators
 
-    double operator&(const Vector& v) const;
     Vector operator+(const Vector& v) const;
     Vector operator-(const Vector& v) const;
     Vector operator*(const scalar& a) const;
+    Vector operator/(const scalar& a) const;
 
-    friend Vector operator*(const scalar& a, const Vector& v)
+    // inner product
+    double operator&(const Vector& v) const;
+
+    // cross product
+    const Vector operator^(const Vector& b) const;
+
+    double mag() const;
+
+    friend const double mag(const Vector& v)
     {
-        return Vector(a*v.x(), a*v.y(), a*v.z());
+        return v.mag();
+    }
+
+    // left hand multiplication with double
+    friend const Vector operator*(const double& d, const Vector& v)
+    {
+        return Vector(d*v.x(), d*v.y(), d*v.z());
     }
 
     friend ostream& operator<<(ostream& os, const Vector& v)

@@ -1,4 +1,5 @@
 #include "Vector.H"
+#include <math.h>
 
 Vector::Vector()
 :
@@ -16,6 +17,14 @@ Vector::Vector
 :
     x_(x), y_(y), z_(z)
 {}
+
+// construct from stream
+Vector::Vector(ifstream& is)
+{
+    is >> x_;
+    is >> y_;
+    is >> z_;
+}
 
 Vector::~Vector()
 {}
@@ -39,3 +48,24 @@ Vector Vector::operator*(const scalar& a) const
 {
     return Vector(a*x_, a*y_, a*z_);
 }
+
+Vector Vector::operator/(const double& d) const
+{
+    return Vector(x_/d, y_/d, z_/d);
+}
+
+double Vector::mag() const
+{
+  return sqrt( *this & *this );
+}
+
+// cross product
+const Vector Vector::operator^(const Vector& b) const
+{
+    double x = y_*b.z() - z_*b.y();
+    double y = -(x_*b.z() - z_*b.x());
+    double z = x_*b.y() - y_*b.x();
+  
+    return Vector(x, y, z);
+}
+

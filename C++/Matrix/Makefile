@@ -4,7 +4,7 @@ LIBNAME = 	libMatrix.so
 
 CPP =	g++
 LD = 	ld
-CPPFLAGS = 
+CPPFLAGS = -fPIC
 SRC =	Matric.C Vector.C
 OBJS =	Matrix.o Vector.o
 
@@ -14,7 +14,7 @@ $(LIBNAME): $(OBJS)
 	$(CPP) -shared -o $(LIBNAME) $(OBJS)
 
 .C.o:
-	$(CPP) -c $<
+	$(CPP) -c $(CPPFLAGS) $<
 
 clean:
 	rm -f $(OBJS) $(LIBNAME)
