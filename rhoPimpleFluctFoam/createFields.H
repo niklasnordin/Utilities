@@ -129,6 +129,18 @@
 
     scalar startAveraging
     (
-     readScalar(mesh.solutionDict().subDict("PIMPLE").lookup("startAveraging"))
-     );
+        readScalar(mesh.solutionDict().subDict("PIMPLE").lookup("startAveraging"))
+    );
 
+    volScalarField pTot
+    (
+        IOobject
+        (
+            "pTot",
+            runTime.timeName(),
+            mesh,
+            IOobject::NO_READ,
+            IOobject::AUTO_WRITE
+        ),
+        p + 0.5*rho*(U&U)
+    );

@@ -85,6 +85,7 @@ int main(int argc, char *argv[])
                 turbulence->correct();
             }
         }
+	pTot = p + 0.5*rho*(U&U);
 
         Info << "max U = " << max(mag(U)).value() << endl;
         Info << "min/max p = " << min(p).value() << ", " << max(p).value() << endl;
