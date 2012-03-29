@@ -73,7 +73,16 @@ public:
 
         return Vector(x, y, z);
     }
+  /*
+    Vector operator=(const Vector& rhs)
+    {
+        this->x_ = rhs.x();
+        this->y_ = rhs.y();
+        this->z_ = rhs.z();
 
+        return *this;
+    }
+  */
     const Vector operator-(const Vector& rhs) const
     {
         return Vector(x_ - rhs.x(), y_ - rhs.y(), z_ - rhs.z());
@@ -219,6 +228,7 @@ int main(int argc, char* argv[])
     char* inputFileName(argv[1]);
     // maximum angle between different bins
     double dPhi = atof(argv[2]);
+
     int nZ = atoi(argv[3]);
     double dMin = atof(argv[4]); // 0.02
     double dMax = atof(argv[5]); // 0.08
@@ -227,6 +237,7 @@ int main(int argc, char* argv[])
     vector<Vector> x1(0), x2(0), x3(0), u(0), xc(0), n(0);
     vector<double> area(0), phi(0), dist(0), angleBin(0);
 
+    //cout << "dPhi = " << dPhi << endl;
     // try to open the input file
     ifstream iFile(inputFileName);
     if (!iFile.is_open())
@@ -270,14 +281,17 @@ int main(int argc, char* argv[])
 
     cout << "nLines = " << nLines << endl;
 
-    Vector center(0,0,0);
+    Vector center;
     double totArea = 0;
 
     // calculate center point
     for(int i=0; i<nLines; i++)
     {
-	center = center + (area[i]*xc[i]);
-	totArea += area[i];
+        if (area[i] > SMALL)
+	{
+	    center = center + (area[i]*xc[i]);
+	    totArea += area[i];
+	}
     }
     center = center / totArea;
     cout << "center = " << center << endl;
@@ -286,9 +300,13 @@ int main(int argc, char* argv[])
     for(int i=0; i<nLines; i++)
     {
         double dot = (center - xc[i]) & n[i];
+	
 	if (dot > 0)
 	{
 	    n[i] = -1.0*n[i];
+	    Vector tmp = x2[i];
+	    x2[i] = x3[i];
+	    x3[i] = tmp;
 	}
     }
 
@@ -296,7 +314,7 @@ int main(int argc, char* argv[])
     Vector xTop(0, 0, 0);
     int num = 0;
     int skip = (int)pow(10.0*nLines, 0.3333);
-    cout << "skip = " << skip << endl;
+    //cout << "skip = " << skip << endl;
     for (int i=0; i<nLines-1; i += skip)
     {
         if (area[i] > SMALL)
@@ -377,17 +395,18 @@ int main(int argc, char* argv[])
 	    z = z + n[i]*area[i];
 	}
     }
-    z = z/-z.mag();
+    z = z/z.mag();
 
     cout << "xTop = " << xTop << endl;
     cout << "z = " << z << endl;
-    cout << "nCombinations = " << num << endl;
+    //cout << "nCombinations = " << num << endl;
 
     // choose two vectors perpendicular to z
-    Vector x(0, 1, 0);
+    //Vector x(0, 1, 0);
+    Vector x(0, 0, 1);
     Vector y;
     double xz = x & z;
-    if (xz > 1.0e-4)
+    if (fabs(xz) > 1.0e-4)
     {
         // this vector is good enough, remove the z component
         x = x - (xz*z);
@@ -397,7 +416,7 @@ int main(int argc, char* argv[])
     else
     {
         // if (0,1,0) is not good enough, this will be
-        x = Vector(0, 0, 1);
+        x = Vector(0, 1, 1);
         x = x - (xz*z);
 	x = x/x.mag();
 	y = z ^ x;
@@ -408,19 +427,22 @@ int main(int argc, char* argv[])
     cout << y << endl;
 
     // transform the points to the local coordinate system and calculate the 'angle'
+    // angle will always be greater than zero
     for (int i=0; i<nLines; i++)
     {
         Vector lox = xc[i] - xTop;
 	double xLoc = lox & x;
 	double yLoc = lox & y;
-	dist.push_back(lox & z);
+	dist.push_back(fabs(lox & z));
 	double alpha = atan(yLoc/xLoc)*180.0/pi;
+
 	if (xLoc < 0) alpha += 180.0;
 	if (alpha < 0) alpha += 360.0;
 	phi.push_back(alpha);
 
     }
     
+    Vector zero;
     ofstream stlFile("geometry.stl");
     stlFile << "solid geometry" << endl;
     stlFile << "  color 0.5 0 0.5" << endl;
@@ -428,7 +450,7 @@ int main(int argc, char* argv[])
     {
         if (dist[i] > dMin && dist[i] < dMax)
 	{	  
-            stlFile << "  facet normal " << n[i] << endl;
+            stlFile << "  facet normal " << zero << endl;
 	    stlFile << "    outer loop" << endl;
 	    stlFile << "      vertex " << x1[i] << endl;
 	    stlFile << "      vertex " << x2[i] << endl;
@@ -441,8 +463,9 @@ int main(int argc, char* argv[])
 	    for (int j=0; j<n; j++)
 	    {
 	        double d1 = fabs(phi[i] - angleBin[j]);
-	        double d2 = fabs(360.0+phi[i] - angleBin[j]);
-		double diff = min(d1, d2);
+	        double d2 = fabs(phi[i] - angleBin[j] - 360.0);
+	        double d3 = fabs(phi[i] - angleBin[j] + 360.0);
+		double diff = fmin(d1, fmin(d2, d3));
 		if (diff < dPhi)
 		{
 		    needNewBin = false;
@@ -457,76 +480,150 @@ int main(int argc, char* argv[])
     }
     stlFile << "endsolid geometry" << endl;
 
-    cout << "number of slits = " << angleBin.size() << endl;
+    int nSlits = angleBin.size();
+    cout << "number of slits = " << nSlits << endl;
 
     double alphaMin = 1.0e+10;
-    for (int i=0; i<angleBin.size(); i++)
-    {
-        alphaMin = min(angleBin[i], alphaMin);
-    }
-
-    // find the offset angle
-    double aOffset = 0.0;
-    int counter = 0;
     for (int i=0; i<nLines; i++)
     {
-        if (dist[i] > dMin && dist[i] < dMax)
-	{	  
-	    double d1 = fabs(phi[i] - alphaMin);
-	    double d2 = fabs(360.0+phi[i] - alphaMin);
-	    double diff = min(d1, d2);
-	    if (diff < dPhi)
-	    {
-		counter++;
-		aOffset += phi[i];
-	    }
-	}
+        double d1 = phi[i];
+	double d2 = 360.0-phi[i];
+	alphaMin = fmin(alphaMin, fmin(d1, fabs(d2)));
     }
 
-    // recalculate the angles to have them in ordered fashion
-    aOffset /= counter;
-    //cout << "alpha offset = " << aOffset << endl;
+    double aOffset = 0.0;
+    int nc = 0;
+    double dErr = 170.0/nSlits;
 
-    double flux[angleBin.size()], slitArea[angleBin.size()];
+    for (int i=0; i<nLines; i++)
+    {
+        double d1 = phi[i];
+	double d2 = 360.0-phi[i];
+	if (fabs(d1-alphaMin) < dErr || fabs(d2-alphaMin) < dErr)
+	{
+	    nc++;
+	    if (fabs(d1) < fabs(d2))
+	    {
+		aOffset += d1;
+	    }
+	    else
+	    {
+		aOffset += d2;
+	    }
+	}
+
+    }
+    aOffset /= nc;
+
+    cout << "alpha offset = " << aOffset << endl;
+    int nSize = angleBin.size();
+    double flux[nSize], slitArea[nSize];
+    double fluxi[nSize][nZ], slitAreai[nSize][nZ];
+
+    double slitMin[nSize], slitMax[nSize];
     for (int i=0; i<angleBin.size(); i++)
     {
         angleBin[i] = i*360.0/angleBin.size() + aOffset;
 	flux[i] = 0.0;
 	slitArea[i] = 0.0;
+	slitMin[i] = 1.0e+10;
+	slitMax[i] = -1.0e+10;
+	for(int j=0; j<nZ; j++)
+	{
+	    fluxi[i][j] = 0.0;
+	    slitAreai[i][j] = 0.0;
+	}
     }
 
+    for (int i=0; i<nLines; i++)
+    {
+        if (dist[i] > dMin && dist[i] < dMax)
+	{
+	  //int j = angleBin.size()*(phi[i]-aOffset)/360.0;
+	    int kIndex = -1;
+	    double closestPhi = 1.0e+10;
+	    for(int k=0; k<angleBin.size(); k++)
+	    {
+		double d1 = fabs(phi[i] - angleBin[k]);
+	        double d2 = fabs(phi[i] - angleBin[k] - 360.0);
+	        double d3 = fabs(phi[i] - angleBin[k] + 360.0);
+		double diff = fmin(d1, fmin(d2, d3));
+		if (diff < closestPhi)
+		{
+		    kIndex = k;
+		    closestPhi = diff;
+		}
+	    }
+	    if (kIndex == -1)
+	      {
+	      cout << "error" << ", closestPhi = " << closestPhi << ", k = " << kIndex << endl;
+	      }
+	    int j = kIndex;
+	    double dist = fabs( (xc[i] - xTop) & z );
+	    slitMin[j] = fmin(slitMin[j], dist);
+	    slitMax[j] = fmax(slitMax[j], dist);
+	}
+    }
 
     // calculate the volume flux thru each slit
     for (int i=0; i<nLines; i++)
     {
         if (dist[i] > dMin && dist[i] < dMax)
 	{
-	    double fluxi = area[i]*(u[i] & n[i]);
-	    
-	    for(int j=0; j<angleBin.size(); j++)
+	    double fl = -area[i]*(u[i] & n[i]);
+	    //int j = angleBin.size()*(phi[i]-0.5*aOffset)/360.0;
+	    int kIndex = -1;
+	    double closestPhi = 1.0e+10;
+	    for(int k=0; k<angleBin.size(); k++)
 	    {
-		double d1 = fabs(phi[i] - angleBin[j]);
-		double d2 = fabs(360.0+phi[i] - angleBin[j]);
-		double diff = min(d1, d2);
-		if (diff < dPhi)
+		double d1 = fabs(phi[i] - angleBin[k]);
+	        double d2 = fabs(phi[i] - angleBin[k] - 360.0);
+	        double d3 = fabs(phi[i] - angleBin[k] + 360.0);
+		double diff = fmin(d1, fmin(d2, d3));
+		if (diff < closestPhi)
 		{
-		    flux[j] += fluxi;
-		    slitArea[j] += fabs(area[i]);
+		    kIndex = k;
+		    closestPhi = diff;
 		}
 	    }
+	    if (kIndex == -1)
+	    {
+	        cout << "error" << ", closestPhi = " << closestPhi << ", k = " << kIndex << endl;
+	    }
+	    int j = kIndex;
+	    flux[j] += fl;
+	    slitArea[j] += fabs(area[i]);
+	    double dist = fabs( (xc[i] - xTop) & z );
+	    int index = nZ*(dist - slitMin[j]-SMALL)/(slitMax[j] - slitMin[j]);
+	    fluxi[j][index] += fl;
+	    slitAreai[j][index] += fabs(area[i]);
 	}
     }
 
     ofstream oFile(outputFileName);
 
+    double fluxTot = 0.0;
     for(int i=0; i<angleBin.size(); i++)
     {
-        cout << "a = " << angleBin[i] << ", flux = " << flux[i] 
-	     << ", area = " << slitArea[i] 
+        fluxTot += flux[i];
+
+        cout << "a = " << angleBin[i] << ", flux = " << flux[i];
+	for(int j=0; j<nZ; j++)
+	{
+	    cout << ", " << fluxi[i][j];
+	}
+	cout << ", area = " << slitArea[i] 
 	     << ", average velocity = " << flux[i]/slitArea[i]
 	     << endl;
-	oFile << angleBin[i] << " " << -flux[i] << endl;
+	oFile << angleBin[i] << " " << flux[i];
+	for(int j=0; j<nZ; j++)
+	{
+	    oFile << " " << fluxi[i][j];
+	}
+	oFile << endl;
+
     }
 
+    cout << "total flux: " << fluxTot << endl;
     return 0;
 }
