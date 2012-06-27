@@ -5,14 +5,14 @@ EXE = solveDE
 
 CPP =	g++
 LD = 	ld
-CPPFLAGS = -fPIC
+CPPFLAGS = -O2
 SRC =	solve.C
 OBJS =	solve.o
 
-all: $(LIBNAME)
+all: $(EXE)
 
 $(EXE): $(OBJS)
-	$(CPP) -shared -o $(LIBNAME) $(OBJS)
+	$(CPP) -o $(EXE) $(OBJS)
 
 .C.o:
 	$(CPP) -c $(CPPFLAGS) $<
@@ -20,4 +20,4 @@ $(EXE): $(OBJS)
 clean:
 	rm -f $(OBJS) $(LIBNAME)
 
-solve.C:
+solve.o:	solve.C
