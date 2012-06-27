@@ -21,6 +21,8 @@ private:
   vector<scalar> mass_;
 
 public:
+
+  // constructor
   nBody(const label nBodies)
   :
     nBodies_(nBodies),
@@ -29,9 +31,11 @@ public:
     mass_(nBodies)
   {}
 
+  // destructor
   ~nBody()
   {}
 
+  // access functions
   const vector<Vector>& positions() const
   {
     return positions_;
@@ -42,6 +46,36 @@ public:
     return positions_;
   }
 
+  const vector<Vector>& velocities() const
+  {
+    return velocities_;
+  }
+
+  vector<Vector>& velocities()
+  {
+    return velocities_;
+  }
+
+  const vector<scalar>& mass() const
+  {
+    return mass_;
+  }
+  
+  vector<scalar>& mass()
+  {
+    return mass_;
+  }
+
+  void evolve(const scalar dt)
+  {
+  }
+
+  vector<Vector> forces()
+  {
+    vector<Vector> forces(nBodies_);
+
+    return forces;
+  }
 };
 
 class spring
