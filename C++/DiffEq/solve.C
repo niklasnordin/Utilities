@@ -76,6 +76,18 @@ public:
 
     return forces;
   }
+
+  void randomizeVectors
+  (
+    vector<Vector>& v, 
+    const double& mag
+  )
+  {
+    for(label i=0; i<v.size(); i++)
+      {
+      }
+  }
+
 };
 
 class spring
