@@ -16,7 +16,8 @@ typedef int label;
 #define SMALL 1.0e-15
 
 // gravitational constant
-#define G 6.672e-11
+//#define G 6.672e-11
+#define G 6.672
 
 class nBody
 {
@@ -72,25 +73,24 @@ public:
     return mass_;
   }
 
-  void evolve(const scalar dt)
-  {
-  }
-
-  vector<Vector> forces()
+  vector<Vector> forces
+  (
+    const vector<Vector>& positions
+  )
   {
     Vector zero = Vector(0,0,0);
 
-    vector<Vector> forces(nBodies_);
-    for(label i=0; i<positions_.size(); i++)
-      {
+    vector<Vector> forces(positions.size());
+    for(label i=0; i<positions.size(); i++)
+    {
 	forces[i] = zero;
-      }
+    }
 
-    for(label i=0; i<positions_.size()-1; i++)
-      {
-	for(label j=i+1; j<positions_.size(); j++)
-	  {
-	    Vector rad = positions_[i] - positions_[j];
+    for(label i=0; i<positions.size()-1; i++)
+    {
+	for(label j=i+1; j<positions.size(); j++)
+	{
+	    Vector rad = positions[i] - positions[j];
 	    
 	    scalar rad2 = rad & rad;
 	    scalar mag = sqrt(rad2);
@@ -99,12 +99,32 @@ public:
 	    Vector fij = G * mass_[i] * mass_[j] * n / ( rad2 + SMALL );
 	    forces[i] = forces[i] + fij;
 	    forces[j] = forces[j] - fij;
-	  }
-      } 
+	}
+    } 
 
     return forces;
   }
 
+
+  void evolve(const scalar dt)
+  {
+    vector<Vector> f = forces(positions());
+
+    // update velocities
+    // m a = F
+    for(label i=0; i<nBodies_; i++)
+    {
+	velocities_[i] = velocities_[i] + dt*f[i]/mass_[i];
+    }
+
+    // update positions
+    for(label i=0; i<nBodies_; i++)
+    {
+	positions_[i] = positions_[i] + dt*velocities_[i];
+    }
+        
+  }
+  
   void initMasses
   (
     const double minMass,
@@ -129,6 +149,7 @@ public:
 	scalar x = ((scalar)rand()/(scalar)RAND_MAX) - 0.5;
 	scalar y = ((scalar)rand()/(scalar)RAND_MAX) - 0.5;
 	scalar z = ((scalar)rand()/(scalar)RAND_MAX) - 0.5;
+	z = 0.0;
 	Vector p(x, y, z);
 	scalar pMag = p.mag() + SMALL;
 	v[i] = p*mag/pMag;
@@ -149,19 +170,24 @@ int main()
   label nBodies = 3;
   scalar minMass = 1.0;
   scalar maxMass = 1000.0;
-  scalar maxRadius = 100.0;
+  scalar maxRadius = 10000.0;
   scalar maxVelocity = 10.0;
-
+  scalar endTime = 100.0;
+  scalar deltaT = 1.0e-1;
   nBody system(nBodies);
   system.initMasses(minMass, maxMass);
   system.randomizeVectors(system.positions(), maxRadius);
   system.randomizeVectors(system.velocities(), maxVelocity);
 
-  cout << "hello world, a = " << a << endl;
-  
-  label size = system.positions().size();
-
-  cout << "size = " << size << endl;
-
+  scalar time = 0.0;
+  while (time <= endTime)
+    {
+      time += deltaT;
+      system.evolve(deltaT);
+      cout << "t = " << time << ": "
+	   << system.positions()[0] << " : "
+	   << system.velocities()[0]
+	   << endl;
+    }
   return 0;
 }
