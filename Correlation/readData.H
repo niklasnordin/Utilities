@@ -28,11 +28,11 @@
 	    // parameters
 	    for(int i=0; i<nParameters; i++)
 	    {
-re		if (nLine > 1)
+		if (nLine > 1)
 		{
 		    file >> numInput;
 		    x[i].push_back(numInput);
-		    //cout << numInput << " ";
+		    //cout << "xi = " << numInput << " ";
 		}
 		else
 		{
@@ -41,7 +41,22 @@ re		if (nLine > 1)
 		}
 	    }
 
-	    file >> input; // dummy object funtion
+	    // parameters
+	    for(int i=0; i<nResponses; i++)
+	    {
+	        if (nLine > 1)
+		{
+		    file >> numInput;
+		    y[i].push_back(numInput);
+		    //cout << ", yi = " << numInput << endl;
+		}
+                else
+		{
+		    file >> input;
+		}
+	    }
+
+	    //file >> input; // dummy object funtion
 	}
 	//cout << endl;
     }

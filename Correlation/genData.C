@@ -66,10 +66,10 @@ int main(int argc, char *argv[])
 
     double x[nData][nParameters];
 
-    ofstream paraFile("myPar.dat");
-    ofstream resFile("myRes.dat");
+    ofstream paraFile("myData.dat");
+    //ofstream resFile("myRes.dat");
     srand((unsigned)time(0)); 
-    paraFile.precision(5);
+    paraFile.precision(10);
 
     paraFile << "id";
     for(int i=0; i<nParameters; i++)
@@ -89,11 +89,11 @@ int main(int argc, char *argv[])
 	    xin[j] = x[i][j];
 	    paraFile << "\t" << x[i][j];
 	}
-	paraFile << "\t0" << endl;
+	//paraFile << "\t0" << endl;
 
 
 	double func = value(xin, A, nParameters);
-	resFile << i+1
+	paraFile << i+1
 		<< "\t" << func << endl;
     }
 }

@@ -13,8 +13,8 @@ double value
     
     for(int j=0; j<np; j++)
     {
-	xin[j] = (x[j] - xMin[j])/(xMax[j]-xMin[j]);
-	//xin[j] = x[j];
+      //xin[j] = (x[j] - xMin[j])/(xMax[j]-xMin[j]);
+      xin[j] = x[j];
     }
 
     for(int i=0; i<np; i++)
@@ -24,7 +24,7 @@ double value
     
     for(int i=0; i<np; i++)
     {
-        for(int j=0; j<i; j++) // include = for quadratic terms
+        for(int j=0; j<=i; j++) // include = for quadratic terms
 	{
 	    y += A[index++]*xin[i]*xin[j];
 	}
