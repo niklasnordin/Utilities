@@ -83,7 +83,7 @@ void setNames
     
     for(int i=0; i<np; i++)
     {
-        for(int j=0; j<i; j++) // include = for quadratic terms
+        for(int j=0; j<=i; j++) // include = for quadratic terms
 	{
 	    names[index] = paraNames[i] + " * " + paraNames[j];
 	    index++;
