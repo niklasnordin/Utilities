@@ -8,6 +8,7 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
+#include <stdlib.h>
 #include "Vector.H"
 
 typedef double scalar;
@@ -17,7 +18,7 @@ typedef int label;
 
 // gravitational constant
 //#define G 6.672e-11
-#define G 6.672e-10
+#define G 6.672e-11
 
 class nBody
 {
@@ -110,7 +111,6 @@ public:
 
     void evolve(const scalar dt)
     {
-        vector<Vector> f = forces(positions_);
 
 	Vector center = Vector(0,0,0);
 	scalar totMass = 0.0;
@@ -121,26 +121,70 @@ public:
 	}
 	center = center/totMass;
 
-        // update velocities
+        vector<Vector> k1 = forces(positions_);
+
+	vector<Vector> v1 = velocities_;
+	vector<Vector> v2(k1.size());
+	vector<Vector> v3(k1.size());
+	vector<Vector> v4(k1.size());
+
+	vector<Vector> p1(k1.size());
+	vector<Vector> p2(k1.size());
+	vector<Vector> p3(k1.size());
+	vector<Vector> p4(k1.size());
+
+        // update velocities and positions
         // m a = F
         for(label i=0; i<nBodies_; i++)
         {
-            velocities_[i] = velocities_[i] + dt*f[i]/mass_[i];
+            v2[i] = velocities_[i] + 0.5*dt*k1[i]/mass_[i];
+            p2[i] = positions_[i] + 0.5*dt*v1[i];
         }
 
-        // update positions
+        vector<Vector> k2 = forces(p2);
+
+        for(label i=0; i<nBodies_; i++)
+        {
+            v3[i] = velocities_[i] + 0.5*dt*k2[i]/mass_[i];
+            p3[i] = positions_[i] + 0.5*dt*v2[i];
+        }
+
+        vector<Vector> k3 = forces(p3);
+
+        for(label i=0; i<nBodies_; i++)
+        {
+            v4[i] = velocities_[i] + dt*k3[i]/mass_[i];
+            p4[i] = positions_[i] + dt*v3[i];
+        }
+
+        vector<Vector> k4 = forces(p4);
+	/*
+        for(label i=0; i<nBodies_; i++)
+        {
+	    velocities_[i] = velocities_[i] + dt*k1[i]/mass_[i];
+	    positions_[i] = positions_[i] + dt*velocities_[i];
+        }
+	*/
+        for(label i=0; i<nBodies_; i++)
+        {
+	    velocities_[i] = velocities_[i] + dt*(k1[i] + 2.0*k2[i] + 2.0*k3[i] + k4[i])/(6.0*mass_[i]);
+            positions_[i] = positions_[i] + dt*(v1[i] + 2.0*v2[i] + 2.0*v3[i] + v4[i])/6.0;
+        }
+
+
+	// transpose position back to mass center
 	Vector newCenter = Vector(0,0,0);
         for(label i=0; i<nBodies_; i++)
         {
-            positions_[i] = positions_[i] + dt*velocities_[i];
 	    newCenter = newCenter + mass_[i]*positions_[i];
         }
 	newCenter = newCenter/totMass;
 
+
 	Vector transpose = center - newCenter;
 	for(label i=0; i<nBodies_; i++)
 	{
-	    positions_[i] = positions_[i] + transpose;
+	  positions_[i] = positions_[i] + transpose;
 	}
 
     }
@@ -187,14 +231,14 @@ using namespace std;
 int main()
 {
     scalar a = 1.0;
-    label nBodies = 3;
-    scalar minMass = 1.0e+7;
-    scalar maxMass = 2.0e+7;
+    label nBodies = 5;
+    scalar minMass = 1.0e+10;
+    scalar maxMass = 2.0e+10;
     scalar maxRadius = 100.0;
     scalar maxVelocity = 0.01;
     label nSteps = 100000000;
-    scalar deltaT = 1.0e-2;
-    label nOut = nSteps / 100;
+    scalar deltaT = 1.0e-4;
+    label nOut = nSteps / 100000;
 
     nBody system(nBodies);
     system.initMasses(minMass, maxMass);
@@ -203,7 +247,10 @@ int main()
 
     for(label i=0; i<nBodies; i++)
     {
-        cout << "m[" << i << "] = " << system.mass()[i] << ", X = " << system.positions()[i] << ", U = " << system.velocities()[i] << endl;
+        cout << "m[" << i << "] = " << system.mass()[i] 
+             << ", X = " << system.positions()[i]
+             << ", U = " << system.velocities()[i] 
+             << endl;
     }
 
     ofstream file("pos.dat");
@@ -213,28 +260,33 @@ int main()
     {
         nCount++;
         system.evolve(deltaT);
-	/*
-        cout << "t = " << time << ": "
-	   << system.positions()[0] << " : "
-	   << system.velocities()[0]
-	   << endl;
-	*/
+
 	if (nCount >= nOut)
 	{
 	    nCount = 0;
-	    file << system.positions()[0] << " "
-		 << system.positions()[1]
-		 << endl;
+
+            cout << "t = " << time << ": "
+                 << system.positions()[0] << " : "
+                 << system.velocities()[0].mag()
+                 << endl;
+
+	    for(label i=0; i<nBodies; i++)
+	    {
+	      file << system.positions()[i] << " ";
+	    }
+	    file << endl;
 	}
     }
     file.close();
 
     cout << "==================" << endl;
     for(label i=0; i<nBodies; i++)
-      {
-	cout << "m[" << i << "] = " << system.mass()[i] << ", X = " << system.positions()[i] << ", U = " << system.velocities()[i] << endl;
-      }
-
-    
+    {
+        cout << "m[" << i << "] = " << system.mass()[i] 
+             << ", X = " << system.positions()[i] 
+             << ", U = " << system.velocities()[i] 
+             << endl;
+    }
+  
     return 0;
 }
