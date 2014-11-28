@@ -1,0 +1,3 @@
+mixSimplecFoam.C
+
+EXE = $(FOAM_APPBIN)/mixSimplecFoam

@@ -1,0 +1,3 @@
+rhoHTCSimplecFoam.C
+
+EXE = $(FOAM_APPBIN)/rhoHTCSimplecFoam
