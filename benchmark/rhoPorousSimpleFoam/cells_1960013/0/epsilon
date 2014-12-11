@@ -1,0 +1,57 @@
+// ************************************************************************* //
+
+FoamFile
+{
+    object               epsilon;
+    format               ascii;
+    location             0;
+    version              2.0;
+    class                volScalarField;
+}
+
+// ************************************************************************* //
+
+internalField        uniform 10000;
+
+dimensions           [0 2 -3 0 0 0 0];
+
+// ************************************************************************* //
+boundaryField
+{
+    ".*"
+    {
+        type                 compressible::epsilonWallFunction;
+        value                uniform 10000;
+    }
+    stl_walls
+    {
+        type                 compressible::epsilonWallFunction;
+        value                uniform 10000;
+    }
+    stl_inlet
+    {
+        type                 compressible::turbulentMixingLengthDissipationRateInlet;
+        value                uniform 10000;
+        mixingLength         0.001;
+    }
+    defaultFaces
+    {
+        type                 empty;
+    }
+    stl_fine
+    {
+        type                 compressible::epsilonWallFunction;
+        value                uniform 10000;
+    }
+    stl_outlet
+    {
+        type                 zeroGradient;
+    }
+    stl_coarse
+    {
+        type                 compressible::epsilonWallFunction;
+        value                uniform 10000;
+    }
+}
+
+// ************************************************************************* //

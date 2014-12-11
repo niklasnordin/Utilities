@@ -1,0 +1,70 @@
+#!/bin/bash
+
+FOAM_CODE=pimpleFoam
+CASE=/home/sssnos/OpenFOAM/sssnos-2.2.0/run/ercoftac/ufr2-02
+########################################
+# EMAIL
+# Sends email when the job is dispatched
+##BSUB -B
+
+ # Emails the job report when the job finishes
+##BSUB -N
+
+# JOBNAME
+# Assigns the specified name to the job
+#BSUB -J ercoftac_test
+
+# QUEUE: low, long short or vip
+# Submits job to specified queue
+#BSUB -q all
+
+# APPLICATION PROFILE
+#BSUB -app openfoam
+#BSUB -R rusage[cfd_fem=1]
+
+# Number of CORES, vaule or range
+# -n min_proc[,max_proc]
+NSLOTS=24
+#BSUB -n 24
+##BSUB -R "span[ptile=12]"
+# CPUTIME estimation, only in low and long queue
+# [minutes]
+##BSUB -c 50000
+##BSUB -W 10
+
+# EXCLUSIVE execution
+#BSUB -x
+
+# ORDER
+# Order the candidate execution hosts from the lowest to
+# the highest amount of available memory
+#BSUB -R "order[-mem]"
+
+# LOGS
+#====
+#BSUB -o log.%J
+#BSUB -e errors.%J
+
+
+# Source the OpenFOAM enviroment
+# Usually this directory is copied to $HOME for personal modification
+# and sourced in your .profile
+# =================================
+. /home/sssnos/OpenFOAM/OpenFOAM-2.2.0/etc/bashrc
+
+# modify the machinefile to openmpi format
+# =================================
+echo $LSB_MCPU_HOSTS | awk '{split ($0, a, " "); for (i=1;i<=length(a);i+=2) print a[i] " slots=" a[i+1]}' > $CASE/machines
+
+
+# run the darn thingy
+# =================================
+
+$MPI_ARCH_PATH/bin/mpirun -machinefile $CASE/machines -np $NSLOTS $FOAM_APPBIN/$FOAM_CODE -case $CASE -parallel >& $CASE/$FOAM_CODE.log
+touch $CASE/.done
+
+ExitStatus=$?
+
+#END OF JOB
+exit $ExitStatus
+

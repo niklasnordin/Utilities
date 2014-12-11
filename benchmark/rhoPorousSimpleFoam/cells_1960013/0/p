@@ -1,0 +1,52 @@
+// ************************************************************************* //
+
+FoamFile
+{
+    object               p;
+    format               ascii;
+    location             0;
+    version              2.0;
+    class                volScalarField;
+}
+
+// ************************************************************************* //
+
+internalField        uniform 1.0e+5;
+
+dimensions           [1 -1 -2 0 0 0 0];
+
+// ************************************************************************* //
+boundaryField
+{
+    ".*"
+    {
+        type                 zeroGradient;
+    }
+    stl_walls
+    {
+        type                 zeroGradient;
+    }
+    stl_inlet
+    {
+        type                 zeroGradient;
+    }
+    defaultFaces
+    {
+        type                 empty;
+    }
+    stl_fine
+    {
+        type                 zeroGradient;
+    }
+    stl_outlet
+    {
+        type                 fixedValue;
+        value                uniform 1.0e+5;
+    }
+    stl_coarse
+    {
+        type                 zeroGradient;
+    }
+}
+
+// ************************************************************************* //

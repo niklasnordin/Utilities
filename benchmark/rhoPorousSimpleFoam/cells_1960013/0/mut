@@ -1,0 +1,56 @@
+// ************************************************************************* //
+
+FoamFile
+{
+    object               mut;
+    format               ascii;
+    location             0;
+    version              2.0;
+    class                volScalarField;
+}
+
+// ************************************************************************* //
+
+internalField        uniform 1.0e-6;
+
+dimensions           [1 -1 -1 0 0 0 0];
+
+// ************************************************************************* //
+boundaryField
+{
+    ".*"
+    {
+        type                 mutUWallFunction;
+        value                uniform 1.0e-6;
+    }
+    stl_walls
+    {
+        type                 mutUWallFunction;
+        value                uniform 1.0e-6;
+    }
+    stl_inlet
+    {
+        type                 calculated;
+        value                uniform 1.0e-6;
+    }
+    defaultFaces
+    {
+        type                 empty;
+    }
+    stl_fine
+    {
+        type                 mutUWallFunction;
+        value                uniform 1.0e-6;
+    }
+    stl_outlet
+    {
+        type                 zeroGradient;
+    }
+    stl_coarse
+    {
+        type                 mutUWallFunction;
+        value                uniform 1.0e-6;
+    }
+}
+
+// ************************************************************************* //

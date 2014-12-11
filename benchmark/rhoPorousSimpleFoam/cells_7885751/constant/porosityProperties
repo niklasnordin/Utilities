@@ -1,0 +1,119 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      porosityProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+silencer
+{
+    type            DarcyForchheimer;
+    active          yes;
+    cellZone        silencer;
+
+    DarcyForchheimerCoeffs
+    {
+        porosity             0.3;
+        d                    d [0 -2 0 0 0 0 0] (1.0e+6 -1.0 -1.0);
+        f                    f [0 -1 0 0 0 0 0] (10.0 -1.0 -1.0);
+
+        coordinateSystem
+        {
+            e1                   (0 1 0);
+            e2                   (1 0 0);
+        }
+    }
+}
+
+scr
+{
+    type            DarcyForchheimer;
+    active          yes;
+    cellZone        scr;
+
+    DarcyForchheimerCoeffs
+    {
+        porosity             0.3;
+        d                    d [0 -2 0 0 0 0 0] (3.05e+7 -4.0 -4.0);
+        f                    f [0 -1 0 0 0 0 0] (14.47 -4.0 -4.0);
+
+        coordinateSystem
+        {
+            e1                   (0 1 0);
+            e2                   (1 0 0);
+        }
+    }
+}
+
+dpf
+{
+    type            DarcyForchheimer;
+    active          yes;
+    cellZone        dpf;
+
+    DarcyForchheimerCoeffs
+    {
+        porosity             0.3;
+        d                    d [0 -2 0 0 0 0 0] (3.0e+7 -4.0 -4.0);
+        f                    f [0 -1 0 0 0 0 0] (38.44 -4.0 -4.0);
+
+        coordinateSystem
+        {
+            e1                   (0 1 0);
+            e2                   (1 0 0);
+        }
+    }
+}
+
+asc
+{
+    type            DarcyForchheimer;
+    active          yes;
+    cellZone        asc;
+
+    DarcyForchheimerCoeffs
+    {
+        porosity             0.3;
+        d                    d [0 -2 0 0 0 0 0] (2.5e+7 -4.0 -4.0);
+        f                    f [0 -1 0 0 0 0 0] (27.3 -4.0 -4.0);
+
+        coordinateSystem
+        {
+            e1                   (0 1 0);
+            e2                   (1 0 0);
+        }
+    }
+}
+
+doc
+{
+    type            DarcyForchheimer;
+    active          yes;
+    cellZone        doc;
+
+    DarcyForchheimerCoeffs
+    {
+        porosity             0.3;
+        d                    d [0 -2 0 0 0 0 0] (2.54e+7 -4.0 -4.0);
+        f                    f [0 -1 0 0 0 0 0] (21.71 -4.0 -4.0);
+
+        coordinateSystem
+        {
+            e1                   (0 1 0);
+            e2                   (1 0 0);
+        }
+    }
+}
+
+
+// ************************************************************************* //

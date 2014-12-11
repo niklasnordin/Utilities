@@ -1,0 +1,57 @@
+// ************************************************************************* //
+
+FoamFile
+{
+    object               k;
+    format               ascii;
+    location             0;
+    version              2.0;
+    class                volScalarField;
+}
+
+// ************************************************************************* //
+
+internalField        uniform 1.0;
+
+dimensions           [0 2 -2 0 0 0 0];
+
+// ************************************************************************* //
+boundaryField
+{
+    ".*"
+    {
+        type                 compressible::kqRWallFunction;
+        value                uniform 1.0;
+    }
+    stl_walls
+    {
+        type                 compressible::kqRWallFunction;
+        value                uniform 1.0;
+    }
+    stl_inlet
+    {
+        intensity            0.1;
+        type                 turbulentIntensityKineticEnergyInlet;
+        value                uniform 1.0;
+    }
+    defaultFaces
+    {
+        type                 empty;
+    }
+    stl_fine
+    {
+        type                 compressible::kqRWallFunction;
+        value                uniform 1.0;
+    }
+    stl_outlet
+    {
+        type                 zeroGradient;
+    }
+    stl_coarse
+    {
+        type                 compressible::kqRWallFunction;
+        value                uniform 1.0;
+    }
+}
+
+// ************************************************************************* //

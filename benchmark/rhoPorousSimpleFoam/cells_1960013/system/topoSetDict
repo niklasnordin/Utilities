@@ -1,0 +1,111 @@
+// ************************************************************************* //
+
+FoamFile
+{
+    object               topoSetDict;
+    format               ascii;
+    location             "constant";
+    version              2.0;
+    class                dictionary;
+}
+
+// ************************************************************************* //
+
+actions
+(
+    
+    {
+        action               new;
+        source               cylinderToCell;
+        type                 cellSet;
+        name                 doc;
+        sourceInfo
+        {
+            p2                   ( 3.1380858 0.0926305 -0.0537690 );
+            p1                   ( 3.1379507 0.1969307 -0.0537691 );
+            radius               0.134;
+        }
+    }
+
+    {
+        action               new;
+        source               cylinderToCell;
+        type                 cellSet;
+        name                 ui_doc;
+        sourceInfo
+        {
+            p2                   ( 3.1380858 0.115 -0.0537690 );
+            p1                   ( 3.1379507 0.125 -0.0537691 );
+            radius               0.134;
+        }
+    }
+
+    {
+        action               new;
+        source               cylinderToCell;
+        type                 cellSet;
+        name                 dpf;
+        sourceInfo
+        {
+            p2                   ( 3.1375000 0.5471335 -0.0537690 );
+            p1                   ( 3.1378209 0.2699306 -0.0537690 );
+            radius               0.134;
+        }
+    }
+
+    {
+        action               new;
+        source               cylinderToCell;
+        type                 cellSet;
+        name                 scr;
+        sourceInfo
+        {
+            p2                   ( 2.8337815 -0.0335834 0.1460933 );
+            p1                   ( 2.8331823 0.4286153 0.1460933 );
+            radius               0.134;
+        }
+    }
+
+
+    {
+        action               new;
+        source               cylinderToCell;
+        type                 cellSet;
+        name                 ui_scr;
+        sourceInfo
+        {
+            p2                   ( 2.8337815 -0.010 0.1460933 );
+            p1                   ( 2.8334522  0.0 0.1460933 );
+            radius               0.134;
+         }
+    }
+													
+
+    {
+        action               new;
+        source               cylinderToCell;
+        type                 cellSet;
+        name                 asc;
+        sourceInfo
+        {
+            p2                   ( 2.8331628 0.4436153 0.1460933 );
+            p1                   ( 2.8330641 0.5198152 0.1460933 );
+            radius               0.134;
+        }
+    }
+
+    {
+        action               new;
+        source               cylinderAnnulusToCell;
+        type                 cellSet;
+        name                 silencer;
+        sourceInfo
+        {
+            p2                   ( 2.7694500 0.5178394 -0.1598337 );
+            p1                   ( 2.7699563 0.1213756 -0.1598430 );
+            innerRadius          0.06;
+	    outerRadius          0.07;
+        }
+    }
+
+);

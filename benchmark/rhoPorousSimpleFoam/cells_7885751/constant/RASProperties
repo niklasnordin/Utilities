@@ -1,0 +1,19 @@
+// ************************************************************************* //
+
+FoamFile
+{
+    object               RASProperties;
+    format               ascii;
+    location             "constant";
+    version              2.0;
+    class                dictionary;
+}
+
+// ************************************************************************* //
+
+printCoeffs          on;
+
+turbulence           on;
+
+RASModel             kEpsilon;
+

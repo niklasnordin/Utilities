@@ -1,0 +1,157 @@
+// ************************************************************************* //
+
+FoamFile
+{
+    object               controlDict;
+    format               ascii;
+    location             "system";
+    version              2.0;
+    class                dictionary;
+}
+
+// ************************************************************************* //
+
+deltaT               1;
+
+writeCompression     off;
+
+runTimeModifiable    no;
+
+writeControl         timeStep;
+
+application          rhoPorousMRFSimpleFoam;
+
+writeFormat          binary;
+
+startFrom            startTime;
+
+startTime            0;
+
+writeInterval        10000;
+
+timeFormat           general;
+
+stopAt               endTime;
+
+endTime              1000;
+
+purgeWrite           1;
+
+graphFormat          raw;
+
+timePrecision        8;
+
+// ************************************************************************* //
+/*
+functions
+{
+
+    drop
+    {
+        type               coded;
+        functionObjectLibs ( "libutilityFunctionObjects.so" );
+        redirectType       average;
+        //outputControl      timeStep;
+        code
+        #{
+
+             const volVectorField& U = mesh().lookupObject<volVectorField>("U");
+             const volScalarField& p = mesh().lookupObject<volScalarField>("p");
+             const volScalarField& rho = mesh().lookupObject<volScalarField>("rho");
+             volScalarField pTot = p + 0.5*rho*(U&U);
+
+             const word inletPatchName("stl_inlet");
+             const word outletPatchName("stl_outlet");
+
+             const label inletID = mesh().boundaryMesh().findPatchID(inletPatchName);
+             const label outletID = mesh().boundaryMesh().findPatchID(outletPatchName);
+
+             scalar areaIn = gSum(mag(mesh().boundaryMesh()[inletID].faceAreas()));
+             scalar areaOut = gSum(mag(mesh().boundaryMesh()[outletID].faceAreas()));
+
+             scalar pIn = gSum(pTot.boundaryField()[inletID]*mag(mesh().boundaryMesh()[inletID].faceAreas()));
+             scalar pOut = gSum(pTot.boundaryField()[outletID]*mag(mesh().boundaryMesh()[outletID].faceAreas()));
+
+             scalar time = mesh().time().value();
+             scalar dp = - pOut/areaOut + pIn/areaIn;
+
+             Info << "INFO: dp = " << dp << endl;
+
+	     const labelList& ids1 = mesh().cellZones().findIndices("ui_doc");
+	     const labelList& ids2 = mesh().cellZones().findIndices("ui_scr");
+	
+             vector U1av = vector::zero;
+             scalar vol1 = 0.0;
+
+             forAll(ids1, i)
+             {
+                 const labelList& cells = mesh().cellZones()[ids1[i]];
+                 forAll(cells, j)
+                 {
+                     label celli = cells[j];
+                     scalar V = mesh().V()[celli];
+                     vol1 += V;
+                     U1av += U[celli]*V;
+                 }
+             }
+             reduce(vol1, sumOp<scalar>());
+             reduce(U1av, sumOp<vector>());
+             U1av = U1av/vol1;
+
+             scalar U1dev = 0.0;
+             forAll(ids1, i)
+             {
+                 const labelList& cells = mesh().cellZones()[ids1[i]];
+                 forAll(cells, j)
+                 {
+                     label celli = cells[j];
+                     scalar V = mesh().V()[celli];
+                     vector Ud = U[celli] - U1av;
+                     U1dev += (Ud & Ud)*V;
+                 }
+             }
+             reduce(U1dev, sumOp<scalar>());
+             U1dev = sqrt(U1dev/vol1);
+             scalar magU1 = mag(U1av);
+             scalar ui1 = 1.0 - 0.5*U1dev/magU1;
+
+             vector U2av = vector::zero;
+             scalar vol2 = 0.0;
+             forAll(ids2, i)
+             {
+                 const labelList& cells = mesh().cellZones()[ids2[i]];
+                 forAll(cells, j)
+                 {
+                     label celli = cells[j];
+                     scalar V = mesh().V()[celli];
+                     vol2 += V;
+                     U2av += U[celli]*V;
+                 }
+             }
+             reduce(vol2, sumOp<scalar>());
+             reduce(U2av, sumOp<vector>());
+             U2av = U2av/vol2;
+
+             scalar U2dev = 0.0;
+             forAll(ids2, i)
+             {
+                 const labelList& cells = mesh().cellZones()[ids2[i]];
+                 forAll(cells, j)
+                 {
+                     label celli = cells[j];
+                     scalar V = mesh().V()[celli];
+                     vector Ud = U[celli] - U2av;
+                     U2dev += (Ud & Ud)*V;
+                 }
+             }
+             reduce(U2dev, sumOp<scalar>());
+             U2dev = sqrt(U2dev/vol2);
+             scalar magU2 = mag(U2av);
+             scalar ui2 = 1.0 - 0.5*U2dev/magU2;
+             Info << "INFO: ui1, 2: " << ui1 << " , " << ui2 << endl;
+             Info << "INFO: max(U) = " << max(mag(U)).value() << endl;
+
+        #};
+    }
+}
+*/
