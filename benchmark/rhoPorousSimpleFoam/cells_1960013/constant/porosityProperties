@@ -29,8 +29,14 @@ silencer
 
         coordinateSystem
         {
-            e1                   (0 1 0);
-            e2                   (1 0 0);
+            type cartesian;
+            origin (0 0 0);
+            coordinateRotation 
+            {
+                type axesRotation;
+                e1                   (0 1 0);
+       	        e2                   (1 0 0);
+       	    }
         }
     }
 }
@@ -44,13 +50,19 @@ scr
     DarcyForchheimerCoeffs
     {
         porosity             0.3;
-        d                    d [0 -2 0 0 0 0 0] (3.05e+7 -4.0 -4.0);
-        f                    f [0 -1 0 0 0 0 0] (14.47 -4.0 -4.0);
+        d                    d [0 -2 0 0 0 0 0] (3.05e+7 -1000.0 -1000.0);
+        f                    f [0 -1 0 0 0 0 0] (14.47 -1000.0 -1000.0);
 
         coordinateSystem
         {
-            e1                   (0 1 0);
-            e2                   (1 0 0);
+            type cartesian;
+            origin (0 0 0);
+            coordinateRotation 
+            {
+                type axesRotation;
+                e1                   (0 1 0);
+       	        e2                   (1 0 0);
+       	    }
         }
     }
 }
@@ -69,9 +81,16 @@ dpf
 
         coordinateSystem
         {
-            e1                   (0 1 0);
-            e2                   (1 0 0);
+            type cartesian;
+            origin (0 0 0);
+            coordinateRotation 
+            {
+                type axesRotation;
+                e1                   (0 1 0);
+       	        e2                   (1 0 0);
+       	    }
         }
+
     }
 }
 
@@ -84,13 +103,19 @@ asc
     DarcyForchheimerCoeffs
     {
         porosity             0.3;
-        d                    d [0 -2 0 0 0 0 0] (2.5e+7 -4.0 -4.0);
-        f                    f [0 -1 0 0 0 0 0] (27.3 -4.0 -4.0);
+        d                    d [0 -2 0 0 0 0 0] (2.5e+7 -1000.0 -1000.0);
+        f                    f [0 -1 0 0 0 0 0] (27.3 -1000.0 -1000.0);
 
         coordinateSystem
         {
-            e1                   (0 1 0);
-            e2                   (1 0 0);
+            type cartesian;
+            origin (0 0 0);
+            coordinateRotation 
+            {
+                type axesRotation;
+                e1                   (0 1 0);
+       	        e2                   (1 0 0);
+       	    }
         }
     }
 }
@@ -104,13 +129,19 @@ doc
     DarcyForchheimerCoeffs
     {
         porosity             0.3;
-        d                    d [0 -2 0 0 0 0 0] (2.54e+7 -4.0 -4.0);
-        f                    f [0 -1 0 0 0 0 0] (21.71 -4.0 -4.0);
+        d                    d [0 -2 0 0 0 0 0] (2.54e+7 -1000.0 -1000.0);
+        f                    f [0 -1 0 0 0 0 0] (21.71 -1000.0 -1000.0);
 
         coordinateSystem
         {
-            e1                   (0 1 0);
-            e2                   (1 0 0);
+            type cartesian;
+            origin (0 0 0);
+            coordinateRotation 
+            {
+                type axesRotation;
+                e1                   (0 1 0);
+       	        e2                   (1 0 0);
+       	    }
         }
     }
 }

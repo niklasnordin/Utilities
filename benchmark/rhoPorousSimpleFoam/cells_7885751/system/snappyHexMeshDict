@@ -25,7 +25,7 @@ mergeTolerance       1e-6;
 
 geometry
 {
-    "morph.stl"
+    "reference.stl"
     {
         type                 triSurfaceMesh;
         name                 stl;
@@ -84,7 +84,7 @@ castellatedMeshControls
     }
     maxGlobalCells       100000000;
     nCellsBetweenLevels  2;
-    minRefinementCells   0;
+    minRefinementCells   50;
 }
 
 snapControls
@@ -101,6 +101,33 @@ snapControls
 
 addLayersControls
 {
+    minMedianAxisAngle   90;
+    nBufferCellsNoExtrude 0;
+    nGrow                0;
+    maxFaceThicknessRatio 0.5;
+    relativeSizes        true;
+    slipFeatureAngle     30.0;
+    nSmoothNormals       3;
+    featureAngle         60.0;
+    finalLayerThickness  0.3;
+    nSmoothThickness     10;
+    nSmoothSurfaceNormals 1;
+    expansionRatio       1.0;
+    nLayerIter           50;
+    minThickness         0.1;
+    maxThicknessToMedialRatio 0.3;
+    nRelaxIter           3;
+    layers
+    {
+        stl_walls
+        {
+            nSurfaceLayers       2;
+        }
+        stl_fine
+        {
+            nSurfaceLayers       2;
+        }
+    }
 }
 
 meshQualityControls
